@@ -1,0 +1,78 @@
+/* The translation hint bubble (hint.ts): a comic speech balloon in a fixed layer. */
+.layer {
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 0;
+  height: 0;
+  z-index: 450; /* over sheets and modals, under the effects (--z-fx) */
+}
+.layer[hidden] { display: none; }
+
+.bubble {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: max-content;
+  max-width: 340px;
+  padding: 10px 16px;
+  border: 3px solid var(--ink);
+  border-radius: 22px / 18px;
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text, var(--font-body));
+  color: var(--ink);
+  user-select: none;
+  /* The bubble takes its own tap: tapping it hides it (hint.ts) and the tap goes no further. A tap
+     that went through pressed whatever lay under it ("Je ne peux pas parler", the record button). */
+  pointer-events: auto;
+  cursor: pointer;
+  /* A long note scrolls inside the bubble (hint.ts caps its height to the room it has). */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.caption { border-radius: 0; background: var(--yellow); }
+
+.en { font-size: var(--text-xl); font-weight: 900; line-height: 1.2; }
+.note { font-size: var(--text-md); font-weight: 700; line-height: 1.35; white-space: pre-line; flex: none; }
+/* Two notes in one bubble: a dashed rule between them. */
+.note + .note { margin-top: 4px; padding-top: 8px; border-top: 3px dashed var(--ink); }
+.label, .en { flex: none; }
+.label { font-family: var(--font-display); font-size: var(--text-sm); text-transform: uppercase; }
+
+/* The tail: an ink triangle whose tip touches the tapped box, with a white one inside. */
+.tail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 12px;
+  pointer-events: none;
+}
+.tail::before,
+.tail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.tail[data-side='below']::before { top: 0; border-width: 0 12px 15px 12px; border-color: transparent transparent var(--ink) transparent; }
+.tail[data-side='below']::after { top: 6px; left: 5px; border-width: 0 7px 9px 7px; border-color: transparent transparent var(--white) transparent; }
+.tail[data-side='above']::before { top: -3px; border-width: 15px 12px 0 12px; border-color: var(--ink) transparent transparent transparent; }
+.tail[data-side='above']::after { top: -3px; left: 5px; border-width: 9px 7px 0 7px; border-color: var(--white) transparent transparent transparent; }
+.caption ~ .tail[data-side='below']::after { border-bottom-color: var(--yellow); }
+.caption ~ .tail[data-side='above']::after { border-top-color: var(--yellow); }
+
+.pop .bubble { animation: pop 200ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes pop {
+  from { opacity: 0; scale: 0.8; }
+  to { opacity: 1; scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop .bubble { animation: none; }
+}

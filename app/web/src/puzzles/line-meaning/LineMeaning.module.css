@@ -1,0 +1,122 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+.top { display: flex; align-items: center; gap: var(--sp-4); }
+.prompt {
+  margin: 0;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+}
+
+.board { display: flex; flex-direction: column; gap: var(--sp-5); }
+.tablet .board { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+
+/* The speakers: one per line, numbered like panels. */
+.speakers { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.speaker {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 64px;
+  padding: 0;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  text-align: left;
+  cursor: pointer;
+  animation: slideIn 420ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 80ms + 80ms);
+}
+.speaker:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--ink); }
+.num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  padding-top: 3px;
+}
+.hidden { flex: 1; display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+.dots { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.15em; color: var(--ink-faint); }
+.heard { background: var(--cyan); }
+.heard .dots { color: var(--ink); }
+.selected { background: var(--yellow); transform: translateX(6px) rotate(-1deg); box-shadow: 6px 6px 0 0 var(--ink); }
+.selected .hidden svg { animation: thump 0.8s steps(2, jump-none) infinite; }
+.matched { background: var(--paper); cursor: pointer; animation: matchSlam 420ms var(--ease-slam); }
+/* A matched speaker keeps its paper (its boxes carry the unit colours): lit by a frame instead. */
+.matched.heard { background: var(--paper); outline: 5px solid var(--cyan); outline-offset: -2px; }
+.matched.selected { background: var(--paper); outline: 5px solid var(--orange); outline-offset: -2px; transform: none; }
+.body { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; min-width: 0; }
+.boxes { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.ubox {
+  padding: 3px 8px 1px;
+  border: 3px solid var(--ink);
+  background: var(--c);
+  color: var(--c-text);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-md);
+  line-height: 1.15;
+}
+.punct { font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); }
+.matchedEn {
+  align-self: flex-start;
+  padding: 3px 8px 1px;
+  border: 2px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-text);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  line-height: 1.2;
+}
+
+/* The meanings: cards to hand to a speaker. */
+.meanings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.meaning {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px 7px;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--lime);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-md);
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  animation: cardIn 420ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 80ms + 250ms);
+}
+.meanings li:nth-child(odd) .meaning { transform: rotate(1deg); }
+.meanings li:nth-child(even) .meaning { transform: rotate(-1deg); }
+.meaning:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--ink); }
+.idle { background: var(--white); }
+.glow { animation: glow 0.7s steps(2, jump-none) infinite; }
+
+@keyframes slideIn { from { opacity: 0; transform: translateX(-50px); } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(40px) rotate(6deg) scale(0.85); } }
+@keyframes matchSlam { 0% { transform: scale(1.06) rotate(-1.5deg); } 100% { transform: none; } }
+@keyframes thump { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speaker, .meaning, .matched, .glow, .selected .hidden svg { animation: none; }
+}

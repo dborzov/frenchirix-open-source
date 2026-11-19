@@ -1,0 +1,14 @@
+{
+ "model": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+ "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+ "ref_audio": "ref.flac",
+ "ref_text": "Bonjour les enfants ! Aujourd'hui, on part en Gaule avec Astérix et Obélix. Est-ce que vous êtes prêts ? Alors, écoutez bien la question, et choisissez la bonne réponse !",
+ "designed_with": {
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "language": "French",
+  "instruct": "Une jeune femme française d'une trentaine d'années, née à Paris, accent français standard parfaitement natif. Voix claire, chaleureuse et souriante, ton joyeux et espiègle d'animatrice qui parle à des enfants, articulation nette, débit modéré, intonation vivante.",
+  "seed": 0,
+  "note": "generate_voice_design(text=ref_text, language='French', instruct=..., max_new_tokens=900) after torch.manual_seed(0), bfloat16, sdpa, RTX 5080. A synthetic voice: no real person's recording was used."
+ }
+}

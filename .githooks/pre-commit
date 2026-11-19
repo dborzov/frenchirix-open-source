@@ -1,0 +1,194 @@
+#!/bin/sh
+# Sanity checks before a commit: the scene data, the app's practices and the liveness of its puzzles
+# (docs/checks.md). Each runs only when the commit touches what it checks.
+#
+# 1. Scene data. Runs `frenchirix check` only when the commit touches data: assets/db.sqlite,
+#    annotations/, selections/ or corrections/. It checks the database as staged (the
+#    version being committed), not the working copy, and blocks the commit on errors.
+#    Warnings are printed and do not block.
+# 2. Practices. When the commit touches app/shared, app/data, app/tools, assets/db.sqlite or
+#    frenchirix/app_export.py: exports the JSON bundle into a temporary directory and runs
+#    the practice check (`check-practices.ts --no-media`) against it; blocks the commit on
+#    problems. It uses the working tree (code and database), not the index. Skipped with
+#    one line when app/node_modules is absent.
+# 3. Liveness. When the commit touches the puzzle types, the practice screen, speech, audio,
+#    the scene components or the check itself: runs `npm run check:liveness` (the working tree,
+#    on app/public/data, else on a temporary export) and blocks the commit on findings the
+#    ledger (app/tools/liveness/ledger.json) does not cover. A crash of the check is printed
+#    and does not block. Skipped with one line when app/node_modules is absent.
+#
+# Install once per clone:   git config core.hooksPath .githooks
+# Bypass for a deliberate exception:
+#   git commit --no-verify               (skips every hook)
+#   FRENCHIRIX_SKIP_CHECK=1 git commit   (skips the scene data check only)
+#   FRENCHIRIX_SKIP_PRACTICES=1 git commit (skips the practice check only)
+#   FRENCHIRIX_SKIP_LIVENESS=1 git commit  (skips the liveness check only)
+# Testing by hand without staging anything: FRENCHIRIX_HOOK_FILES="app/shared/x.ts" .githooks/pre-commit
+# stands in for the list of staged files (the scene data check still reads the staged database).
+
+root=$(git rev-parse --show-toplevel) || exit 1
+cd "$root" || exit 1
+
+staged() {
+    if [ -n "$FRENCHIRIX_HOOK_FILES" ]; then
+        for f in $FRENCHIRIX_HOOK_FILES; do
+            for p in "$@"; do
+                case "$f" in "$p"|"$p"/*) echo "$f" ;; esac
+            done
+        done
+    else
+        git diff --cached --name-only -- "$@"
+    fi
+}
+
+if [ -x .venv/bin/python ]; then
+    run() { .venv/bin/python -m frenchirix.cli "$@"; }
+elif command -v uv >/dev/null 2>&1; then
+    run() { uv run --no-sync frenchirix "$@"; }
+else
+    run() { python3 -m frenchirix.cli "$@"; }  # the check is standard library only
+fi
+
+# ---- 1. Scene data (behaviour unchanged) ---------------------------------------------------
+scene_check() (
+    if [ -n "$FRENCHIRIX_SKIP_CHECK" ]; then
+        exit 0
+    fi
+
+    if [ -z "$(staged assets/db.sqlite annotations selections corrections)" ]; then
+        exit 0
+    fi
+
+    if ! git cat-file -e :assets/db.sqlite 2>/dev/null; then
+        exit 0  # the database is not in the index (deleted or never added): nothing to check
+    fi
+
+    tmp=$(mktemp -d "${TMPDIR:-/tmp}/frenchirix-check.XXXXXX") || exit 1
+    trap 'rm -rf "$tmp"' EXIT INT TERM
+    git show :assets/db.sqlite > "$tmp/db.sqlite" || exit 1
+
+    # Media files are checked only when this clone has them.
+    media=--no-media
+    if [ -d assets/audio ] || [ -d assets/video ]; then
+        media=
+    fi
+
+    out=$(run check --db "$tmp/db.sqlite" --assets assets $media --limit 5 2>&1)
+    status=$?
+    if [ $status -eq 0 ]; then
+        # Clean or warnings only: one line, so ordinary commits stay quiet.
+        printf 'frenchirix check: %s\n' "$(printf '%s\n' "$out" | grep '^summary:')"
+        exit 0
+    fi
+
+    printf '%s\n' "$out"
+    echo
+    echo "pre-commit: frenchirix check found errors in the staged data; the commit was stopped."
+    echo "Fix them (docs/checks.md says what each check means), or, for a deliberate exception,"
+    echo "commit with  FRENCHIRIX_SKIP_CHECK=1 git commit ...  or  git commit --no-verify"
+    exit 1
+)
+
+# ---- 2. Practices ----------------------------------------------------------------------------
+practice_check() (
+    if [ -n "$FRENCHIRIX_SKIP_PRACTICES" ]; then
+        exit 0
+    fi
+    if [ -z "$(staged app/shared app/data app/tools assets/db.sqlite frenchirix/app_export.py)" ]; then
+        exit 0
+    fi
+    if [ ! -x app/node_modules/.bin/tsx ]; then
+        echo "check:practices: skipped, app/node_modules is absent (cd app && npm ci)"
+        exit 0
+    fi
+    if [ ! -f assets/db.sqlite ]; then
+        echo "check:practices: skipped, assets/db.sqlite is absent (no content to export)"
+        exit 0
+    fi
+
+    tmp=$(mktemp -d "${TMPDIR:-/tmp}/frenchirix-practices.XXXXXX") || exit 1
+    trap 'rm -rf "$tmp"' EXIT INT TERM
+    if ! out=$(run export-app --data-only --out "$tmp" 2>&1); then
+        printf '%s\n' "$out"
+        echo
+        echo "pre-commit: exporting the app bundle failed; the commit was stopped."
+        echo "Bypass for a deliberate exception:  FRENCHIRIX_SKIP_PRACTICES=1 git commit ..."
+        exit 1
+    fi
+
+    out=$(cd app && node_modules/.bin/tsx tools/check-practices.ts --data "$tmp/data" --no-media 2>&1)
+    status=$?
+    if [ $status -eq 0 ]; then
+        printf 'check:practices: %s\n' "$(printf '%s\n' "$out" | grep '^summary:')"
+        exit 0
+    fi
+
+    printf '%s\n' "$out"
+    echo
+    echo "pre-commit: the practice check found problems; the commit was stopped."
+    echo "Fix them (docs/checks.md says what each check means and how to replay one), or,"
+    echo "for a deliberate exception, commit with  FRENCHIRIX_SKIP_PRACTICES=1 git commit ...  or  git commit --no-verify"
+    exit 1
+)
+
+# ---- 3. Liveness ----------------------------------------------------------------------------
+liveness_check() (
+    if [ -n "$FRENCHIRIX_SKIP_LIVENESS" ]; then
+        exit 0
+    fi
+    if [ -z "$(staged app/web/src/puzzles app/web/src/practice app/web/src/speech app/web/src/audio app/web/src/scene app/shared/puzzles app/web/src/testing app/tools/liveness)" ]; then
+        exit 0
+    fi
+    if [ ! -x app/node_modules/.bin/tsx ]; then
+        echo "check:liveness: skipped, app/node_modules is absent (cd app && npm ci)"
+        exit 0
+    fi
+
+    # The scenes the explorer plays on: the exported bundle, else a temporary export.
+    data=
+    if [ ! -f app/public/data/index.json ] && [ ! -f assets/db.sqlite ]; then
+        echo "check:liveness: skipped, no content bundle and no assets/db.sqlite to export one from"
+        exit 0
+    fi
+    if [ ! -f app/public/data/index.json ]; then
+        tmp=$(mktemp -d "${TMPDIR:-/tmp}/frenchirix-liveness.XXXXXX") || exit 1
+        trap 'rm -rf "$tmp"' EXIT INT TERM
+        if ! out=$(run export-app --data-only --out "$tmp" 2>&1); then
+            printf '%s\n' "$out"
+            echo "check:liveness: exporting the bundle failed; the liveness check did not run."
+            exit 0
+        fi
+        data="--data $tmp/data"
+    fi
+
+    # tsx opens a socket in $TMPDIR; a long one (an agent's sandbox) fails with `listen EINVAL`.
+    if [ ${#TMPDIR} -gt 60 ] && [ -w /tmp ]; then TMPDIR=/tmp; export TMPDIR; fi
+    out=$(cd app && NO_COLOR=1 FORCE_COLOR=0 node_modules/.bin/tsx tools/liveness/run.ts $data 2>&1)
+    status=$?
+    if [ $status -eq 0 ]; then
+        printf 'check:liveness: %s\n' "$(printf '%s\n' "$out" | grep '^summary:')"
+        exit 0
+    fi
+    if [ $status -ne 1 ]; then
+        printf '%s\n' "$out" | tail -n 20
+        echo "check:liveness: the check itself failed (exit $status); the commit is not blocked by it. Run it by hand: cd app && npm run check:liveness"
+        exit 0
+    fi
+
+    printf '%s\n' "$out" | grep -A1 -E '^(NEW|REGRESSION): '
+    printf '%s\n' "$out" | grep '^summary:'
+    echo
+    echo "pre-commit: the liveness check found stuck puzzles its ledger does not cover; the commit was stopped."
+    echo "Investigate each (docs/checks.md, \"check:liveness\") and record the"
+    echo "verdict in app/tools/liveness/ledger.json, or, for a deliberate exception, commit with"
+    echo "FRENCHIRIX_SKIP_LIVENESS=1 git commit ...  or  git commit --no-verify"
+    exit 1
+)
+
+scene_check
+s1=$?
+practice_check
+s2=$?
+liveness_check
+s3=$?
+[ $s1 -eq 0 ] && [ $s2 -eq 0 ] && [ $s3 -eq 0 ]

@@ -1,0 +1,120 @@
+/* Comic furniture: captions, balloons, stamps, textures. */
+
+/* --- Caption: the yellow narration box. */
+.caption {
+  display: inline-block;
+  max-width: 100%;
+  padding: 6px 12px 5px;
+  border: var(--outline);
+  border-radius: 0;
+  background: var(--c, var(--yellow));
+  color: var(--c-text, var(--ink));
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: rotate(var(--tilt, 0deg));
+  margin: 0 3px 3px 0;
+}
+.captionLg {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  padding: 6px 14px 4px;
+  border: var(--outline-thick);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+
+/* --- Balloon: a speech balloon with a tail (round by nature). */
+.balloon {
+  --bw: 3px;
+  --tail: 18px;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding: 14px 26px;
+  border: var(--bw) solid var(--ink);
+  border-radius: 46% / 50%;
+  background: var(--c, var(--white));
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-md);
+  line-height: 1.25;
+  text-align: center;
+  filter: drop-shadow(3px 3px 0 var(--ink));
+}
+.boxy { border-radius: 26px; padding: 12px 18px; text-align: left; }
+.tail {
+  position: absolute;
+  width: calc(var(--tail) * 1.6);
+  height: calc(var(--tail) * 1.6);
+  overflow: visible;
+  pointer-events: none;
+}
+.tail-bottom { top: calc(100% - var(--bw) - 1px); left: var(--at, 24%); transform: translateX(-50%); }
+.tail-top { bottom: calc(100% - var(--bw) - 1px); left: var(--at, 24%); transform: translateX(-50%) scaleY(-1); }
+.tail-left { right: calc(100% - var(--bw) - 1px); top: var(--at, 50%); transform: translateY(-50%) rotate(90deg); }
+.tail-right { left: calc(100% - var(--bw) - 1px); top: var(--at, 50%); transform: translateY(-50%) rotate(-90deg); }
+.flip { scale: -1 1; }
+
+/* --- Stamp: cover details such as N° 3, a price, a corner badge. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 34px;
+  padding: 4px 8px 2px;
+  border: var(--outline);
+  background: var(--c, var(--paper));
+  color: var(--c-text, var(--ink));
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  box-shadow: 3px 3px 0 0 var(--ink);
+  transform: rotate(var(--tilt, -5deg));
+  white-space: nowrap;
+}
+.stamp-price {
+  width: 56px;
+  height: 56px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 50%;
+  font-size: var(--text-xl);
+}
+.stamp-plain {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: var(--text-md);
+  transform: none;
+  padding: 0;
+  min-height: 0;
+}
+
+/* --- Textures: absolutely positioned layers; put them in a positioned parent, under the content. */
+.texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.speedlines {
+  background: repeating-conic-gradient(from var(--from, 0deg) at var(--ox, 50%) var(--oy, 50%), var(--line, rgb(255 255 255 / 0.5)) 0deg var(--w, 2.2deg), transparent var(--w, 2.2deg) var(--gap, 11deg));
+  -webkit-mask-image: radial-gradient(circle at var(--ox, 50%) var(--oy, 50%), transparent var(--hole, 18%), #000 calc(var(--hole, 18%) + 25%));
+  mask-image: radial-gradient(circle at var(--ox, 50%) var(--oy, 50%), transparent var(--hole, 18%), #000 calc(var(--hole, 18%) + 25%));
+}
+.halftone {
+  background-image: radial-gradient(circle, var(--dot, rgb(17 17 17 / 0.16)) var(--r, 1.6px), transparent calc(var(--r, 1.6px) + 0.5px));
+  background-size: var(--step, 9px) var(--step, 9px);
+}
+.fade-top { -webkit-mask-image: linear-gradient(to bottom, #000, transparent); mask-image: linear-gradient(to bottom, #000, transparent); }
+.fade-bottom { -webkit-mask-image: linear-gradient(to top, #000, transparent); mask-image: linear-gradient(to top, #000, transparent); }
+.fade-corner { -webkit-mask-image: radial-gradient(circle at 100% 0%, #000, transparent 70%); mask-image: radial-gradient(circle at 100% 0%, #000, transparent 70%); }

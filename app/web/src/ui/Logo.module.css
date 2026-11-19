@@ -1,0 +1,27 @@
+/* The cover title: yellow comic capitals, ink outline, a red then black hard shadow, tilted. */
+.logo {
+  display: inline-flex;
+  font-family: var(--font-display);
+  font-size: var(--size, 28px);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  user-select: none;
+  transform: rotate(-4deg) skewX(-6deg);
+}
+.letter {
+  display: inline-block;
+  color: var(--yellow);
+  -webkit-text-stroke: calc(var(--size, 28px) * 0.075) var(--ink);
+  paint-order: stroke fill;
+  text-shadow:
+    calc(var(--size, 28px) * 0.06) calc(var(--size, 28px) * 0.06) 0 var(--red),
+    calc(var(--size, 28px) * 0.12) calc(var(--size, 28px) * 0.12) 0 var(--ink);
+}
+.letter:nth-child(odd) { translate: 0 1px; }
+.letter:nth-child(even) { translate: 0 -1px; }
+.wiggle .letter { animation: wiggle 2.2s ease-in-out infinite; animation-delay: calc(var(--i) * 70ms); }
+@keyframes wiggle {
+  0%, 82%, 100% { translate: 0 0; }
+  88% { translate: 0 -6px; }
+}
+@media (prefers-reduced-motion: reduce) { .wiggle .letter { animation: none; } }

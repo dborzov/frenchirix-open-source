@@ -1,0 +1,85 @@
+{
+ "episode": "s01e01",
+ "scenes": {
+  "s01e01-0004-0008": {
+   "title_fr": "Préfix, Suffix et la queue",
+   "difficulty": 3,
+   "questions": [
+    {
+     "line": "s01e01-0005",
+     "fr": "Que reproche-t-on aux Gaulois ?",
+     "en": "What are the Gauls blamed for?",
+     "answers": [
+      {
+       "fr": "Ils ne respectent pas les files.",
+       "en": "They do not respect the queues.",
+       "correct": true
+      },
+      {
+       "fr": "Ils arrivent toujours en pyjama.",
+       "en": "They always show up in pyjamas.",
+       "correct": false
+      },
+      {
+       "fr": "Ils chantent trop fort.",
+       "en": "They sing too loudly.",
+       "correct": false
+      }
+     ]
+    },
+    {
+     "line": "s01e01-0007",
+     "fr": "Par quel dieu jure-t-on pour laisser passer le chef ?",
+     "en": "By which god do they swear to let the chief through?",
+     "answers": [
+      {
+       "fr": "Par Toutatis !",
+       "en": "By Toutatis!",
+       "correct": true
+      },
+      {
+       "fr": "Par Toutankhamon !",
+       "en": "By Tutankhamun!",
+       "correct": false
+      },
+      {
+       "fr": "Par Tintin !",
+       "en": "By Tintin!",
+       "correct": false
+      }
+     ]
+    }
+   ],
+   "doubt": null
+  },
+  "s01e01-0014-0017": {
+   "title_fr": "Pas de potion pour Obélix",
+   "difficulty": 2,
+   "questions": [
+    {
+     "line": "s01e01-0016",
+     "fr": "Pourquoi Obélix n'a-t-il pas de potion ?",
+     "en": "Why does Obélix not get any potion?",
+     "answers": [
+      {
+       "fr": "Il est tombé dedans quand il était petit.",
+       "en": "He fell into it when he was small.",
+       "correct": true
+      },
+      {
+       "fr": "Il déteste le goût de la soupe.",
+       "en": "He hates the taste of soup.",
+       "correct": false
+      },
+      {
+       "fr": "Il a perdu sa cuillère magique.",
+       "en": "He lost his magic spoon.",
+       "correct": false
+      }
+     ]
+    }
+   ],
+   "doubt": null
+  }
+ }
+}

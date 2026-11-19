@@ -1,0 +1,110 @@
+{
+  "versions": [
+    {
+      "version": "2.5.0",
+      "date": "2026-11-17",
+      "title": "A loading bar on a slow connection, and 10 scenes to choose from",
+      "notes": [
+        "On a slow connection, a scene, a practice or a song shows a loading bar that fills as the sound and pictures arrive, instead of a page that looks broken. If it takes very long, the app says so; if nothing arrives, tap \"Try again\".",
+        "A play button whose sound is still on its way shows little hopping dots, not \"pause\".",
+        "Your secret number is easier to read: a 1 no longer looks like a 7.",
+        "10 scenes to choose from instead of 5. You still unlock 3.",
+        "Listen and choose: all the choices show at once. Scroll down when they are long."
+      ]
+    },
+    {
+      "version": "2.4.0",
+      "date": "2026-11-15",
+      "title": "Sing karaoke with your own voice, and many more notes",
+      "notes": [
+        "Karaoke: tap \"Record yourself!\" and sing along while the song plays. Your singing is checked for words that aren't allowed, then you listen to yourself and choose: \"Keep it!\" or \"Throw it away\".",
+        "A recording you keep sings with the song every time you play it, on any device where you are logged in. Erase it any time to hear the song without your voice.",
+        "Recording works best with headphones, so the mic hears only you.",
+        "Many more notes: the asterisk now also marks words from history and myth, like the Gauls, the Romans, the druid, the menhir, the toga, the legion and the gods. There are 368 notes, up from 143.",
+        "Each note has one asterisk, even on an expression of several words, and a long note bubble scrolls so you can read it all.",
+        "In a puzzle, a hidden word no longer shows an asterisk that gives it away."
+      ]
+    },
+    {
+      "version": "2.3.0",
+      "date": "2026-11-15",
+      "title": "Daily quests, a microphone you can see, and players who share a tablet",
+      "notes": [
+        "Daily quests: each day Home gives you 3 to 5 things to do, with a chest for each. Practices whose next level is due come first, then choosing new scenes, then the bronze practices of the scenes you chose.",
+        "Choosing new scenes: a scene you choose leaves the list; after your third choice the others go back into the cauldron by themselves. Come back from Home any time that day to choose the rest.",
+        "Finished everything? \"Do more\" brings 5 new scenes to choose from, as often as you like.",
+        "No more sittings: a practice is one run you can leave any time and continue later. The top of the screen shows its level, which puzzle you are on and how many are left.",
+        "Replay any scene for XP while its next level is not ready yet.",
+        "Light and full streaks: pass one practice for a light day, do all your quests for a full day.",
+        "The microphone shows when it listens: a meter that moves with your voice, a countdown of 10 seconds at most, and Pause and Continue. If it heard nothing, nothing is sent and your try is not used.",
+        "\"Say the line\" now asks for the whole line.",
+        "Find the pairs: French and English cards have different backs, so you always know which side you are turning.",
+        "The Druid's Question: choose an answer to hear it, then press \"That's it!\".",
+        "Wrong choices are never close in meaning to the right one, and puzzles change more from one to the next.",
+        "Place the words: each line has its colour, tap a line to loop it, and fill a blank by tapping the blank or the word first.",
+        "Sharing a tablet? Switch player in your profile shows everyone who played on it: one tap to switch, or add a new player.",
+        "The first page is in English, and the app fits iPads (upright and sideways) and phones better."
+      ]
+    },
+    {
+      "version": "2.2.0",
+      "date": "2026-11-14",
+      "title": "Every scene of the show, and speaking that never gets stuck",
+      "notes": [
+        "All 203 scenes of the five episodes are in the app, each with its funny questions and the funny versions of its lines to say.",
+        "The app now starts in English; switch to French any time in your profile.",
+        "Clearer words everywhere: a practice is made of puzzles, and you pass a practice at a level, from bronze to plutonium.",
+        "Speaking puzzles never leave you stuck: a quiet or cut-off try counts, your third try is always accepted, and pausing and going on works.",
+        "When something does not work (no internet, the server tripping), the app says so plainly, keeps you where you were, and lets you try again.",
+        "A new « Quelque chose ne va pas ? » button: tell us what went wrong, and we will see exactly where it happened.",
+        "Sharing a tablet? « Ce n'est pas moi » in your profile lets someone else start their own account; write down your name and code first.",
+        "A practice you finished in another tab or tablet now shows as saved, never as an error."
+      ]
+    },
+    {
+      "version": "2.1.0",
+      "date": "2026-11-14",
+      "title": "Long practices you can leave and continue",
+      "notes": [
+        "Fifty scenes, the funniest and best of the show, songs included. More will follow.",
+        "A practice now covers every line of its scene from several angles: its meaning, rebuilding it, saying it, its words, and how the lines follow each other. Each medal is one such practice.",
+        "Practices are played in sittings of about ten puzzles. Stop when you like: your progress is saved, and you continue where you left off, on any tablet.",
+        "The day is three sittings, each with its chest. The app picks what to continue: an unfinished practice, a scene whose medal is ready, or a new scene.",
+        "Six new puzzles: place the words back into the scene, what comes next, match each line to its meaning, play the character and say the line in the scene, a chain of words to say hands-free, and choose one of three funny lines by saying it.",
+        "Speaking is kinder: the app only checks that you tried to say it in French, shows which words it heard, and always accepts your third try. \"Je ne peux pas parler\" swaps the puzzle for one you tap.",
+        "Tap a word and its meaning appears in a bubble pointing at it; tap anywhere to close it.",
+        "A playback bar for each scene: tap it, or a line, to jump to that part.",
+        "Loops of short phrases start and end softly.",
+        "A mute button on every screen.",
+        "Panels and buttons stand out from their background on every screen."
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-11-14",
+      "title": "Frenchirix 2: the show comes to life",
+      "notes": [
+        "203 real scenes from \"Astérix & Obélix : Le Combat des chefs\", each with its French audio, a picture slideshow and the dialogue in coloured boxes: tap any box to see what it means and hear it in a loop.",
+        "Three short daily quizzes (about four minutes each) made of twelve mini-games: watch, who says what, match the pairs, fill the blanks, rebuild the line, put the comic panels in order, catapult the right Roman, true or false, memory shields, say the line, say the hidden words, and the druid's quiz with funny answers read aloud.",
+        "Medals for every scene, from bronze to plutonium: come back a day later, then two, four, eight and sixteen days later, to earn the next one.",
+        "Each day, choose up to three new scenes out of five, and watch them before you choose. The songs come first.",
+        "The Episodes tab is your collection: your scenes by the day you unlocked them, by episode, or by what is ready to review. Watch any of them again, or repeat its lesson for bonus points.",
+        "Speaking practice: say a line and the app listens. Switch it off when you cannot talk.",
+        "Karaoke for three of the show's songs, with the words lighting up to sing along.",
+        "Loot boxes after each daily quiz, sesterces, potions that save your streak, 96 items to dress your avatar, and 50 achievements.",
+        "Friends, cheers and gifts (no messages), and weekly leagues.",
+        "No sign-up: your account is made for you. Your name and a three-digit number open it on another tablet.",
+        "A new look, like a 1950s comic book, in French with a switch to English.",
+        "Install it on the home screen of an iPad, iPhone or Android phone. The app updates itself when a new version is out."
+      ]
+    },
+    {
+      "version": "1.0",
+      "date": "2025-06-10",
+      "title": "Druid Cards",
+      "notes": [
+        "The first Frenchirix: French listening quests on the first episode, rewarded with collectable cards."
+      ]
+    }
+  ]
+}

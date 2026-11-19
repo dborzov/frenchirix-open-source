@@ -1,0 +1,28 @@
+.spinner {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 30px;
+}
+.dot {
+  width: 14px;
+  height: 14px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  animation: hop 0.7s var(--ease-bounce) infinite;
+}
+.dot:nth-child(1) { background: var(--red); }
+.dot:nth-child(2) { background: var(--yellow); animation-delay: 0.1s; }
+.dot:nth-child(3) { background: var(--blue); animation-delay: 0.2s; }
+.dot:nth-child(4) { background: var(--green); animation-delay: 0.3s; }
+.sm { height: 18px; gap: 4px; }
+.sm .dot { width: 9px; height: 9px; border-width: 2px; box-shadow: 1px 1px 0 0 var(--ink); }
+.lg { height: 48px; gap: 10px; }
+.lg .dot { width: 22px; height: 22px; border-width: 3px; box-shadow: 3px 3px 0 0 var(--ink); }
+@keyframes hop {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  45% { transform: translateY(-14px) rotate(45deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none; }
+}

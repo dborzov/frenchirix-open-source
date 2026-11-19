@@ -1,0 +1,110 @@
+/* A line's panel in a whole-scene view (place-words, the scene player's strip). Its colour is the
+   line's segment in the playback bar (--lc, from lineColorVars): a printed tint by default, the full
+   colour while the line is said, and the full colour with a dashed frame and a loop tag while it loops
+   after a tap. The boxes inside never share the line's colour (unitOnLineColorVars), and the speaker
+   tag is ink, so nothing on the panel melts into it. */
+.panel {
+  position: relative;
+  border: 3px solid var(--ink);
+  /* The tint is the line's colour under a white veil (not color-mix: older iPads, and the contrast
+     check reads background-color, which stays the line's own colour). */
+  background-color: var(--lc);
+  background-image:
+    radial-gradient(circle, rgb(255 255 255 / 0.55) 1.3px, transparent 1.6px),
+    linear-gradient(rgb(255 255 255 / 0.42), rgb(255 255 255 / 0.42));
+  background-size: 7px 7px, auto;
+  box-shadow: 3px 3px 0 0 var(--ink);
+  transition:
+    transform var(--t-fast) var(--ease-out),
+    box-shadow var(--t-fast) var(--ease-out);
+}
+
+/* Being said (the scene plays): the full colour, lifted off the page. */
+.lit {
+  background-image: radial-gradient(circle, rgb(255 255 255 / 0.3) 1.3px, transparent 1.6px);
+  background-size: 7px 7px;
+  box-shadow: 5px 5px 0 0 var(--ink);
+  transform: translate(-2px, -2px);
+}
+
+/* Looping after a tap (selected): slams in, wears a dashed frame and the loop tag. */
+.looping {
+  background-image: radial-gradient(circle, rgb(255 255 255 / 0.3) 1.3px, transparent 1.6px);
+  background-size: 7px 7px;
+  box-shadow: 7px 7px 0 0 var(--ink);
+  transform: translate(-3px, -3px) rotate(-0.4deg);
+  animation: slam 380ms var(--ease-slam);
+}
+.looping::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 3px dashed var(--ink);
+  pointer-events: none;
+  animation: frame 1.1s ease-in-out infinite;
+}
+
+/* The loop tag on the top edge of a looping line. */
+.tag {
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 26px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  transform: rotate(6deg);
+  pointer-events: none;
+  animation: tagIn 300ms var(--ease-slam) backwards, beat 0.9s ease-in-out 300ms infinite;
+}
+
+/* The tap target behind the panel's content: anywhere that is not a box loops the line. */
+.hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hit:focus-visible { outline: 3px dashed var(--ink); outline-offset: 4px; }
+/* The content lets taps through to .hit, except on its own buttons (boxes, gaps, notes). */
+.content { position: relative; z-index: 1; pointer-events: none; }
+.content button,
+.content [role='button'] { pointer-events: auto; }
+
+/* The speaker: ink with white lettering, readable on every line colour. */
+.panel .speaker {
+  background: var(--ink);
+  color: var(--white);
+}
+
+@keyframes slam {
+  0% { transform: scale(0.95) rotate(-1.4deg); }
+  55% { transform: translate(-3px, -3px) scale(1.025) rotate(0.7deg); }
+  100% { transform: translate(-3px, -3px) rotate(-0.4deg); }
+}
+@keyframes frame {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes tagIn {
+  from { transform: scale(0.2) rotate(-40deg); }
+}
+@keyframes beat {
+  0%, 100% { transform: rotate(6deg) scale(1); }
+  50% { transform: rotate(-4deg) scale(1.14); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { transition: none; }
+  .looping, .looping::after, .tag { animation: none; }
+}

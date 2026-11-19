@@ -1,0 +1,198 @@
+/* The microphone control (MicControl.tsx): off is a red square with the microphone; listening is
+   unmistakable: yellow, a live meter inside, a red halo that grows with the voice, a blinking
+   "I'm listening!" tag and a countdown bar. */
+.mic {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  /* Scrolled into view while it listens: a margin, so Pause and its shadow are not cut at the pane's edge. */
+  scroll-margin: 16px;
+}
+.stage { position: relative; padding-top: 4px; }
+.side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+.sideTop { display: flex; align-items: center; gap: 8px; }
+
+.btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border: 4px solid var(--ink);
+  border-radius: 6px;
+  background: var(--red);
+  color: var(--white);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  transform: rotate(-3deg);
+  cursor: pointer;
+  touch-action: manipulation;
+  /* States switch at once (no colour fade): the mic is on or off, never in between. The halo follows the voice. */
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.btn svg { filter: drop-shadow(2px 2px 0 var(--ink)); }
+.btn:active { transform: rotate(-3deg) translate(5px, 5px); box-shadow: 1px 1px 0 0 var(--ink); }
+.btn:disabled { cursor: wait; }
+.idle .btn { animation: slam 320ms cubic-bezier(0.2, 1.6, 0.4, 1) backwards; }
+.paused .btn { background: var(--green); }
+.opening .btn,
+.thinking .btn,
+.waiting .btn { background: var(--paper); color: var(--ink); }
+.waiting .btn { cursor: default; }
+
+/* Listening: yellow, tilted the other way, a red halo that grows with the voice. */
+.listening .btn {
+  background: var(--yellow);
+  color: var(--ink);
+  transform: rotate(2deg);
+  box-shadow: 6px 6px 0 0 var(--ink), 0 0 0 calc(4px + var(--lvl, 0) * 12px) var(--red);
+  transition: transform var(--t-fast) var(--ease-out), box-shadow 70ms linear;
+}
+.listening .btn:active { transform: rotate(2deg) translate(5px, 5px); }
+
+/* The live meter inside the button: red bars, green while a voice is picked up. */
+.bars { display: flex; align-items: center; gap: 5px; height: 64px; }
+.bars b {
+  display: block;
+  width: 11px;
+  height: calc(8px + var(--lvl, 0) * var(--k, 1) * 56px);
+  border: 3px solid var(--ink);
+  background: var(--red);
+  transition: height 70ms linear;
+}
+.voice .bars b { background: var(--green); }
+
+.onAir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px 1px 8px;
+  border: 3px solid var(--ink);
+  background: var(--red);
+  color: var(--white);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  white-space: nowrap;
+}
+/* The recording light: round by nature. */
+.dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--white);
+  animation: blink 0.9s steps(2, jump-none) infinite;
+}
+
+/* The countdown: a thick bar that empties, the seconds left beside it, red for the last three. */
+.countdown { display: flex; align-items: center; gap: 8px; width: min(240px, 100%); }
+.track {
+  position: relative;
+  flex: 1;
+  height: 18px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  overflow: hidden;
+}
+.track i {
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  transform-origin: 0 50%;
+  animation-name: drain;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+.late .track i { background: var(--red); }
+.secs {
+  min-width: 2em;
+  padding: 1px 6px 0;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  text-align: center;
+}
+.late .secs { background: var(--red); color: var(--white); }
+
+.label {
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(1.5deg);
+}
+.idle .label,
+.paused .label { background: var(--yellow); }
+.listening .label { font-size: var(--text-md); }
+
+.pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 4px 14px 2px 10px;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.pause:active { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--ink); }
+
+.badge { position: absolute; top: -6px; right: -34px; font-size: var(--text-sm); white-space: nowrap; }
+
+/* Compact (say-choice's dock): the button, then its tag, countdown and label beside it, then Pause. */
+.compact { flex-direction: row; flex-wrap: nowrap; justify-content: center; gap: 8px 12px; }
+.compact .stage { padding-top: 0; }
+.compact .btn { width: 72px; height: 72px; border-width: 3px; box-shadow: 4px 4px 0 0 var(--ink); }
+.compact.listening .btn { box-shadow: 4px 4px 0 0 var(--ink), 0 0 0 calc(3px + var(--lvl, 0) * 8px) var(--red); }
+.compact .bars { height: 42px; gap: 3px; }
+.compact .bars b { width: 8px; border-width: 2px; height: calc(6px + var(--lvl, 0) * var(--k, 1) * 34px); }
+.compact .side { flex: 0 1 auto; align-items: flex-start; gap: 6px; }
+/* On a narrow dock the tag and Pause stack beside the button rather than the whole side going under it. */
+.compact .sideTop { flex-wrap: wrap; }
+.compact .onAir, .compact .label, .compact .secs { font-size: var(--text-md); }
+.compact .countdown { width: min(170px, 100%); }
+/* Docked and listening: the tag and Pause on one row, the countdown under them, no label (the dock stays short). */
+.compact.listening .label { display: none; }
+.badgeSide { font-size: var(--text-sm); white-space: nowrap; }
+/* Pause as its icon only (its name for screen readers), so the tag and Pause share one row in a phone's dock. */
+.compact .pause { padding: 4px 9px 2px; }
+.compact .pause span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@keyframes drain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+@keyframes blink {
+  0% { background: var(--white); }
+  100% { background: var(--yellow); }
+}
+@keyframes slam {
+  from { transform: scale(0.7) rotate(-8deg); }
+  to { transform: rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .idle .btn, .dot { animation: none; }
+  .bars b { transition: none; }
+}

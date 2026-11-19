@@ -1,0 +1,275 @@
+.strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  --u-font: var(--text-xl);
+  --u-pad: 6px 14px 2px;
+  --u-min: 48px;
+  min-width: 0;
+}
+.compact {
+  gap: var(--sp-2);
+  --u-font: var(--text-lg);
+  --u-pad: 5px 11px 1px;
+  --u-min: var(--tap);
+}
+
+.line {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 8px 8px 6px;
+  border-radius: 2px;
+  transition: background var(--t-med) var(--ease-out), box-shadow var(--t-med) var(--ease-out);
+  scroll-margin: 80px;
+}
+.active {
+  background: var(--paper, #fff3d0);
+  box-shadow: inset 0 0 0 3px var(--ink);
+}
+/* linePanels: each line a panel in its line's colour (LinePanel.module.css sets the colours). */
+.panelLine {
+  padding: 8px 10px 10px 8px;
+  border-radius: 0;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.panelLine .star { background: var(--white); }
+
+.speaker {
+  align-self: flex-start;
+  margin-left: 52px;
+  padding: 3px 8px 1px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+.compact .speaker { margin-left: 46px; }
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  margin-top: 2px;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  background: rgb(17 17 17 / 0.1); /* a darker well of the strip, so it never melts into it */
+  color: var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.play:active { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--ink); }
+.playOn { background: var(--yellow); animation: pulse 0.9s var(--ease-out) infinite; }
+
+.units {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 6px;
+}
+
+.br { flex-basis: 100%; height: 0; }
+
+.punct {
+  font-family: var(--font-display);
+  font-size: var(--u-font);
+  color: var(--ink);
+  padding-top: 0.15em;
+  line-height: 1;
+}
+
+.unitWrap {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.unit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: var(--u-min);
+  min-width: 44px; /* a one-letter word ("Si", "À") is still a 44 px target */
+  justify-content: center;
+  padding: var(--u-pad);
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  background: var(--c);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--u-font);
+  line-height: 1.1;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out), filter var(--t-med);
+  margin: 0 4px 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.unit:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 var(--ink); }
+.unit:disabled { cursor: default; }
+.text { display: inline; min-width: 0; }
+.disabled .unit { filter: saturate(0.6); }
+
+.selected { box-shadow: 4px 4px 0 0 var(--ink), 0 0 0 3px var(--white), 0 0 0 6px var(--ink); }
+.playing { animation: pulse 0.9s var(--ease-out) infinite; }
+.playing::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 0;
+  border: 3px dashed var(--ink);
+  pointer-events: none;
+}
+.litBox { filter: brightness(1.08); }
+
+.word { border-radius: 6px; transition: background var(--t-fast), color var(--t-fast); }
+.wordOn {
+  background: var(--ink);
+  color: var(--white);
+  box-shadow: 0 0 0 3px var(--ink);
+}
+
+.masked { background: var(--white); }
+
+/* Speaking rounds: words marked heard (matched), not heard (missed), or being listened for (current). */
+.wMatched { background: var(--green); color: var(--white); box-shadow: 0 0 0 3px var(--green); }
+.wMissed { background: var(--white); color: var(--ink); text-decoration: underline wavy var(--tomato) 3px; text-underline-offset: 4px; }
+.wCurrent { outline: 3px dashed var(--ink); outline-offset: 2px; }
+.mask { letter-spacing: 0.08em; }
+.blank {
+  display: inline-block;
+  height: 0.9em;
+  border-bottom: 4px dashed var(--ink);
+}
+.fill { color: var(--ink); }
+
+.star {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1;
+  padding: 6px 0 0;
+  cursor: pointer;
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+/* A 44 px hit area around the small badge (no overflow: hidden on the badge, which would clip it; the
+   glyph's ink sits inside the badge, only its line box is larger). */
+.star::before { content: ''; position: absolute; inset: -9px; }
+.starInline { position: relative; top: auto; right: auto; }
+
+.en {
+  margin: 2px 0 0 52px;
+  font-size: var(--text-md);
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 700;
+  color: var(--ink);
+}
+.compact .en { margin-left: 46px; font-size: var(--text-sm); }
+
+/* The English gloss: a speech balloon with its tail on the tapped unit. */
+.bubble {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 16px 0 2px;
+  padding: 12px 18px 12px;
+  border: 3px solid var(--ink);
+  border-radius: 28px / 22px;
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  transform-origin: var(--x) 0;
+  cursor: pointer;
+  font-family: var(--font-text, var(--font-body));
+}
+/* The tail: an ink triangle with a white one inside, pointing up at the unit. */
+.bubble::before,
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--x) - 14px);
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.bubble::before {
+  top: -20px;
+  border-width: 0 6px 20px 18px;
+  border-color: transparent transparent var(--ink) transparent;
+}
+.bubble::after {
+  top: -13px;
+  left: calc(var(--x) - 10px);
+  border-width: 0 3px 14px 12px;
+  border-color: transparent transparent var(--white) transparent;
+}
+.bFr {
+  align-self: flex-start;
+  padding: 3px 8px 1px;
+  border: 2px solid var(--ink);
+  background: var(--c);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+}
+.bEn { font-size: var(--text-xl); font-weight: 900; line-height: 1.2; }
+.bNote { font-size: var(--text-md); }
+/* A note: a yellow caption box (square, ink outline) with the same tail. */
+.bubbleNote { background: var(--yellow); border-radius: 0; }
+.bubbleNote::after { border-color: transparent transparent var(--yellow) transparent; }
+.bNoteBlock { display: flex; flex-direction: column; gap: 2px; }
+.bNoteBlock + .bNoteBlock { margin-top: 8px; padding-top: 8px; border-top: 2px solid var(--ink); }
+.bKind { font-family: var(--font-display); font-size: var(--text-sm); text-transform: uppercase; }
+.bNoteText { font-size: var(--text-md); line-height: 1.35; font-weight: 700; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes twinkle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(18deg) scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playing, .playOn, .star, .playing::after { animation: none; }
+}

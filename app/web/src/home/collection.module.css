@@ -1,0 +1,116 @@
+/* The kid's collection: scene panels like cut-out comic panels, locked runs as blacked-out panels. */
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 6px 8px;
+  text-align: left;
+  color: var(--ink);
+  background: var(--white); /* white on the cream episode panel: a card never melts into its surface */
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  cursor: pointer;
+  animation: slamIn 300ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  animation-delay: calc(min(var(--i), 12) * 40ms);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.panel:nth-child(3n + 1) { transform: rotate(-1deg); }
+.panel:nth-child(3n + 2) { transform: rotate(0.8deg); }
+.panel:active { transform: translate(4px, 4px); box-shadow: none; }
+.due { background: var(--yellow); }
+.frame { position: relative; display: block; aspect-ratio: 16 / 10; border: 3px solid var(--ink); background: var(--ink); overflow: hidden; }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.level { position: absolute; right: 2px; bottom: 0; line-height: 0; }
+.newTag { display: inline-block; padding: 3px 6px 0; line-height: 1.2; background: var(--lime); border: 2px solid var(--ink); font-family: var(--font-display); font-size: 12px; transform: rotate(-6deg); }
+.song {
+  position: absolute;
+  top: 4px;
+  left: -2px;
+  padding: 3px 7px 0;
+  line-height: 1.2;
+  background: var(--purple);
+  border: 2px solid var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 12px;
+  text-shadow: 1px 1px 0 var(--ink);
+  transform: rotate(-5deg);
+}
+.title {
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  line-height: 1.15;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.next {
+  align-self: flex-start;
+  padding: 2px 6px 0;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  font-family: var(--font-display);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.nextNow { background: var(--red, var(--tomato)); color: var(--white); text-shadow: 1px 1px 0 var(--ink); }
+.small { padding: 4px 4px 6px; gap: 4px; }
+.small .title { font-size: var(--text-xs); }
+
+/* A run of locked scenes. */
+.lockedRun {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+  padding: 6px 10px 6px 6px;
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.35);
+  color: var(--white);
+  transform: rotate(-1deg);
+}
+.lockedQ {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: radial-gradient(rgb(255 255 255 / 0.18) 1.3px, transparent 1.7px);
+  background-size: 6px 6px;
+  border: 2px solid var(--white);
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1;
+  padding-top: 0.12em;
+  color: var(--yellow);
+}
+.lockedCount { white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-display); font-size: var(--text-md); text-transform: uppercase; padding-top: 0.1em; }
+
+/* An episode section. */
+.episode {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  background: var(--paper);
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+}
+.episodeEmpty { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: var(--sp-2) var(--sp-3); }
+.epHead { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.epHeadButton { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); width: 100%; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; text-align: left; }
+.epNo { padding: 3px 6px 0; line-height: 1.2; background: var(--ep); border: 3px solid var(--ink); color: var(--white); font-family: var(--font-display); text-shadow: 1px 1px 0 var(--ink); }
+.epTitle { font-family: var(--font-display); font-size: var(--text-xl); text-transform: uppercase; transform: skewX(-6deg); padding-top: 0.1em; }
+.epCount { padding: 2px 6px; background: var(--white); border: 2px solid var(--ink); font-family: var(--font-text); font-weight: 800; font-size: var(--text-sm); }
+.epStats { display: flex; flex-direction: column; gap: 6px; }
+.levels { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.levelCount { display: inline-flex; align-items: center; gap: 2px; padding: 2px 6px 0 2px; background: var(--white); border: 2px solid var(--ink); font-family: var(--font-display); }
+.strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: var(--sp-3); align-items: center; }
+.strip > .lockedRun { justify-self: center; }
+
+@keyframes slamIn { from { opacity: 0; transform: scale(1.4) rotate(-8deg); } }
+@media (prefers-reduced-motion: reduce) { .panel { animation: none; } }

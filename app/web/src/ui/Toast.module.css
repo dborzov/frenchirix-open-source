@@ -1,0 +1,45 @@
+.host {
+  position: fixed;
+  z-index: var(--z-toast);
+  left: 50%;
+  top: calc(var(--sp-4) + var(--safe-top));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  width: min(440px, calc(100% - 32px));
+  pointer-events: none;
+}
+/* A narration caption box that slams in. */
+.toast {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-2);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--outline-thick);
+  border-radius: var(--r-sm);
+  background: var(--c);
+  color: var(--c-text, var(--ink));
+  box-shadow: var(--shadow-hard-lg);
+  font-weight: 700;
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  pointer-events: auto;
+  transform: rotate(-1deg);
+  animation: drop var(--t-slow) var(--ease-slam);
+}
+.row { display: flex; align-items: center; gap: var(--sp-3); }
+.text { flex: 1; }
+/* The admin's detail line on a paper strip, so it reads on any toast colour. */
+.detail {
+  margin: 0;
+  padding: var(--sp-1) var(--sp-2);
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  text-transform: none;
+}
+@keyframes drop { from { transform: translateY(-140%) rotate(-8deg); } }

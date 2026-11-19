@@ -1,0 +1,54 @@
+.page { padding-top: calc(var(--safe-top) + var(--sp-3)); padding-bottom: var(--sp-8); max-width: 980px; margin: 0 auto; }
+.top { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.title { font-size: var(--text-xl) !important; }
+.tablet .title { font-size: var(--text-2xl) !important; }
+.text {
+  display: inline-block;
+  margin: 0 0 var(--sp-5);
+  padding: 6px 10px;
+  border: var(--outline);
+  background: var(--white);
+  font: 700 var(--text-md) / 1.3 var(--font-text);
+  transform: rotate(-0.5deg);
+}
+.actions { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); }
+.actions > * { flex: 1 1 240px; }
+/* Tablet: bigger tiles, and the whole selection in the middle of the screen (at the top, an upright
+   iPad left two thirds of it empty). The page fills the screen less the shell's padding (a bare route). */
+.tablet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--app-h) - var(--safe-bottom) - var(--sp-4) - var(--sp-6));
+}
+.tablet .tiles { grid-template-columns: repeat(auto-fill, minmax(var(--tile), max-content)); }
+.tablet .text { align-self: flex-start; }
+
+/* The remove dialog: the name and PIN on a paper card, big enough to copy onto paper. */
+.removeBody { display: flex; flex-direction: column; gap: var(--sp-3); }
+.removeText { margin: 0; font-size: var(--text-lg); font-weight: 700; }
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--outline-thick);
+  border-radius: var(--r-sm);
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow-hard);
+  transform: rotate(-1deg);
+}
+.card dt { font: 700 var(--text-sm) / 1 var(--font-text); text-transform: uppercase; }
+.card dd { margin: 0; font: 400 var(--text-xl) / 1.1 var(--font-display); letter-spacing: 0.04em; overflow-wrap: anywhere; }
+.card .pin { font-family: var(--font-pin); font-weight: var(--font-pin-weight); font-size: var(--text-2xl); letter-spacing: 0.25em; }
+.note {
+  margin: 0;
+  font: 400 var(--text-xl) / 1 var(--font-display);
+  color: var(--tomato);
+  -webkit-text-stroke: 1px var(--ink);
+  transform: rotate(-2deg);
+  text-align: center;
+}

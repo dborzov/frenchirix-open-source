@@ -1,0 +1,61 @@
+/* --- Chest art --- */
+.chestSvg { overflow: visible; display: block; }
+.lid { transform-box: view-box; transform-origin: 50% 46%; transition: transform 420ms var(--ease-bounce); }
+.chestGlow { opacity: 0; transition: opacity 300ms; }
+.chestOpen .lid { transform: translate(0, -20px) rotate(-24deg); }
+.chestOpen .chestGlow { opacity: 1; }
+.chestEmpty { filter: saturate(0.4); opacity: 0.75; }
+.chestEmpty .chestGlow { opacity: 0; }
+
+/* --- Loot card --- */
+.lootCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  min-width: 120px;
+  padding: var(--sp-4) var(--sp-3) var(--sp-3);
+  border: var(--outline-thick, 4px solid var(--ink));
+  background: var(--c);
+  background-image: radial-gradient(rgb(17 17 17 / 0.16) 1.5px, transparent 2px);
+  background-size: 9px 9px;
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  text-align: center;
+}
+.lootBig {
+  min-width: 240px;
+  max-width: 320px;
+  padding: var(--sp-6) var(--sp-5) var(--sp-5);
+}
+.lootArt { display: grid; place-items: center; min-height: 56px; }
+.lootBig .lootArt { min-height: 120px; }
+.lootTitle { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.1; padding-top: 0.1em; text-transform: uppercase; }
+.lootBig .lootTitle { font-size: var(--text-2xl); }
+.lootSub { font-family: var(--font-text, var(--font-body)); font-weight: 800; font-size: var(--text-sm); background: var(--white); border: 2px solid var(--ink); padding: 4px 8px; }
+.lootBig .lootSub { font-size: var(--text-md); }
+.rarity {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  padding: 4px 12px 1px;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+.r_epic { box-shadow: 6px 6px 0 var(--ink), 0 0 0 6px var(--white), 0 0 0 9px var(--ink); }
+.r_legendary {
+  box-shadow: 6px 6px 0 var(--ink), 0 0 0 6px var(--tomato), 0 0 0 9px var(--ink);
+  animation: legend 0.9s steps(2, jump-none) infinite;
+}
+.r_legendary .rarity { background: var(--tomato); color: var(--ink); }
+@keyframes legend { 50% { transform: rotate(-1.5deg) scale(1.02); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .r_legendary { animation: none; }
+  .lid { transition: none; }
+}

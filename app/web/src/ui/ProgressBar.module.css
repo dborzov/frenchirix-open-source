@@ -1,0 +1,41 @@
+.track {
+  position: relative;
+  height: var(--h, 22px);
+  border: var(--outline);
+  border-radius: var(--r-sm);
+  /* A darker well of whatever it sits on, so the track never melts into its panel. */
+  background: rgb(17 17 17 / 0.16);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  overflow: hidden;
+  margin: 0 3px 3px 0;
+}
+.fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background-color: var(--c);
+  background-image: repeating-linear-gradient(-55deg, rgb(255 255 255 / 0.28) 0 6px, transparent 6px 14px);
+  background-size: 34px 34px;
+  border-right: var(--outline);
+  transition: width var(--t-slow) var(--ease-bounce);
+  animation: stripes 0.7s linear infinite;
+}
+.empty .fill { border-right: 0; }
+.label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: max(14px, calc(var(--h, 22px) * 0.7));
+  letter-spacing: 0.06em;
+  color: var(--white);
+  -webkit-text-stroke: 1.5px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 1.5px 1.5px 0 var(--ink);
+}
+@keyframes stripes {
+  to { background-position: 34px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fill { animation: none; }
+}

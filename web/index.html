@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Frenchirix scenes</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">Frenchirix <span>scenes</span></div>
+  <label class="episode-pick">
+    <span class="sr">Episode</span>
+    <select id="episode"></select>
+  </label>
+  <div id="ep-stats" class="ep-stats"></div>
+  <button id="help-btn" class="ghost" type="button" title="Keyboard shortcuts (?)">Shortcuts <kbd>?</kbd></button>
+</header>
+
+<section id="timeline" class="timeline" aria-label="Episode timeline">
+  <div class="tl-legend" id="tl-legend"></div>
+  <div class="tl-body">
+    <div class="tl-lanes" id="tl-lanes"></div>
+    <div class="tl-lines" id="tl-lines"></div>
+    <div class="tl-axis" id="tl-axis"></div>
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Scene list and review marks">
+    <div class="side-tabs seg" role="tablist" aria-label="Sidebar">
+      <button type="button" role="tab" data-side="scenes">Scenes</button>
+      <button type="button" role="tab" data-side="marks" title="Lines marked for fixing, in every scene (Shift+M)">Open marks <span id="marks-count" class="count"></span></button>
+    </div>
+    <div class="filters scenes-pane">
+      <input id="f-q" type="search" placeholder="Search title, French, English" autocomplete="off" spellcheck="false">
+      <div class="filter-row">
+        <div class="seg" role="group" aria-label="Sort">
+          <button type="button" data-sort="time">Timeline</button>
+          <button type="button" data-sort="score">Score</button>
+        </div>
+        <span id="f-count" class="muted small"></span>
+      </div>
+      <div class="filter-grid">
+        <label>Kind<select id="f-kind">
+          <option value="">any</option><option value="dialogue">dialogue</option>
+          <option value="monologue">monologue</option><option value="song">song</option>
+        </select></label>
+        <label>Score<select id="f-score">
+          <option value="0">any</option><option value="2">≥ 2</option><option value="3">≥ 3</option>
+          <option value="4">≥ 4</option><option value="5">5</option>
+        </select></label>
+        <label>Tag<select id="f-tag"><option value="">any</option></select></label>
+      </div>
+      <label id="f-noted-row" class="toggle small" hidden title="Scenes with notes on references or wordplay (※)"><input type="checkbox" id="f-noted"> Only scenes with notes ※</label>
+      <label id="f-marked-row" class="toggle small" hidden title="Scenes with a line marked for fixing (⚑)"><input type="checkbox" id="f-marked"> Only scenes with open marks ⚑</label>
+      <button id="f-clear" type="button" class="link small" hidden>Clear filters</button>
+    </div>
+    <ol id="scene-list" class="scene-list scenes-pane"></ol>
+    <div class="marks-pane filters">
+      <label class="small muted">Episode <select id="mk-episode"><option value="">all episodes</option></select></label>
+    </div>
+    <ol id="mark-list" class="mark-list marks-pane"></ol>
+    <div class="keys-hint" id="keys-hint">
+      <kbd>Space</kbd> play · <kbd>J</kbd>/<kbd>K</kbd> next/prev · <kbd>M</kbd> mark a line · <kbd>E</kbd> English · <kbd>?</kbd> more
+    </div>
+  </aside>
+
+  <main id="scene" class="scene" aria-live="polite">
+    <div class="empty">Loading…</div>
+  </main>
+</div>
+
+<div id="help" class="help" hidden>
+  <div class="help-card" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <h2 id="help-title">Keyboard shortcuts</h2>
+    <dl>
+      <dt><kbd>Space</kbd></dt><dd>Play / pause</dd>
+      <dt><kbd>J</kbd> or <kbd>↓</kbd></dt><dd>Next scene in the list</dd>
+      <dt><kbd>K</kbd> or <kbd>↑</kbd></dt><dd>Previous scene in the list</dd>
+      <dt><kbd>→</kbd> / <kbd>←</kbd></dt><dd>Play from the next line / back to the start of this line (press again for the previous one)</dd>
+      <dt><kbd>R</kbd></dt><dd>Replay the current line</dd>
+      <dt><kbd>0</kbd> or <kbd>Home</kbd></dt><dd>Back to the start of the clip</dd>
+      <dt><kbd>M</kbd></dt><dd>Mark the selected unit, or else the current line, as needing a fix</dd>
+      <dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>In the mark form, before typing: the category (<kbd>Shift</kbd> + <kbd>Tab</kbd> goes back to it from the comment)</dd>
+      <dt><kbd>Enter</kbd></dt><dd>In the mark form: save (<kbd>Shift</kbd> + <kbd>Enter</kbd> for a new line, <kbd>Esc</kbd> to cancel)</dd>
+      <dt><kbd>Shift</kbd> + <kbd>M</kbd></dt><dd>Open marks of every scene / back to the scene list</dd>
+      <dt><kbd>,</kbd> / <kbd>.</kbd></dt><dd>Play the previous / next unit (clicking a unit plays it too)</dd>
+      <dt><kbd>E</kbd></dt><dd>Hide / show the English: literal, subtitle, glosses and notes</dd>
+      <dt><kbd>G</kbd></dt><dd>Glosses under the units on / off</dd>
+      <dt><kbd>T</kbd></dt><dd>Subtitle French and English under each line on / off</dd>
+      <dt><kbd>S</kbd></dt><dd>Slow down (0.75×) / normal speed</dd>
+      <dt><kbd>/</kbd></dt><dd>Search the scene list</dd>
+      <dt><kbd>?</kbd></dt><dd>This help</dd>
+    </dl>
+    <p class="muted small">Underlined pieces of an annotated line are its units: blue for a word, grey for an expression, dotted when not aligned yet; a small <b>?</b> marks timing worth checking by ear. <b>≠</b> beside a line: the spoken French differs from the subtitle, click to compare. A small number after a phrase links to its note for a child (reference or wordplay); ※ in the list marks scenes that have notes.</p>
+    <p class="muted small">A review mark says that a line, or one of its units, needs fixing: its category and your comment go to the agent that fixes it. ⚑ in the gutter marks a line (click it to add one); marks save to the database at once; an open mark can be edited or deleted until it is resolved.</p>
+    <button type="button" id="help-close">Close</button>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+<div id="tip" class="tip" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

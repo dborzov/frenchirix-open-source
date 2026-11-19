@@ -1,0 +1,134 @@
+.puzzle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+}
+.speaker {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border: 4px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  transform: rotate(-3deg);
+  cursor: pointer;
+}
+.speaker:active { transform: rotate(-3deg) translate(4px, 4px); box-shadow: 1px 1px 0 0 var(--ink); }
+.on { background: var(--white); animation: thump 0.8s steps(2, jump-none) infinite; }
+.tablet .speaker { width: 72px; height: 72px; }
+
+.prompt {
+  margin: 0;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  text-align: center;
+  transform: rotate(1.5deg);
+}
+.tablet .prompt { font-size: var(--text-lg); }
+
+.lineBox {
+  padding: 6px 6px 10px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+.en {
+  margin: 4px 8px 0;
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-md);
+  line-height: 1.3;
+}
+.enLabel {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 6px 0;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+/* Blanks in the strip: dashed ink holes; the current target pulses; a filled blank slams in. */
+.blankBox { background: var(--paper) !important; border-style: dashed !important; }
+/* Every blank the same modest size: its width should not give the answer away, nor fill a phone. */
+.blankBox > span > span:empty { width: 5ch !important; }
+.targetBox { background: var(--yellow) !important; animation: target 0.8s steps(2, jump-none) infinite; }
+.filledBox { background: var(--lime) !important; border-style: solid !important; animation: land 380ms cubic-bezier(0.2, 1.8, 0.4, 1) both; }
+
+.bank {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+.word {
+  min-height: 52px;
+  min-width: 52px;
+  padding: 8px 14px 5px;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  cursor: pointer;
+  touch-action: manipulation;
+  animation: slamIn 380ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 60ms + 150ms);
+}
+.word:nth-child(odd) { transform: rotate(-1.5deg); }
+.word:nth-child(even) { transform: rotate(1.5deg); }
+.word:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--ink); }
+.tablet .word { font-size: var(--text-xl); min-height: 60px; }
+.used { visibility: hidden; }
+.lifting { opacity: 0.25; }
+.glow { background: var(--yellow); animation: glow 0.7s steps(2, jump-none) infinite; }
+.ghost { box-shadow: 8px 8px 0 0 var(--ink) !important; background: var(--white); animation: none !important; }
+
+@keyframes slamIn {
+  from { opacity: 0; transform: translateY(30px) rotate(6deg) scale(0.8); }
+  to { opacity: 1; }
+}
+@keyframes land {
+  0% { transform: scale(1.35) rotate(-6deg); }
+  100% { transform: none; }
+}
+@keyframes target {
+  0% { box-shadow: 3px 3px 0 0 var(--ink); }
+  100% { box-shadow: 3px 3px 0 0 var(--ink), 0 0 0 5px var(--white); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 12px var(--white); }
+}
+@keyframes thump {
+  0% { transform: rotate(-3deg) scale(1); }
+  100% { transform: rotate(2deg) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word, .on, .targetBox, .filledBox, .glow { animation: none; }
+}

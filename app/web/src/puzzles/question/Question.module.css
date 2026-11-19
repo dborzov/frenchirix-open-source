@@ -1,0 +1,319 @@
+.puzzle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+/* ---- the stage: a spotlit quiz show, the scene's picture faint behind ---------------------------- */
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34% 1fr;
+  align-items: end;
+  gap: 6px;
+  min-height: 160px;
+  padding: 34px 10px 0 4px;
+  border: 4px solid var(--ink);
+  background: var(--purple);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+.tablet .stage { grid-template-columns: 28% 1fr; min-height: 200px; padding-top: 36px; }
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  mix-blend-mode: luminosity;
+}
+.rays { z-index: -1; }
+.stage::after {
+  /* the stage floor */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  z-index: -1;
+  background: var(--red);
+  border-top: 4px solid var(--ink);
+}
+.showName {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  padding: 2px 10px 0;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  transform: rotate(-3deg);
+}
+
+.host { align-self: end; min-width: 0; }
+.druid { display: block; width: 100%; height: auto; overflow: visible; transform-origin: 50% 100%; }
+.druidHead { transform-box: fill-box; transform-origin: 50% 90%; }
+.druidTalking .druidHead { animation: talk 0.36s steps(2, jump-none) infinite; }
+.druid-delighted { animation: hop 520ms cubic-bezier(0.2, 1.8, 0.4, 1) 2; }
+.druid-baffled { animation: reel 420ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.druidMarks { animation: popIn 300ms cubic-bezier(0.2, 1.8, 0.4, 1) both; transform-box: fill-box; transform-origin: center; }
+
+/* The druid's speech balloon: the question, a reaction, or the winning answer. */
+.balloon {
+  position: relative;
+  align-self: center;
+  margin: 0 0 28px 10px;
+  padding: 12px 14px;
+  min-height: 70px;
+  border: 4px solid var(--ink);
+  border-radius: 28px;
+  background: var(--white);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  animation: slam 380ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+.balloon::before,
+.balloon::after {
+  /* the tail, pointing down-left at the druid */
+  content: '';
+  position: absolute;
+  left: -26px;
+  bottom: 16px;
+  border-style: solid;
+}
+.balloon::before { border-width: 14px 30px 4px 0; border-color: transparent var(--ink) transparent transparent; }
+.balloon::after { left: -18px; bottom: 19px; border-width: 9px 22px 2px 0; border-color: transparent var(--white) transparent transparent; }
+.balloonReact { background: var(--yellow); animation: shake 380ms ease both; }
+.balloonReact::after { border-right-color: var(--yellow); }
+.balloonWin { background: var(--lime); animation: slam 420ms cubic-bezier(0.2, 1.8, 0.4, 1) both; }
+.balloonWin::after { border-right-color: var(--lime); }
+.loop { position: absolute; top: 4px; right: 6px; transform: scale(0.62) rotate(4deg); transform-origin: 100% 0; }
+.tablet .loop { transform: scale(0.8) rotate(4deg); }
+.reaction {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.05;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  animation: popIn 300ms cubic-bezier(0.2, 1.8, 0.4, 1) both;
+}
+.winner { display: flex; flex-direction: column; gap: 6px; }
+.winnerEn {
+  margin: 0;
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-md);
+  line-height: 1.2;
+}
+.tablet .winnerEn { font-size: var(--text-lg); }
+
+.silent {
+  margin: 6px 0 0;
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
+}
+
+/* ---- the board: answer cards with marquee bulbs, flipping in -------------------------------------- */
+.board {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 10px;
+  perspective: 900px;
+}
+.board3 > :last-child { grid-column: 1 / -1; justify-self: center; width: calc(50% - 6px); }
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 7px 7px;
+  border: 4px solid var(--ink);
+  background: var(--card);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  animation: flipIn 520ms cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+  animation-delay: calc(var(--i) * 110ms + 250ms);
+  transform-origin: 50% 100%;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.card:focus-visible { outline: 4px dashed var(--ink); outline-offset: 4px; }
+.card:active:not(.flat):not(.chosen) { transform: translate(3px, 3px); box-shadow: 2px 2px 0 0 var(--ink); }
+/* The chosen answer: lifted, a white halo in ink, its letter lit, its bulbs racing. */
+.chosen {
+  z-index: 1;
+  transform: translate(-3px, -6px) rotate(-1.5deg) scale(1.04);
+  box-shadow: 0 0 0 4px var(--white), 0 0 0 8px var(--ink), 9px 11px 0 6px var(--ink);
+}
+.chosen .letter { background: var(--yellow); color: var(--ink); transform: rotate(-4deg) scale(1.2); }
+.chosen .bulbs { animation-duration: 0.25s; }
+.chosen .cardText { background: var(--paper); }
+.bulbs {
+  position: absolute;
+  inset: 3px;
+  border: 5px dotted var(--yellow);
+  pointer-events: none;
+  animation: bulbs 0.6s steps(2, jump-none) infinite;
+}
+.letter {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 30px;
+  border: 3px solid var(--ink);
+  background: var(--ink);
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  padding-top: 2px;
+  transform: rotate(-4deg);
+}
+.cardText {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 4px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  text-align: center;
+}
+/* A wrong answer's stamp, slapped across its card. */
+.nope {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  padding: 2px 10px 0;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  color: var(--red);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: 0.04em;
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+/* « C'est ça ! »: one confirm button under the board. */
+.dock {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 8px;
+}
+.confirm {
+  min-width: min(100%, 280px);
+  min-height: 56px;
+  padding: 6px 20px 2px;
+  border: 3px dashed var(--ink);
+  background: var(--paper);
+  color: var(--ink-soft);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: default;
+  touch-action: manipulation;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.confirmReady {
+  border-style: solid;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  font-size: var(--text-2xl);
+  cursor: pointer;
+  transform: rotate(-1.5deg);
+  animation: readySlam 320ms cubic-bezier(0.2, 1.8, 0.4, 1) both;
+}
+.confirmReady:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 var(--ink); }
+
+.flat { filter: grayscale(1); opacity: 0.5; transform: scale(0.92) rotate(-2deg) translateY(4px); animation: none; cursor: default; }
+.flat .bulbs { animation: none; border-color: transparent; }
+.deflate { animation: deflate 560ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+.glow { animation: glow 0.7s steps(2, jump-none) infinite; }
+.won { animation: won 600ms cubic-bezier(0.2, 1.8, 0.4, 1) both; z-index: 1; cursor: default; }
+.gone { animation: drop 520ms cubic-bezier(0.5, 0, 0.8, 0.4) both; animation-delay: calc(var(--i) * 70ms); }
+
+@keyframes readySlam {
+  from { transform: scale(0.7) rotate(-8deg); }
+  to { transform: rotate(-1.5deg); }
+}
+@keyframes flipIn {
+  from { opacity: 0; transform: rotateX(-95deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes deflate {
+  0% { transform: none; }
+  35% { transform: scale(1.12, 0.55) translateY(30px) rotate(3deg); filter: grayscale(0); opacity: 1; }
+  70% { transform: scale(0.88, 1.05) rotate(-3deg); }
+  100% { transform: scale(0.92) rotate(-2deg) translateY(4px); filter: grayscale(1); opacity: 0.5; }
+}
+@keyframes drop {
+  to { transform: translateY(160px) rotate(14deg); opacity: 0; }
+}
+@keyframes won {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12) rotate(-2deg); }
+  100% { transform: scale(1.03); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 4px var(--ink), 0 0 0 10px var(--yellow); }
+  100% { box-shadow: 0 0 0 4px var(--ink), 0 0 0 15px var(--white); }
+}
+@keyframes bulbs {
+  0% { border-color: var(--yellow); }
+  100% { border-color: var(--white); }
+}
+@keyframes slam {
+  from { opacity: 0; transform: scale(0.6) rotate(-6deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+  to { opacity: 1; transform: rotate(-2deg); }
+}
+@keyframes shake {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(-8px) rotate(-2deg); }
+  60% { transform: translateX(7px) rotate(2deg); }
+}
+@keyframes talk {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg) translateY(-3px); }
+}
+@keyframes hop {
+  0%, 100% { transform: none; }
+  45% { transform: translateY(-22px) rotate(-4deg) scale(1.05); }
+}
+@keyframes reel {
+  0% { transform: none; }
+  40% { transform: rotate(-9deg) translateX(-8px); }
+  100% { transform: rotate(-4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .bulbs, .deflate, .glow, .won, .gone, .balloon, .reaction, .druid, .druidHead, .druidMarks, .confirmReady { animation: none !important; }
+  .card { transition: none; }
+  .gone { opacity: 0.3; }
+}

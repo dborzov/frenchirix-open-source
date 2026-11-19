@@ -1,0 +1,67 @@
+/* The loading gate: a cream comic panel slammed onto the section's colour, a title in the display face,
+   a chunky bar that fills with what has arrived, and a yellow caption box when the connection is slow. */
+.gate {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 220px;
+}
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-3);
+  width: min(420px, 100%);
+  padding: var(--sp-5) var(--sp-5) var(--sp-5);
+  border: var(--outline-thick);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-hard-lg);
+  transform: rotate(-1deg);
+  animation: slam var(--t-slow) var(--ease-slam);
+}
+.title {
+  margin: 0;
+  font: 400 var(--text-2xl) / 1 var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-3deg) skewX(-6deg);
+  transform-origin: left center;
+}
+.bar {
+  margin-right: 6px;
+}
+.slowRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+}
+.slow {
+  margin: 0;
+  padding: 4px 10px;
+  border: var(--outline);
+  border-radius: var(--r-sm);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font: 700 var(--text-md) / 1.25 var(--font-text);
+  transform: rotate(-1.5deg);
+  animation: slam var(--t-slow) var(--ease-slam);
+}
+@keyframes slam {
+  from { transform: scale(1.25) rotate(-6deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel, .slow { animation: none; }
+}

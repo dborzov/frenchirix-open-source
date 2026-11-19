@@ -1,0 +1,133 @@
+/* The comic button: a flat ink-outlined block on a hard black shadow. Press = move into the shadow.
+   Colour comes from --c / --c-text / --c-stroke (colorVars). */
+.button {
+  --h: 52px;
+  --fs: 1.375rem;
+  --pad: 20px;
+  --sh: 4px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--h);
+  min-width: var(--tap);
+  padding: 0 var(--pad);
+  margin: 0 var(--sh) var(--sh) 0;
+  border: var(--outline);
+  border-radius: var(--r-md);
+  background: var(--c);
+  color: var(--c-text, var(--ink));
+  font-family: var(--font-display);
+  font-size: var(--fs);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: var(--sh) var(--sh) 0 0 var(--ink);
+  transform: translate(0, 0);
+  transition:
+    transform var(--t-fast) ease-out,
+    box-shadow var(--t-fast) ease-out;
+}
+
+/* Only where there is a real pointer: on a touch screen :hover sticks after a tap. */
+@media (hover: hover) {
+  .button:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: calc(var(--sh) + 1px) calc(var(--sh) + 1px) 0 0 var(--ink);
+  }
+}
+
+.button:active:not(:disabled),
+.button[data-pressed='true'] {
+  transform: translate(var(--sh), var(--sh));
+  box-shadow: 0 0 0 0 var(--ink);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  background-color: var(--locked);
+  background-image: radial-gradient(circle, rgb(17 17 17 / 0.18) 1.2px, transparent 1.6px);
+  background-size: 6px 6px;
+  color: rgb(17 17 17 / 0.6);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+.button:disabled .label {
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+
+.sm {
+  --h: var(--tap);
+  --fs: 1.125rem;
+  --pad: 12px;
+  --sh: 3px;
+}
+.lg {
+  --h: 62px;
+  --fs: 1.75rem;
+  --pad: 26px;
+  --sh: 5px;
+  border: var(--outline-thick);
+}
+.xl {
+  --h: 78px;
+  --fs: 2.375rem;
+  --pad: 34px;
+  --sh: 7px;
+  border: var(--outline-thick);
+}
+
+.block {
+  display: flex;
+  width: calc(100% - var(--sh));
+}
+
+.label {
+  padding-top: 0.06em;
+  -webkit-text-stroke: 1.5px var(--c-stroke, transparent);
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 var(--c-stroke, transparent);
+}
+
+.loading {
+  pointer-events: none;
+}
+.loading .label,
+.loading .icon {
+  visibility: hidden;
+}
+.spin {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* Square icon-only button. */
+.iconButton {
+  --size: 52px;
+  width: var(--size);
+  height: var(--size);
+  min-height: var(--size);
+  padding: 0;
+}
+.iconButton.sm {
+  --size: var(--tap);
+}
+.iconButton.lg {
+  --size: 64px;
+}
+.iconButton.xl {
+  --size: 84px;
+}
+
+/* Busy: what the button starts is on its way (a sound loading). The hopping dots replace the icon; on
+   the smaller round buttons they shrink a little to stay inside the ink frame. */
+.busy {
+  cursor: progress;
+}
+.iconButton.busy:not(.lg):not(.xl) > [role='status'] {
+  transform: scale(0.78);
+}

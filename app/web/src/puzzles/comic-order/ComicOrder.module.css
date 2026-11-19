@@ -1,0 +1,143 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+.head { display: flex; align-items: center; gap: var(--sp-4); }
+.prompt {
+  margin: 0;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+}
+
+/* The comic strip: a black page with white gutters... in reverse: panels on ink. */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  border: 4px solid var(--ink);
+  background: var(--ink);
+  box-shadow: 6px 6px 0 0 var(--orange);
+}
+.stripDone { animation: stripSlam 480ms var(--ease-slam); }
+.slot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  background: var(--paper);
+}
+.tablet .slot { aspect-ratio: auto; min-height: 150px; flex-direction: column; align-items: stretch; justify-content: flex-start; }
+.empty {
+  background:
+    radial-gradient(circle, rgb(17 17 17 / 0.16) 1.5px, transparent 1.7px) 0 0 / 8px 8px,
+    var(--paper);
+}
+.next { background-color: var(--yellow); animation: nextPulse 0.8s steps(2, jump-none) infinite; }
+.no {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+  padding: 1px 5px 0;
+  border: 2px solid var(--ink);
+  background: var(--ink); /* ink with yellow lettering: stands out on every slot, empty, next or filled */
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+}
+.slotImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tablet .slotImg { position: static; height: 96px; flex: none; }
+.slotFr {
+  padding: 4px 6px 4px;
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  line-height: 1.15;
+  background: var(--white);
+  border-top: 3px solid var(--ink);
+  flex: 1;
+}
+.filled { z-index: 1; }
+.lit { outline: 5px solid var(--yellow); outline-offset: -5px; }
+.lit .slotFr { background: var(--yellow); }
+
+/* The loose panels. */
+.cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.card {
+  display: flex;
+  align-items: stretch;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  animation: cardIn 420ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 80ms + 100ms);
+}
+.card:nth-child(odd) { transform: rotate(-1deg); }
+.card:nth-child(even) { transform: rotate(1.2deg); }
+.cardMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  padding: 6px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.cardMain:active { background: var(--paper); }
+.thumb { flex: none; width: 92px; height: 64px; object-fit: cover; border: 3px solid var(--ink); }
+.tablet .thumb { width: 120px; height: 80px; }
+.texts { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.fr { font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); line-height: 1.2; }
+.en { font-family: var(--font-text); font-style: italic; font-size: var(--text-sm); line-height: 1.2; color: var(--ink-soft); }
+.tablet .fr { font-size: var(--text-lg); }
+.spk {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  border: 0;
+  border-left: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  cursor: pointer;
+}
+.spkOn { background: var(--cyan); }
+.glow { animation: glow 0.7s steps(2, jump-none) infinite; }
+
+.after { animation: cardIn 380ms var(--ease-slam) backwards; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(50px) rotate(6deg) scale(0.8); }
+}
+@keyframes nextPulse {
+  0% { background-color: var(--yellow); }
+  100% { background-color: var(--white); }
+}
+@keyframes stripSlam {
+  0% { transform: scale(1.06) rotate(-1.5deg); }
+  60% { transform: scale(0.98) rotate(0.5deg); }
+  100% { transform: none; }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .next, .glow, .stripDone, .after { animation: none; }
+}

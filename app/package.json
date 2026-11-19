@@ -1,0 +1,51 @@
+{
+  "name": "frenchirix-app",
+  "version": "2.5.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@fontsource/bangers": "5.3.0",
+    "@fontsource/comic-neue": "5.3.0",
+    "hono": "^4.13.16",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "wouter": "^3.13.0",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.6.0",
+    "@cloudflare/workers-types": "^5.20261107.1",
+    "@playwright/test": "^1.65.0",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "happy-dom": "^21.0.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0"
+  },
+  "scripts": {
+    "dev": "node tools/dev.mjs",
+    "dev:web": "vite",
+    "dev:worker": "wrangler dev --local --port ${WORKER_PORT:-8787} --persist-to ${PERSIST_DIR:-.wrangler/state}",
+    "dev:worker:ai": "wrangler dev --port ${WORKER_PORT:-8787} --persist-to ${PERSIST_DIR:-.wrangler/state}",
+    "db:migrate": "wrangler d1 migrations apply DB --local --persist-to ${PERSIST_DIR:-.wrangler/state}",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.web.json && tsc -p tsconfig.worker.json && tsc -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:practices": "tsx tools/check-practices.ts",
+    "check:liveness": "tsx tools/liveness/run.ts",
+    "check": "npm run typecheck && npm test && npm run check:practices",
+    "e2e": "playwright test",
+    "screens": "playwright test e2e/screens.spec.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

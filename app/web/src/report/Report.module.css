@@ -1,0 +1,88 @@
+/* "Quelque chose ne va pas ?": the form in a modal, and the tip under the flag. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.label {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+}
+.text {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px 12px;
+  border: var(--outline, 3px solid var(--ink));
+  border-radius: 0;
+  background: var(--white);
+  box-shadow: inset 3px 3px 0 rgb(17 17 17 / 0.12);
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 700;
+  font-size: var(--text-lg);
+  line-height: 1.3;
+  resize: vertical;
+  /* The practice screen turns selection off; typing needs it. */
+  user-select: text;
+  -webkit-user-select: text;
+}
+.text:focus { outline: 4px solid var(--blue); outline-offset: 1px; }
+.failed { margin: 0; width: 100%; transform: none; }
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+/* On a full error panel: the flag on its own row under « Réessayer », the tip under it. */
+.panelReport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+/* The tip, in the flow (it never covers a control). The onboarding Tip draws the bubble; these place it
+   and turn its tail up towards the flag. Doubled selectors: they must win over the Tip's own classes. */
+.tipRow:empty { display: none; }
+.tipRowHeader {
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 14px auto 0;
+}
+.tipRowPanel {
+  display: flex;
+  justify-content: center;
+  max-width: 100%; /* in a centred column it would take the text's whole width and stick out of a narrow panel */
+  margin-top: 14px;
+}
+.tip.tip {
+  margin: 0;
+  max-width: min(330px, 100%);
+  text-align: left;
+}
+.tip.tip::before {
+  top: -10px;
+  border: 3px solid var(--ink);
+  border-right: 0;
+  border-bottom: 0;
+}
+.tipPanel.tipPanel::before {
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg) skew(12deg, 12deg);
+}
+/* The flag is the last button of the practice header (44 px): the bubble reaches a little past it, and
+   its tail sits under the flag's middle, where the bubble's top is still flat. */
+.tipHeader.tipHeader {
+  margin-right: -10px;
+  border-radius: 26px;
+}
+.tipHeader.tipHeader::before {
+  left: auto;
+  right: 25px;
+  transform: rotate(45deg) skew(12deg, 12deg);
+}

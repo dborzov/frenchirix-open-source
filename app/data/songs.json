@@ -1,0 +1,28 @@
+[
+  {
+    "id": "s01e03-madame-arbre",
+    "episode": "s01e03",
+    "first_line": "s01e03-0019",
+    "last_line": "s01e03-0026",
+    "title_fr": "Madame Arbre, tout va bien",
+    "title_en": "Mrs. Tree, all is well",
+    "starter": true
+  },
+  {
+    "id": "s01e04-monde-romain",
+    "episode": "s01e04",
+    "first_line": "s01e04-0010",
+    "last_line": "s01e04-0022",
+    "title_fr": "C'est un monde romain",
+    "title_en": "It's a Roman world",
+    "starter": true
+  },
+  {
+    "id": "s01e05-monde-romain-reprise",
+    "episode": "s01e05",
+    "first_line": "s01e05-0156",
+    "last_line": "s01e05-0163",
+    "title_fr": "C'est un monde romain (reprise)",
+    "title_en": "It's a Roman world (reprise)"
+  }
+]

@@ -1,0 +1,37 @@
+# Source episodes: large, copyrighted, never committed
+content/
+
+# Generated media: rebuilt from content/ by the render step
+assets/audio/
+assets/video/
+
+# Scratch output of pipeline steps (cue sheets, bake-off samples)
+work/
+
+# SQLite side files
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# App (v2.0): dependencies, builds, local state, generated bundle, secrets
+app/node_modules/
+app/dist/
+app/.wrangler/
+/.wrangler/
+app/public/data/
+app/public/media/
+app/.dev.vars
+app/test-results/
+app/playwright-report/
+app/blob-report/
+
+# The scene database: built locally by the pipeline from your own episodes. It holds the
+# episodes' subtitles; remove this line only if you have the right to publish them.
+assets/db.sqlite

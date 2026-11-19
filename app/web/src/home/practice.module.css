@@ -1,0 +1,8 @@
+.wrap { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.bar { display: flex; flex: 1; min-width: 70px; height: 14px; border: 2px solid var(--ink); background: var(--white); }
+.seg { position: relative; flex: 1; }
+.seg + .seg { border-left: 2px solid var(--ink); }
+.fill { position: absolute; inset: 0; width: calc(var(--f) * 100%); background: var(--yellow); }
+.count { font-family: var(--font-display); font-size: var(--text-sm); line-height: 1; padding-top: 0.12em; white-space: nowrap; }
+.small .bar { height: 10px; min-width: 50px; }
+.small .count { font-size: 12px; }

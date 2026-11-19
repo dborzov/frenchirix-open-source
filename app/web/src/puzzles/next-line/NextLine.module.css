@@ -1,0 +1,135 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+.top { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.prompt {
+  margin: 0;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  text-transform: uppercase;
+  transform: rotate(1.5deg);
+}
+
+/* Two panels of a comic: the line heard, then the one to find. */
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  border: 4px solid var(--ink);
+  background: var(--ink);
+  box-shadow: 6px 6px 0 0 var(--orange);
+  animation: slideIn 420ms var(--ease-slam) backwards;
+}
+.joined { animation: joinSlam 460ms var(--ease-slam); box-shadow: 6px 6px 0 0 var(--lime); }
+.panel { position: relative; display: flex; flex-direction: column; background: var(--white); min-width: 0; }
+.img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.tablet .img { aspect-ratio: 16 / 9; }
+.caption { display: flex; flex-direction: column; gap: 3px; padding: 6px 8px 8px; border-top: 3px solid var(--ink); flex: 1; }
+.fr { font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); line-height: 1.2; }
+.en { font-family: var(--font-text); font-style: italic; font-size: var(--text-sm); line-height: 1.2; color: var(--ink-soft); }
+.tablet .fr { font-size: var(--text-lg); }
+.loop { position: absolute; top: 6px; right: 6px; transform: scale(0.8); transform-origin: top right; }
+.arrow {
+  align-self: center;
+  justify-self: center;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--yellow);
+  transform: rotate(8deg);
+}
+.blank {
+  display: grid;
+  place-items: center;
+  min-height: 140px;
+  background:
+    radial-gradient(circle, rgb(17 17 17 / 0.2) 1.6px, transparent 1.8px) 0 0 / 9px 9px,
+    var(--paper);
+}
+.q { font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--ink); animation: bob 0.9s steps(2, jump-none) infinite; }
+.answerPanel { animation: slamIn 420ms var(--ease-slam) backwards; }
+
+/* The choices. */
+.choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.card {
+  display: flex;
+  align-items: stretch;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  animation: cardIn 420ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 90ms + 120ms);
+}
+.card:nth-child(odd) { transform: rotate(-0.8deg); }
+.card:nth-child(even) { transform: rotate(1deg); }
+.cardMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.cardMain:active { background: var(--paper); }
+.letter {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  padding-top: 3px;
+}
+.texts { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.spk {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  border: 0;
+  border-left: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  cursor: pointer;
+}
+.spkOn { background: var(--cyan); }
+.missed { opacity: 0.45; filter: grayscale(1); }
+.missed .fr { text-decoration: line-through 3px; }
+.glow { animation: glow 0.7s steps(2, jump-none) infinite; }
+
+@keyframes slideIn { from { opacity: 0; transform: translateX(60px) rotate(3deg); } }
+@keyframes joinSlam {
+  0% { transform: scale(1.06) rotate(-1.5deg); }
+  60% { transform: scale(0.98) rotate(0.5deg); }
+  100% { transform: none; }
+}
+@keyframes slamIn { from { opacity: 0; transform: scale(1.4) rotate(-6deg); } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(40px) rotate(5deg) scale(0.85); } }
+@keyframes bob {
+  0% { transform: rotate(-6deg); }
+  100% { transform: rotate(6deg) scale(1.1); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pair, .joined, .answerPanel, .card, .q, .glow { animation: none; }
+}

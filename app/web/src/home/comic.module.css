@@ -1,0 +1,3 @@
+/* A heading that only carries a ui Caption (semantics without its own look). */
+.heading { margin: 0; font: inherit; line-height: 0; }
+.heading > * { line-height: normal; }

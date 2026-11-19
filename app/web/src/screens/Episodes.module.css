@@ -1,0 +1,34 @@
+/* The Episodes tab: mode tabs, then the collection. */
+.page { padding-bottom: var(--sp-6); }
+
+.tabs { display: flex; gap: var(--sp-2); margin: calc(-1 * var(--sp-1)) 0 var(--sp-5); overflow-x: auto; padding: 4px 6px 10px 2px; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: var(--tap);
+  padding: 6px 12px 3px;
+  background: var(--paper);
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: rotate(calc(var(--i) * 1deg - 1deg));
+}
+.tab:active { transform: translate(3px, 3px); box-shadow: none; }
+.tabOn { background: var(--yellow); box-shadow: 5px 5px 0 var(--ink); transform: rotate(-2deg) scale(1.05); }
+
+.days { display: flex; flex-direction: column; gap: var(--sp-6); }
+.day { display: flex; flex-direction: column; gap: var(--sp-3); }
+.dayHead { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4) var(--sp-3); }
+.tablet .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.reviewTop { display: flex; justify-content: flex-start; }
+
+.episodes { display: flex; flex-direction: column; gap: var(--sp-5); }
+.epHeader { display: flex; align-items: center; gap: var(--sp-3); margin: var(--sp-2) 0 var(--sp-4); }

@@ -1,0 +1,183 @@
+.puzzle { position: relative; display: flex; flex-direction: column; gap: 0; min-width: 0; }
+
+/* The sky over the Roman palisade: cover teal with speed lines and halftone. */
+.field {
+  position: relative;
+  overflow: hidden;
+  padding: 44px 8px 18px;
+  border: 4px solid var(--ink);
+  border-bottom: none;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.22) 1.6px, transparent 1.8px) 0 0 / 10px 10px,
+    repeating-conic-gradient(from 0deg at 50% 120%, rgb(255 255 255 / 0.13) 0deg 4deg, transparent 4deg 12deg),
+    var(--teal);
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+  animation: backdropIn 500ms var(--ease-out) backwards;
+}
+@keyframes backdropIn { from { opacity: 0; transform: scale(1.15); } }
+.score { position: absolute; top: 8px; left: 10px; z-index: 3; }
+
+.romans {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  gap: 6px;
+  align-items: end;
+}
+.roman {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  animation: marchIn 460ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 90ms + 80ms);
+  -webkit-tap-highlight-color: transparent;
+}
+.roman:disabled { cursor: default; }
+.sign {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 72px;
+  padding: 8px 6px 5px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  line-height: 1.15;
+  color: var(--ink);
+  text-align: center;
+  /* anywhere, not break-word: the sign is a grid, whose text keeps its longest word's width unless the
+     word may break ("barbarians" ran off a phone's sign). Hyphenation still comes first where the
+     browser has it. */
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  transform: rotate(-2deg);
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.roman:nth-child(even) .sign { transform: rotate(2.5deg); }
+.roman:active:not(:disabled) .sign { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--ink); }
+.tablet .sign { font-size: var(--text-md); min-height: 88px; padding: 10px 8px 6px; }
+.figure { display: block; width: min(100%, 92px); height: auto; margin-top: -14px; }
+.tablet .figure { width: min(100%, 120px); }
+
+.missed .sign { background: var(--paper-dark); color: var(--ink-soft); text-decoration: line-through 3px; }
+.missed .figure { animation: taunt 0.5s steps(2, jump-none) 2; }
+.glow .sign { background: var(--yellow); animation: glow 0.7s steps(2, jump-none) infinite; }
+.hit { animation: knockedOff 900ms cubic-bezier(0.3, 0.6, 0.5, 1) forwards; pointer-events: none; }
+
+/* The wooden palisade the Romans stand behind (an SVG pattern of pointed stakes). */
+.palisade { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: block; width: 100%; height: 44px; }
+
+/* The Gauls' side: grass, the catapult, the French in a box. */
+.ground {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'label label label' 'cat french loop';
+  align-items: center;
+  gap: 8px var(--sp-3);
+  padding: 10px 10px 12px;
+  border: 4px solid var(--ink);
+  background:
+    radial-gradient(circle, rgb(17 17 17 / 0.16) 1.5px, transparent 1.7px) 0 0 / 9px 9px,
+    var(--green);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.catapult { grid-area: cat; width: 70px; }
+.catapult svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tablet .catapult { width: 140px; }
+.voice { display: contents; }
+.ground > button[data-loop] { grid-area: loop; }
+.voiceLabel {
+  grid-area: label;
+  justify-self: start;
+  padding: 2px 8px 0;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+.french {
+  grid-area: french;
+  justify-self: center;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  min-height: 52px;
+  padding: 8px 14px 4px;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--c);
+  color: var(--c-text);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  text-align: left;
+  cursor: pointer;
+  animation: slam 380ms var(--ease-slam) backwards;
+}
+.tablet .french { font-size: var(--text-2xl); }
+
+.boulder {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  z-index: 400;
+  visibility: hidden;
+  pointer-events: none;
+}
+.boulder svg { width: 100%; height: 100%; display: block; }
+
+@keyframes marchIn {
+  from { opacity: 0; transform: translateY(70px) rotate(-8deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes knockedOff {
+  0% { transform: none; }
+  15% { transform: translate(-6px, 6px) scale(1.1, 0.9); }
+  100% { transform: translate(160px, -320px) rotate(540deg) scale(0.4); opacity: 0; }
+}
+@keyframes taunt {
+  0% { transform: rotate(-6deg); }
+  100% { transform: rotate(6deg); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+@keyframes slam {
+  from { opacity: 0; transform: scale(1.5) rotate(-6deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roman, .missed .figure, .glow .sign, .french { animation: none; }
+  .hit { animation: none; opacity: 0.2; }
+  .glow .sign { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+}

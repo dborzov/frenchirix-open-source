@@ -1,0 +1,31 @@
+.avatar {
+  display: block;
+  flex: none;
+  overflow: hidden;
+}
+
+/* Idle life at large sizes: a small bob and a blink every few seconds. */
+.bob {
+  animation: bob 2.6s steps(2, jump-none) infinite;
+  transform-origin: 100px 190px;
+}
+
+.blink {
+  animation: blink 4.2s infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.6px); }
+}
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bob, .blink { animation: none; }
+}

@@ -1,0 +1,325 @@
+/* Unlock: today's candidates as a rack of comic covers. */
+.unlock { padding-bottom: var(--sp-6); }
+.lead {
+  display: inline-block;
+  margin: calc(-1 * var(--sp-2)) 0 var(--sp-5);
+  padding: 6px 12px;
+  background: var(--yellow);
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 800;
+  font-size: var(--text-md);
+  transform: rotate(-1deg);
+}
+
+.keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px 5px 6px;
+  background: var(--white);
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  transform: rotate(3deg);
+}
+.key {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  transition: transform var(--t-med) cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+.keyUsed { background: var(--locked); transform: scale(0.8) rotate(-20deg); opacity: 0.55; }
+.keysCount { font-family: var(--font-display); font-size: var(--text-xl); padding: 3px 0 0 4px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-4);
+}
+.tablet .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+
+.cardWrap {
+  position: relative;
+  perspective: 900px;
+  animation: dealIn 380ms cubic-bezier(0.2, 1.5, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+.cardWrap:nth-child(odd) .card { transform: rotate(-1.5deg); }
+.cardWrap:nth-child(even) .card { transform: rotate(1.2deg); }
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: var(--outline-thick, 4px solid var(--ink));
+  border-radius: 0;
+  background: var(--cover);
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  text-align: left;
+  color: var(--ink);
+  transform-style: preserve-3d;
+  transition: transform var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+}
+
+.masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px 8px;
+  min-height: 72px;
+}
+.issueNo {
+  align-self: flex-start;
+  padding: 2px 5px 0;
+  background: var(--white);
+  border: 2px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.3;
+}
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--white);
+  -webkit-text-stroke: 1.5px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 var(--ink);
+  transform: skewX(-6deg);
+  padding-top: 0.12em;
+  overflow-wrap: anywhere;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: calc(100% - 16px);
+  padding: 0;
+  cursor: pointer;
+  margin: 0 8px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ink);
+  border: var(--outline, 3px solid var(--ink));
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.lock {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-image: radial-gradient(rgb(17 17 17 / 0.5) 1.6px, transparent 2px);
+  background-size: 7px 7px;
+}
+.lockL {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  transform: rotate(-6deg);
+  animation: lockIdle 2.6s ease-in-out infinite;
+}
+.pending .lockL { animation: lockShake 160ms linear infinite; }
+.burstOver { position: absolute; inset: 0; display: grid; place-items: center; z-index: 2; }
+.length {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 3px 6px 0;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  transform: rotate(-4deg);
+}
+.ribbon {
+  position: absolute;
+  top: 6px;
+  left: -3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px 1px 8px;
+  background: var(--green, var(--lime));
+  border: 2px solid var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 var(--ink);
+  transform: rotate(-4deg);
+}
+
+.info { display: flex; flex-direction: column; gap: 4px; padding: 8px 8px 10px; }
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 2px 4px;
+  background: var(--white);
+  border: 2px solid var(--ink);
+}
+.rowLabel { font-family: var(--font-display); font-size: 12px; text-transform: uppercase; padding-top: 0.1em; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 4px; }
+.playOver {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  transform: translate(-50%, -50%) rotate(-4deg);
+}
+.thumb:active .playOver { transform: translate(-50%, -50%) translate(3px, 3px); box-shadow: none; }
+.lockCorner {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+}
+.songStamp {
+  position: absolute;
+  bottom: 6px;
+  left: -3px;
+  padding: 4px 9px 1px;
+  background: var(--purple);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  text-shadow: 1px 1px 0 var(--ink);
+  transform: rotate(-5deg);
+}
+.pickMe,
+.watchIt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--tap);
+  padding: 5px 10px 2px;
+  color: var(--ink);
+  cursor: pointer;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+}
+.pickMe { background: var(--yellow); animation: punch 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) infinite; }
+.watchIt { background: var(--white); }
+
+.pending .card { animation: lockShake 160ms linear infinite; }
+/* A chosen card: a flash of yellow, then off to its quest (up and away), leaving the selection. */
+.flying { pointer-events: none; animation: toQuest 750ms cubic-bezier(0.5, -0.3, 0.8, 0.6) forwards; z-index: 2; }
+.flying .card { box-shadow: 6px 6px 0 var(--ink), 0 0 0 5px var(--yellow), 0 0 0 8px var(--ink); }
+.watch .card { filter: saturate(0.75); }
+
+.cauldron { animation: intoCauldron 900ms cubic-bezier(0.5, 0, 0.9, 0.5) forwards; animation-delay: calc(var(--i) * 70ms); pointer-events: none; }
+
+/* --- Footer --- */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+.tablet .footer { flex-direction: row; justify-content: center; gap: var(--sp-8); }
+/* Tablet, every candidate gone (chosen or into the cauldron): a big cauldron and what comes next in the
+   middle of the screen, not in its top third. The page fills the screen less the top bar and padding. */
+.tablet.empty {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(var(--app-h) - var(--topbar-h) - var(--safe-top) - var(--safe-bottom) - var(--sp-5) - var(--sp-8) - 4px);
+}
+.tablet.empty .footer { flex: 1; flex-direction: column; margin-top: 0; padding-bottom: var(--sp-12); }
+.footerActions { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); max-width: 460px; text-align: center; }
+
+/* The choose quest waits for the quests before it. */
+.lockedPanel { display: flex; align-items: center; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+.lockBig {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-6deg);
+}
+.lockedText { display: flex; flex-direction: column; gap: 4px; font-family: var(--font-text); font-weight: 800; }
+.lockedText strong { font-family: var(--font-display); font-weight: 400; font-size: var(--text-xl); line-height: 1.1; text-transform: uppercase; }
+.pot,
+.potGulp { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.potGulp { animation: gulp 500ms cubic-bezier(0.2, 1.6, 0.4, 1) 1.2s; }
+.cauldronNote {
+  padding: 4px 8px;
+  background: var(--white);
+  border: 2px solid var(--ink);
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 800;
+  font-size: var(--text-sm);
+  text-align: center;
+}
+.go { animation: punch 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) infinite; }
+.hint {
+  padding: 6px 10px;
+  background: var(--white);
+  border: 3px solid var(--ink);
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 800;
+}
+
+@keyframes dealIn { from { opacity: 0; transform: translateY(-50px) rotate(-12deg) scale(1.2); } }
+@keyframes lockIdle { 0%, 80%, 100% { transform: rotate(-6deg); } 86% { transform: rotate(-16deg); } 92% { transform: rotate(4deg); } }
+@keyframes lockShake { 0%, 100% { transform: translateX(0) rotate(-6deg); } 50% { transform: translateX(5px) rotate(6deg); } }
+@keyframes toQuest {
+  0% { transform: none; opacity: 1; }
+  30% { transform: scale(1.12) rotate(4deg); opacity: 1; }
+  100% { transform: translate(-40vw, -80vh) scale(0.25) rotate(-25deg); opacity: 0; }
+}
+@keyframes intoCauldron {
+  0% { transform: none; opacity: 1; }
+  25% { transform: translateY(-14px) rotate(-5deg); opacity: 1; }
+  100% { transform: translateY(70vh) scale(0.2) rotate(50deg); opacity: 0; }
+}
+@keyframes gulp { 30% { transform: scale(1.2, 0.85); } 60% { transform: scale(0.94, 1.08); } }
+@keyframes punch { 0%, 60%, 100% { transform: scale(1); } 70% { transform: scale(1.1) rotate(-2deg); } 85% { transform: scale(0.97); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cardWrap, .lockL, .pickMe, .go, .pending .card { animation: none; }
+  .cauldron, .flying { animation-duration: 1ms; }
+}
+
+.tipAnchor { position: relative; height: 0; z-index: var(--z-raised); top: -18px; }
+
+.leadRow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) 0; margin-bottom: var(--sp-5); }
+.leadRow .lead { margin-bottom: 0; }
+.leadTip { animation: none; }

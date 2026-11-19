@@ -1,0 +1,317 @@
+/* Design tokens. Every colour, size and shadow in the app comes from here.
+   Look: a 1950s comic book (docs/app-style.md). Flat printing-ink colours on full-bleed fields,
+   thick black ink outlines, hard offset shadows, square corners, halftone dots and speed lines,
+   heavy comic lettering. Each section of the app owns its background colour (--section-*). */
+
+:root {
+  /* --- Ink and paper. */
+  --ink: #111111;
+  --paper: #fff3d0; /* cream comic paper */
+  --paper-dark: #d9c48f;
+  --white: #ffffff;
+  --white-dark: #111111;
+
+  /* --- Block colours (printing inks). Each has a -dark shade (for a coloured edge or a second tone)
+     and the components draw a black hard shadow. Names are kept from v2.0's first look. */
+  --blue: #1e88e5;
+  --blue-dark: #0d5aa7;
+  --yellow: #ffd21f;
+  --yellow-dark: #c99a00;
+  --lime: #8cd62c;
+  --lime-dark: #5a9612;
+  --cyan: #18b8d6;
+  --cyan-dark: #0b7f96;
+  --tomato: #e8303a; /* comic red */
+  --tomato-dark: #a5161f;
+  --purple: #7a3ff2;
+  --purple-dark: #4c1fb0;
+  --pink: #f4505e; /* coral (the token name is historical; there is no pink in this look) */
+  --pink-dark: #b72534;
+  --green: #22b14c;
+  --green-dark: #127a31;
+  --orange: #ff7a1a;
+  --orange-dark: #b84f00;
+  --teal: #2f7fa8; /* the 50s cover blue */
+  --teal-dark: #1b5576;
+  --red: #e8303a;
+  --red-dark: #a5161f;
+  --coral: #f4505e;
+  --coral-dark: #b72534;
+
+  /* The dialogue strip gives each unit of a line its own colour, cycling 1..6 (example_colours.png). */
+  --unit-1: #2196f3;
+  --unit-1-dark: #0d5aa7;
+  --unit-2: #ffd21f;
+  --unit-2-dark: #c99a00;
+  --unit-3: #a8f03a;
+  --unit-3-dark: #5a9612;
+  --unit-4: #12d0d4;
+  --unit-4-dark: #08888b;
+  --unit-5: #ff6145;
+  --unit-5-dark: #b8321a;
+  --unit-6: #b07cff;
+  --unit-6-dark: #6a3bc7;
+
+  /* --- One background colour per section. Bright, flat, different from their neighbours.
+     AppShell paints the page with the current route's section; screens do not set page backgrounds. */
+  --section-home: #ffd21f; /* yellow */
+  --section-unlock: #ff7a1a; /* orange */
+  --section-episodes: #1e88e5; /* blue */
+  --section-karaoke: #7a3ff2; /* purple */
+  --section-friends: #22b14c; /* green */
+  --section-league: #2f7fa8; /* cover teal */
+  --section-shop: #e8303a; /* comic red */
+  --section-profile: #00b3c7; /* cyan */
+  --section-achievements: #8cd62c; /* lime */
+  --section-avatar: #ff5a36; /* vermilion */
+  --section-practice: #2b4fd8; /* ultramarine */
+  --section-chest: #ffb000; /* amber */
+  --section-login: #14a38b; /* emerald */
+  --section-version: #3fc1ff; /* sky */
+  --section: var(--section-home); /* the current one, set by AppShell */
+
+  /* --- Accents per section: fills that stand out on that section's background and on each other.
+     A panel, caption, card, tile or button never has the fill of the surface it sits on (app-style.md, Colour).
+     accent = the loudest (the one thing to tap next, captions); accent-2 = secondary; accent-3 = ink with yellow lettering.
+     -ink = lettering on it; -stroke = the outline drawn round white lettering (transparent for ink lettering). */
+  --section-home-accent: var(--red);
+  --section-home-accent-ink: var(--white);
+  --section-home-accent-2: var(--blue);
+  --section-home-accent-2-ink: var(--white);
+  --section-home-ink: var(--ink);
+  --section-unlock-accent: var(--blue);
+  --section-unlock-accent-ink: var(--white);
+  --section-unlock-accent-2: var(--yellow);
+  --section-unlock-accent-2-ink: var(--ink);
+  --section-unlock-ink: var(--ink);
+  --section-episodes-accent: var(--yellow);
+  --section-episodes-accent-ink: var(--ink);
+  --section-episodes-accent-2: var(--red);
+  --section-episodes-accent-2-ink: var(--white);
+  --section-episodes-ink: var(--white);
+  --section-karaoke-accent: var(--yellow);
+  --section-karaoke-accent-ink: var(--ink);
+  --section-karaoke-accent-2: var(--lime);
+  --section-karaoke-accent-2-ink: var(--ink);
+  --section-karaoke-ink: var(--white);
+  --section-friends-accent: var(--yellow);
+  --section-friends-accent-ink: var(--ink);
+  --section-friends-accent-2: var(--purple);
+  --section-friends-accent-2-ink: var(--white);
+  --section-friends-ink: var(--white);
+  --section-league-accent: var(--yellow);
+  --section-league-accent-ink: var(--ink);
+  --section-league-accent-2: var(--orange);
+  --section-league-accent-2-ink: var(--ink);
+  --section-league-ink: var(--white);
+  --section-shop-accent: var(--yellow);
+  --section-shop-accent-ink: var(--ink);
+  --section-shop-accent-2: var(--blue);
+  --section-shop-accent-2-ink: var(--white);
+  --section-shop-ink: var(--white);
+  --section-profile-accent: var(--red);
+  --section-profile-accent-ink: var(--white);
+  --section-profile-accent-2: var(--yellow);
+  --section-profile-accent-2-ink: var(--ink);
+  --section-profile-ink: var(--ink);
+  --section-achievements-accent: var(--purple);
+  --section-achievements-accent-ink: var(--white);
+  --section-achievements-accent-2: var(--red);
+  --section-achievements-accent-2-ink: var(--white);
+  --section-achievements-ink: var(--ink);
+  --section-avatar-accent: var(--blue);
+  --section-avatar-accent-ink: var(--white);
+  --section-avatar-accent-2: var(--yellow);
+  --section-avatar-accent-2-ink: var(--ink);
+  --section-avatar-ink: var(--ink);
+  --section-practice-accent: var(--yellow);
+  --section-practice-accent-ink: var(--ink);
+  --section-practice-accent-2: var(--orange);
+  --section-practice-accent-2-ink: var(--ink);
+  --section-practice-ink: var(--white);
+  --section-chest-accent: var(--purple);
+  --section-chest-accent-ink: var(--white);
+  --section-chest-accent-2: var(--red);
+  --section-chest-accent-2-ink: var(--white);
+  --section-chest-ink: var(--ink);
+  --section-login-accent: var(--yellow);
+  --section-login-accent-ink: var(--ink);
+  --section-login-accent-2: var(--red);
+  --section-login-accent-2-ink: var(--white);
+  --section-login-ink: var(--ink);
+  --section-version-accent: var(--red);
+  --section-version-accent-ink: var(--white);
+  --section-version-accent-2: var(--yellow);
+  --section-version-accent-2-ink: var(--ink);
+  --section-version-ink: var(--ink);
+
+  /* The current section's accents (AppShell sets data-section on <html>; these are the home defaults). */
+  --section-accent: var(--section-home-accent);
+  --section-accent-ink: var(--section-home-accent-ink);
+  --section-accent-stroke: var(--ink);
+  --section-accent-2: var(--section-home-accent-2);
+  --section-accent-2-ink: var(--section-home-accent-2-ink);
+  --section-accent-2-stroke: var(--ink);
+  --section-accent-3: var(--ink);
+  --section-accent-3-ink: var(--yellow);
+  --section-accent-3-stroke: transparent;
+  --section-ink: var(--ink); /* lettering straight on the section background */
+  /* Short names, usable as block colours: colorVars('accent'), <Caption>, var(--accent). */
+  --accent: var(--section-accent);
+  --accent-dark: var(--ink);
+  --accent-2: var(--section-accent-2);
+  --accent-2-dark: var(--ink);
+  --accent-3: var(--section-accent-3);
+  --accent-3-dark: var(--ink);
+
+  /* Levels: the spaced-repetition ladder, plus locked. */
+  --level-0: #e9dcc0;
+  --level-1: #d9803a; /* bronze */
+  --level-1-dark: #8f4a14;
+  --level-2: #d3dbe4; /* silver */
+  --level-2-dark: #7d8b9c;
+  --level-3: #ffd21f; /* gold */
+  --level-3-dark: #c99a00;
+  --level-4: #8ea6c4; /* titanium */
+  --level-4-dark: #4f6888;
+  --level-5: #6fe6ff; /* diamond */
+  --level-5-dark: #1a9cc2;
+  --level-6: #7dff2f; /* plutonium: glows */
+  --level-6-dark: #2f9e00;
+  --locked: #b8ad9a;
+  --locked-dark: #6e6656;
+
+  /* Surfaces and text. */
+  --bg: var(--section-home);
+  --bg-dots: rgb(17 17 17 / 0.13); /* halftone dots on a section colour */
+  --bg-deep: #111111;
+  --surface: var(--paper); /* panels */
+  --surface-2: #ffffff; /* an inset on a panel */
+  --surface-line: #111111; /* panel borders are ink */
+  --ink-soft: #3a3226;
+  --ink-faint: #7a705e;
+  --focus: #1e88e5;
+  --overlay: rgb(17 17 17 / 0.62);
+
+  /* Fonts (self-hosted through @fontsource, imported in main.tsx).
+     Display: Bangers, heavy slanted comic capitals, for titles, sound words, buttons and numbers.
+     Text: Comic Neue bold, comic balloon lettering with clear lowercase and accents, for reading French. */
+  --font-display: 'Bangers', 'Impact', system-ui, sans-serif;
+  --font-text: 'Comic Neue', 'Comic Sans MS', ui-rounded, system-ui, sans-serif;
+  --font-body: var(--font-text);
+  /* PIN digits, everywhere a PIN is shown or typed: the text face at 700, because in Bangers 1 and 7
+     look alike and a kid misread their PIN (docs/app-style.md, "In code"). */
+  --font-pin: var(--font-text);
+  --font-pin-weight: 700;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.25rem;
+  --text-3xl: 3rem;
+
+  /* Spacing (4 px grid). */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* Radii: square or barely eased. Only balloons, bursts and stars are round. */
+  --r-sm: 2px;
+  --r-md: 3px;
+  --r-lg: 4px;
+  --r-xl: 6px;
+  --r-pill: 6px; /* no pills in this look */
+  --r-balloon: 50%;
+
+  /* Ink outlines and hard shadows. A pressed control moves into its shadow by --press. */
+  --outline-w: 3px;
+  --outline-thick-w: 4px;
+  --outline: 3px solid var(--ink);
+  --outline-thick: 4px solid var(--ink);
+  --shadow-x: 4px;
+  --shadow-y: 4px;
+  --shadow-hard: 4px 4px 0 0 var(--ink);
+  --shadow-hard-lg: 7px 7px 0 0 var(--ink);
+  --lift: 4px;
+  --lift-sm: 3px;
+  --press: 4px;
+  --chunky: 4px 4px 0 0; /* append a colour */
+  --soft-shadow: var(--shadow-hard); /* historical name: there are no soft shadows */
+  --panel-shadow: var(--shadow-hard-lg);
+
+  /* Textures. */
+  --halftone: radial-gradient(circle, var(--bg-dots) 1.6px, transparent 2.1px);
+  --halftone-size: 9px 9px;
+  --speedlines: repeating-conic-gradient(from 0deg at 50% 50%, rgb(255 255 255 / 0.22) 0deg 3deg, transparent 3deg 14deg);
+
+  /* Tap targets. */
+  --tap: 44px;
+  --tap-lg: 56px;
+
+  /* Motion: punchy, overshooting. */
+  --ease-bounce: cubic-bezier(0.34, 1.7, 0.5, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-slam: cubic-bezier(0.2, 1.6, 0.4, 1);
+  --t-fast: 70ms;
+  --t-med: 160ms;
+  --t-slow: 300ms;
+
+  /* Layers. */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-nav: 100;
+  --z-sheet: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+  --z-fx: 500; /* confetti and particles, over everything, never catching taps */
+
+  /* Layout. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --tabbar-h: 72px;
+  --rail-w: 104px;
+  --topbar-h: 60px;
+  --content-max: 960px;
+  --app-h: 100vh;
+}
+
+
+/* The current section, set on <html> by AppShell, so portals (modals, sheets, toasts) follow it too. */
+:root[data-section="home"] { --section: var(--section-home); --section-accent: var(--section-home-accent); --section-accent-ink: var(--section-home-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-home-accent-2); --section-accent-2-ink: var(--section-home-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-home-ink); --accent: var(--section-home-accent); --accent-2: var(--section-home-accent-2); }
+:root[data-section="unlock"] { --section: var(--section-unlock); --section-accent: var(--section-unlock-accent); --section-accent-ink: var(--section-unlock-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-unlock-accent-2); --section-accent-2-ink: var(--section-unlock-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-unlock-ink); --accent: var(--section-unlock-accent); --accent-2: var(--section-unlock-accent-2); }
+:root[data-section="episodes"] { --section: var(--section-episodes); --section-accent: var(--section-episodes-accent); --section-accent-ink: var(--section-episodes-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-episodes-accent-2); --section-accent-2-ink: var(--section-episodes-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-episodes-ink); --accent: var(--section-episodes-accent); --accent-2: var(--section-episodes-accent-2); }
+:root[data-section="karaoke"] { --section: var(--section-karaoke); --section-accent: var(--section-karaoke-accent); --section-accent-ink: var(--section-karaoke-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-karaoke-accent-2); --section-accent-2-ink: var(--section-karaoke-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-karaoke-ink); --accent: var(--section-karaoke-accent); --accent-2: var(--section-karaoke-accent-2); }
+:root[data-section="friends"] { --section: var(--section-friends); --section-accent: var(--section-friends-accent); --section-accent-ink: var(--section-friends-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-friends-accent-2); --section-accent-2-ink: var(--section-friends-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-friends-ink); --accent: var(--section-friends-accent); --accent-2: var(--section-friends-accent-2); }
+:root[data-section="league"] { --section: var(--section-league); --section-accent: var(--section-league-accent); --section-accent-ink: var(--section-league-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-league-accent-2); --section-accent-2-ink: var(--section-league-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-league-ink); --accent: var(--section-league-accent); --accent-2: var(--section-league-accent-2); }
+:root[data-section="shop"] { --section: var(--section-shop); --section-accent: var(--section-shop-accent); --section-accent-ink: var(--section-shop-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-shop-accent-2); --section-accent-2-ink: var(--section-shop-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-shop-ink); --accent: var(--section-shop-accent); --accent-2: var(--section-shop-accent-2); }
+:root[data-section="profile"] { --section: var(--section-profile); --section-accent: var(--section-profile-accent); --section-accent-ink: var(--section-profile-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-profile-accent-2); --section-accent-2-ink: var(--section-profile-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-profile-ink); --accent: var(--section-profile-accent); --accent-2: var(--section-profile-accent-2); }
+:root[data-section="achievements"] { --section: var(--section-achievements); --section-accent: var(--section-achievements-accent); --section-accent-ink: var(--section-achievements-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-achievements-accent-2); --section-accent-2-ink: var(--section-achievements-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-achievements-ink); --accent: var(--section-achievements-accent); --accent-2: var(--section-achievements-accent-2); }
+:root[data-section="avatar"] { --section: var(--section-avatar); --section-accent: var(--section-avatar-accent); --section-accent-ink: var(--section-avatar-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-avatar-accent-2); --section-accent-2-ink: var(--section-avatar-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-avatar-ink); --accent: var(--section-avatar-accent); --accent-2: var(--section-avatar-accent-2); }
+:root[data-section="practice"] { --section: var(--section-practice); --section-accent: var(--section-practice-accent); --section-accent-ink: var(--section-practice-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-practice-accent-2); --section-accent-2-ink: var(--section-practice-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-practice-ink); --accent: var(--section-practice-accent); --accent-2: var(--section-practice-accent-2); }
+:root[data-section="chest"] { --section: var(--section-chest); --section-accent: var(--section-chest-accent); --section-accent-ink: var(--section-chest-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-chest-accent-2); --section-accent-2-ink: var(--section-chest-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-chest-ink); --accent: var(--section-chest-accent); --accent-2: var(--section-chest-accent-2); }
+:root[data-section="login"] { --section: var(--section-login); --section-accent: var(--section-login-accent); --section-accent-ink: var(--section-login-accent-ink); --section-accent-stroke: transparent; --section-accent-2: var(--section-login-accent-2); --section-accent-2-ink: var(--section-login-accent-2-ink); --section-accent-2-stroke: var(--ink); --section-ink: var(--section-login-ink); --accent: var(--section-login-accent); --accent-2: var(--section-login-accent-2); }
+:root[data-section="version"] { --section: var(--section-version); --section-accent: var(--section-version-accent); --section-accent-ink: var(--section-version-accent-ink); --section-accent-stroke: var(--ink); --section-accent-2: var(--section-version-accent-2); --section-accent-2-ink: var(--section-version-accent-2-ink); --section-accent-2-stroke: transparent; --section-ink: var(--section-version-ink); --accent: var(--section-version-accent); --accent-2: var(--section-version-accent-2); }
+
+@supports (height: 100dvh) {
+  :root {
+    --app-h: 100dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t-med: 0ms;
+    --t-slow: 0ms;
+  }
+}

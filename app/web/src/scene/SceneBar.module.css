@@ -1,0 +1,74 @@
+.wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+/* A finger-sized inked track; the lines are coloured segments on it. */
+.bar {
+  position: relative;
+  height: 44px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  cursor: pointer;
+  touch-action: none; /* a drag seeks, it does not scroll the page */
+  user-select: none;
+}
+.compact .bar { height: 36px; }
+.bar:focus-visible { outline: 3px dashed var(--ink); outline-offset: 3px; }
+
+.seg {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  background: var(--lc);
+  border: 2px solid var(--ink);
+  transition: top var(--t-fast), bottom var(--t-fast);
+}
+.segOn { top: 2px; bottom: 2px; box-shadow: 0 0 0 2px var(--ink); }
+/* The line looping after a tap in the dialogue: taller than the track, ringed, beating. */
+.segLoop {
+  top: -5px;
+  bottom: -5px;
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--ink), 0 0 0 5px var(--yellow), 0 0 0 7px var(--ink);
+  animation: segBeat 0.9s ease-in-out infinite;
+}
+@keyframes segBeat {
+  0%, 100% { box-shadow: 0 0 0 2px var(--ink), 0 0 0 5px var(--yellow), 0 0 0 7px var(--ink); }
+  50% { box-shadow: 0 0 0 2px var(--ink), 0 0 0 7px var(--yellow), 0 0 0 9px var(--ink); }
+}
+@media (prefers-reduced-motion: reduce) { .segLoop { animation: none; } }
+/* Where the speaker changes: a thick ink mark at the start of the segment. */
+.speaker::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  bottom: -6px;
+  width: 4px;
+  background: var(--ink);
+}
+
+/* The playhead: an ink needle with a yellow knob. */
+.head {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  width: 4px;
+  margin-left: -2px;
+  background: var(--ink);
+  pointer-events: none;
+}
+.head::after {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+}
+
+.info { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-display); font-size: var(--text-sm); text-transform: uppercase; }
+.time { padding: 1px 6px 0; border: 2px solid var(--ink); background: var(--white); }
+.now { padding: 1px 6px 0; border: 2px solid var(--ink); background: var(--yellow); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.loopIcon { display: inline-block; margin-right: 4px; vertical-align: -2px; }

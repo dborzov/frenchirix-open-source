@@ -1,0 +1,794 @@
+[
+ {
+  "note": "cough (fail)",
+  "kind": "unit",
+  "candidates": [
+   "du sang"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "cough (fail)",
+  "kind": "line",
+  "candidates": [
+   "Alors, les inséparables."
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "cough (fail)",
+  "kind": "line",
+  "candidates": [
+   "Toute la Gaule est libre."
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "cough (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Du pain et des jeux"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "english (fail)",
+  "kind": "line",
+  "candidates": [
+   "Alors, les inséparables."
+  ],
+  "heard": "So, the inséparables.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "judge",
+  "right": false
+ },
+ {
+  "note": "english (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Il a faim"
+  ],
+  "heard": "He is hungry.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "english (fail)",
+  "kind": "unit",
+  "candidates": [
+   "du sang"
+  ],
+  "heard": "BLOOD",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "english (fail)",
+  "kind": "line",
+  "candidates": [
+   "Assez !"
+  ],
+  "heard": "ENOUGH !",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "english (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Idéfix"
+  ],
+  "heard": "Idéfix",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": false
+ },
+ {
+  "note": "english (fail)",
+  "kind": "line",
+  "candidates": [
+   "Il est tout vert. Comment vous faites ça ?"
+  ],
+  "heard": "Il est tout vert. Comment vous faites ça ?",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": false
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "line",
+  "candidates": [
+   "Bien sûr. Et ma mère, c'est Bélénos ?"
+  ],
+  "heard": "Bien.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "line",
+  "candidates": [
+   "Oui, même si on espère que l'hiver sera moins rude cette année."
+  ],
+  "heard": "Oui.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Ben, ils ont très bien pu"
+  ],
+  "heard": "B",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "line",
+  "candidates": [
+   "Ils sont fous, ces Romains !"
+  ],
+  "heard": "Ils",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "line",
+  "candidates": [
+   "Oh, un trèfle à quatre feuilles !"
+  ],
+  "heard": "Oh, un trèfle à quatre feuilles !",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": false
+ },
+ {
+  "note": "firstword (fail)",
+  "kind": "line",
+  "candidates": [
+   "Votre problème, les Gaulois, de ne pas respecter les files !"
+  ],
+  "heard": "Votre problème, les Gaulois, de ne pas respecter les Vos, de ne pas respecter les Vos, de ne pas respecter les Vos.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": false
+ },
+ {
+  "note": "hum (fail)",
+  "kind": "line",
+  "candidates": [
+   "Normal."
+  ],
+  "heard": "Oh, oh, oh.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "hum (fail)",
+  "kind": "line",
+  "candidates": [
+   "Les enfants, pardon !"
+  ],
+  "heard": "Oh, oh, oh, oh.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "hum (fail)",
+  "kind": "line",
+  "candidates": [
+   "J'ai demandé du pain, j'attends toujours !"
+  ],
+  "heard": "Oh, oh, oh, oh.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "hum (fail)",
+  "kind": "unit",
+  "candidates": [
+   "par Toutatis"
+  ],
+  "heard": "ouh ouh ouh",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "lalala (fail)",
+  "kind": "line",
+  "candidates": [
+   "Je suis désolé, Panoramix."
+  ],
+  "heard": "La la la, la la la, la la.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "lalala (fail)",
+  "kind": "line",
+  "candidates": [
+   "Mais comment ils ont pu arriver avant nous ?"
+  ],
+  "heard": "La la la, la la la, la la.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "lalala (fail)",
+  "kind": "line",
+  "candidates": [
+   "Joyeux anniversaire, Obélix."
+  ],
+  "heard": "La la la, la la la, la la.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "lalala (fail)",
+  "kind": "line",
+  "candidates": [
+   "Bon, j'y vais, les enfants m'attendent."
+  ],
+  "heard": "La la la, la la la, la la.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "noise (fail)",
+  "kind": "line",
+  "candidates": [
+   "Oui, même si on espère que l'hiver sera moins rude cette année."
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "noise (fail)",
+  "kind": "unit",
+  "candidates": [
+   "du pain"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "noise (fail)",
+  "kind": "line",
+  "candidates": [
+   "Assez !"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "noise (fail)",
+  "kind": "line",
+  "candidates": [
+   "Bonjour, Aplusbégalix."
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "other (fail)",
+  "kind": "line",
+  "candidates": [
+   "Ils sont fous, ces Romains !"
+  ],
+  "heard": "Je suis désolée, Panoramix.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "other (fail)",
+  "kind": "line",
+  "candidates": [
+   "Bonjour, Aplusbégalix."
+  ],
+  "heard": "Alors, les inséparables.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "other (fail)",
+  "kind": "line",
+  "candidates": [
+   "Il est tout vert. Comment vous faites ça ?"
+  ],
+  "heard": "Bon, j'y vais. Les enfants m'attendent.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "other (fail)",
+  "kind": "line",
+  "candidates": [
+   "Un sanglier !"
+  ],
+  "heard": "Chopinion !",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "other (fail)",
+  "kind": "unit",
+  "candidates": [
+   "à sa mère"
+  ],
+  "heard": "de la mère",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": false
+ },
+ {
+  "note": "random (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Du pain et des jeux"
+  ],
+  "heard": "Maison",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "random (fail)",
+  "kind": "unit",
+  "candidates": [
+   "avec tes copains"
+  ],
+  "heard": "Maison",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "random (fail)",
+  "kind": "line",
+  "candidates": [
+   "J'ai gagné, là ?"
+  ],
+  "heard": "Maison",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "random (fail)",
+  "kind": "line",
+  "candidates": [
+   "Un sanglier !"
+  ],
+  "heard": "Fromage, voiture.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "roomtone (fail)",
+  "kind": "unit",
+  "candidates": [
+   "laisse-moi passer"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "roomtone (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Ben, ils ont très bien pu"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "roomtone (fail)",
+  "kind": "unit",
+  "candidates": [
+   "tout vert"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "roomtone (fail)",
+  "kind": "line",
+  "candidates": [
+   "Votre problème, les Gaulois, de ne pas respecter les files !"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "roomtone (fail)",
+  "kind": "line",
+  "candidates": [
+   "Champignons."
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "silence (fail)",
+  "kind": "unit",
+  "candidates": [
+   "Tu es tombé"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "silence (fail)",
+  "kind": "line",
+  "candidates": [
+   "Un sanglier !"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "silence (fail)",
+  "kind": "unit",
+  "candidates": [
+   "ils ont pu"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "silence (fail)",
+  "kind": "line",
+  "candidates": [
+   "Il est tout vert. Comment vous faites ça ?"
+  ],
+  "heard": "",
+  "judge": "",
+  "want": "fail",
+  "by": "none",
+  "right": true
+ },
+ {
+  "note": "half (partial)",
+  "kind": "line",
+  "candidates": [
+   "Bon, j'y vais, les enfants m'attendent."
+  ],
+  "heard": "Bon, j'y vais.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "half (partial)",
+  "kind": "line",
+  "candidates": [
+   "Bien sûr. Et ma mère, c'est Bélénos ?"
+  ],
+  "heard": "Bien sûr, Emma.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "half (partial)",
+  "kind": "line",
+  "candidates": [
+   "C'est comme un talisman pour te porter bonheur et te donner de la force."
+  ],
+  "heard": "C'est comme un talisman pour te porter.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "half (partial)",
+  "kind": "line",
+  "candidates": [
+   "Il est tout vert. Comment vous faites ça ?"
+  ],
+  "heard": "Il est tout vert.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "actor (pass)",
+  "kind": "line",
+  "candidates": [
+   "C'est comme un talisman pour te porter bonheur et te donner de la force."
+  ],
+  "heard": "C'est comme un talisman pour te porter bonheur et te donner de la force.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "actor (pass)",
+  "kind": "line",
+  "candidates": [
+   "Assez !"
+  ],
+  "heard": "Assez !",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "unit",
+  "candidates": [
+   "de la mer"
+  ],
+  "heard": "eau de la mer ou au rachaud etre prolon son n'entra de diana ma boupée et dira ce pilavit ou de la crime",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "judge",
+  "right": true
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "line",
+  "candidates": [
+   "Normal."
+  ],
+  "heard": "Non, non, non.",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": false
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "unit",
+  "candidates": [
+   "du sang"
+  ],
+  "heard": "Ohhhh... du sang...",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "unit",
+  "candidates": [
+   "ça va aller"
+  ],
+  "heard": "ça va aller",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner+noise (pass)",
+  "kind": "line",
+  "candidates": [
+   "Normal."
+  ],
+  "heard": "Que bien? No more?",
+  "judge": "{\"attempt\": false, \"candidate\": -1}",
+  "want": "fail",
+  "by": "judge",
+  "right": false
+ },
+ {
+  "note": "learner+noise (pass)",
+  "kind": "unit",
+  "candidates": [
+   "Ben, ils ont très bien pu"
+  ],
+  "heard": "Ben, ils ont très bien pu.",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner+noise (pass)",
+  "kind": "unit",
+  "candidates": [
+   "tout vert"
+  ],
+  "heard": "couvert",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "tts (pass)",
+  "kind": "line",
+  "candidates": [
+   "Oh, un trèfle à quatre feuilles !"
+  ],
+  "heard": "Oh, un trèfle à quatre feuilles !",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "tts (pass)",
+  "kind": "unit",
+  "candidates": [
+   "ces Romains"
+  ],
+  "heard": "C'est Romains",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "actor (pass)",
+  "kind": "line",
+  "candidates": [
+   "Déployez-vous ! En quinconce !",
+   "Oh, un trèfle à quatre feuilles !",
+   "Joyeux anniversaire, Obélix."
+  ],
+  "heard": "Joyeux anniversaire, Obélix.",
+  "judge": "{\"attempt\": true, \"candidate\": 2}",
+  "want": "pass",
+  "answer": 2,
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "actor (pass)",
+  "kind": "line",
+  "candidates": [
+   "à sa mère",
+   "de la mer",
+   "tout vert"
+  ],
+  "heard": "C'est ça, sa mère, hein ?",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "answer": 0,
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "line",
+  "candidates": [
+   "ton copain",
+   "ces Romains",
+   "venez donc"
+  ],
+  "heard": "Venez donc !",
+  "judge": "{\"attempt\": true, \"candidate\": 2}",
+  "want": "pass",
+  "answer": 2,
+  "by": "scorer",
+  "right": true
+ },
+ {
+  "note": "learner (pass)",
+  "kind": "line",
+  "candidates": [
+   "tout vert",
+   "du sang",
+   "Normal."
+  ],
+  "heard": "tout vert",
+  "judge": "{\"attempt\": true, \"candidate\": 0}",
+  "want": "pass",
+  "answer": 0,
+  "by": "scorer",
+  "right": true
+ }
+]

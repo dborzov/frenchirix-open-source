@@ -1,0 +1,77 @@
+/* The karaoke studio under the song's player (StudioPanel.tsx): a cream desk with the microphone
+   control and a short line beside it; the take over the song on a yellow panel. */
+.studio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+  /* Brought into view when it needs a tap: clear of the phone's tab bar. */
+  scroll-margin: 24px 0 calc(var(--tabbar-h) + var(--safe-bottom) + 16px);
+}
+
+.desk {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+}
+.deskPhone { gap: var(--sp-3); justify-content: flex-start; }
+/* The microphone control brings itself into view when it opens: clear of the phone's tab bar too. */
+.desk :global([data-mic]) { scroll-margin: 16px 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px); }
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 460px;
+}
+
+.small { margin: 0; font-family: var(--font-text); font-weight: 700; font-size: var(--text-sm); line-height: 1.3; }
+.lead { margin: 0; font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); line-height: 1.3; }
+
+.note {
+  margin: 0;
+  padding: 8px 12px;
+  border: 3px solid var(--ink);
+  border-radius: 18px / 14px;
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-md);
+  line-height: 1.25;
+  animation: slam 300ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+.noteRefused { background: var(--yellow); }
+
+.mine { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.stamp { font-size: var(--text-md); }
+
+/* The take over the song: a burst, a line, and the three ways on. */
+.listen {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+}
+.burst { grid-row: span 2; }
+.listenText { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.listenButtons { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+@media (max-width: 560px) {
+  .listen { grid-template-columns: auto 1fr; }
+  .burst { grid-row: auto; }
+  .listenButtons { grid-column: 1 / -1; }
+  .listenButtons > :first-child { flex: 1 1 100%; }
+  .listenButtons > :not(:first-child) { flex: 1 1 0; }
+}
+
+.confirm { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+@keyframes slam { from { transform: scale(0.7) rotate(-3deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .note { animation: none; }
+}

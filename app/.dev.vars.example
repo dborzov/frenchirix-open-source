@@ -1,0 +1,10 @@
+# Copy to .dev.vars for local development. In production these three are secrets
+# (npx wrangler secret put SESSION_SECRET, GATE_PASSWORD, ADMIN_PASSWORD).
+SESSION_SECRET=change-me-to-a-long-random-string
+# The site's shared password (the gate page) and the /dev portal's password. `npm run dev` asks
+# for neither on localhost; `npm run dev:worker` does.
+GATE_PASSWORD=change-me-gate
+ADMIN_PASSWORD=change-me-admin
+# Local only: lets requests set the clock and the speech transcript with headers (tests, e2e,
+# npm run dev:worker). Never set in production. `npm run dev` turns it off and LOCAL_DEV on.
+TEST_MODE=1

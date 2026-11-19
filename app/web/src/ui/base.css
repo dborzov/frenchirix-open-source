@@ -1,0 +1,131 @@
+/* Global base: reset, page, typography. Imported once from main.tsx after tokens.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* The screen shake (fx.shake) moves #root sideways: never let that scroll the page horizontally. */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--ink);
+}
+
+body {
+  min-height: var(--app-h);
+  font-family: var(--font-text);
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  /* Before the shell paints its section: the home colour with halftone dots. */
+  background-color: var(--bg);
+  background-image: var(--halftone);
+  background-size: var(--halftone-size);
+  touch-action: manipulation;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: var(--app-h);
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+}
+h2 {
+  font-size: var(--text-xl);
+}
+h3 {
+  font-size: var(--text-lg);
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* No long-press callout (save image, open link) on tappable things and pictures (iOS). */
+button,
+img,
+[role='button'] {
+  -webkit-touch-callout: none;
+}
+
+:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--yellow);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* A cover title: comic capitals, white with an ink outline and a hard shadow, slightly tilted. */
+.comic-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 0.95;
+  color: var(--white);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}

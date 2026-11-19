@@ -1,0 +1,222 @@
+/* Home: a comic page of panels on the home section colour (painted by AppShell). */
+.home { padding-bottom: var(--sp-4); }
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: var(--sp-6);
+  align-items: start;
+}
+.colSide { padding-top: var(--sp-1); }
+
+.panel {
+  position: relative;
+  background: var(--paper, #fff3d0);
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+}
+
+/* --- Header: the cover panel --- */
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin: var(--sp-1) 0 var(--sp-5);
+  padding: var(--sp-3);
+  background: var(--paper, #fff3d0);
+  background-image: radial-gradient(rgb(17 17 17 / 0.12) 1.4px, transparent 1.8px);
+  background-size: 8px 8px;
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  transform: rotate(-0.6deg);
+}
+.headerTop { display: flex; align-items: center; gap: var(--sp-3); }
+.headerWeek { padding-top: var(--sp-2); border-top: 3px dashed var(--ink); }
+.cover {
+  position: absolute;
+  top: -14px;
+  left: 10px;
+}
+.avatarButton {
+  position: relative;
+  flex: none;
+  padding: 0;
+  border: var(--outline, 3px solid var(--ink));
+  background: var(--cyan);
+  box-shadow: 3px 3px 0 var(--ink);
+  line-height: 0;
+}
+.avatarButton:active { transform: translate(3px, 3px); box-shadow: none; }
+.rankBadge {
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 4px 6px 0;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1;
+  transform: rotate(8deg);
+}
+.hello { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.helloText { font-size: var(--text-xl); overflow-wrap: anywhere; text-transform: uppercase; transform: skewX(-6deg); transform-origin: left; }
+.helloSub { font-family: var(--font-text, var(--font-body)); font-weight: 800; font-size: var(--text-sm); }
+.xpBar { margin-top: 2px; }
+
+/* --- Done for today --- */
+.doneCard {
+  position: relative;
+  scroll-margin: 24px 0 calc(var(--tabbar-h) + var(--safe-bottom) + 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  text-align: center;
+  background: var(--green, var(--lime));
+  background-image: repeating-conic-gradient(from 0deg at 50% 30%, rgb(255 255 255 / 0.35) 0deg 4deg, transparent 4deg 15deg);
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+}
+.doneCard h2 { text-transform: uppercase; color: var(--white); -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--ink); }
+.doneCard p { font-family: var(--font-text, var(--font-body)); font-weight: 800; background: var(--white); border: 3px solid var(--ink); padding: 6px 10px; }
+.doneButtons { display: flex; gap: var(--sp-3); flex-wrap: wrap; justify-content: center; margin-top: var(--sp-2); }
+
+/* --- Daily quests --- */
+.questsWrap { position: relative; margin-bottom: var(--sp-4); }
+.questCount {
+  padding: 5px 10px 2px;
+  background: var(--white);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-family: var(--font-display);
+  transform: rotate(3deg);
+}
+.tip { margin: var(--sp-1) 0 var(--sp-2); }
+.doMore { animation: punch 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) infinite; margin-top: var(--sp-2); }
+@keyframes punch { 0%, 60%, 100% { transform: scale(1); } 70% { transform: scale(1.08) rotate(-2deg); } 85% { transform: scale(0.97); } }
+
+/* --- Chests waiting --- */
+.chests {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3);
+  text-align: left;
+  color: var(--ink);
+  background: var(--orange, var(--yellow));
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  transform: rotate(0.8deg);
+}
+.chests:active { transform: translate(5px, 5px); box-shadow: 1px 1px 0 var(--ink); }
+.chestsRow { display: flex; gap: 2px; }
+.chestBob { animation: rattle 1.4s ease-in-out infinite; }
+.chestsText { display: flex; flex-direction: column; font-family: var(--font-text, var(--font-body)); font-weight: 800; }
+.chestsText strong { font-family: var(--font-display); font-weight: 400; font-size: var(--text-lg); text-transform: uppercase; }
+@keyframes rattle {
+  0%, 60%, 100% { transform: rotate(0); }
+  66% { transform: rotate(-9deg); }
+  74% { transform: rotate(8deg); }
+  82% { transform: rotate(-4deg); }
+}
+
+/* --- Come back: a strip of small panels --- */
+.comeBackPanel { padding: var(--sp-3); }
+.dueCount {
+  padding: 5px 10px 2px;
+  background: var(--accent-2);
+  color: var(--section-accent-2-ink);
+  -webkit-text-stroke: 1px var(--section-accent-2-stroke);
+  paint-order: stroke fill;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-family: var(--font-display);
+  transform: rotate(3deg);
+}
+.thumbRow {
+  display: flex;
+  gap: var(--sp-4);
+  overflow-x: auto;
+  padding: 14px 10px 14px;
+  margin: 0 -4px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+.thumbRow::-webkit-scrollbar { display: none; }
+.thumbCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  scroll-snap-align: start;
+  animation: slamIn 320ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 50ms);
+}
+.thumbLabel {
+  font-family: var(--font-text, var(--font-body));
+  font-weight: 800;
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+.thumbLabelDue {
+  padding: 2px 6px 0;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+.rowLoading { display: grid; place-items: center; height: 110px; }
+.emptyRow { display: flex; align-items: center; gap: var(--sp-3); font-weight: 800; padding: var(--sp-3); }
+@keyframes slamIn { from { opacity: 0; transform: scale(1.6) rotate(-10deg); } }
+
+/* --- Karaoke --- */
+/* While the song loads (the player's chunk, then the song), its spinner sits in the middle of a card
+   the size of the player, not in the corner of an empty box. */
+.karaokeCard { display: flex; flex-direction: column; justify-content: center; min-height: 360px; overflow: hidden; background: var(--purple); padding: var(--sp-2); }
+.karaokeCard > [role='status'] { align-self: center; }
+
+/* --- Friends news: little panels with balloons --- */
+.news { display: flex; flex-direction: column; gap: var(--sp-3); }
+.newsItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--white);
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  animation: slideIn 280ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 80ms);
+}
+.newsItem:nth-child(even) { transform: rotate(0.8deg); }
+.newsItem:nth-child(odd) { transform: rotate(-0.6deg); }
+.newsText { flex: 1; font-family: var(--font-text, var(--font-body)); font-weight: 800; font-size: var(--text-sm); }
+.newsIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+}
+@keyframes slideIn { from { opacity: 0; transform: translateX(-60px) rotate(-4deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .doMore, .chestBob, .thumbCell, .newsItem { animation: none; }
+}
+
+/* A narrow tablet (portrait iPad): one wide column; the quests get the full width. */
+@media (max-width: 1000px) {
+  .columns { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .colSide { display: grid; grid-template-columns: minmax(0, 1fr); }
+}
+.queueBar { width: 92px; }

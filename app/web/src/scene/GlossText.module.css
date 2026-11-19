@@ -1,0 +1,12 @@
+.gloss { min-width: 0; }
+.sm { --u-font: var(--text-md); --u-pad: 4px 9px 1px; --u-min: 40px; }
+.md { --u-font: var(--text-lg); --u-pad: 5px 11px 1px; --u-min: var(--tap); }
+.lg { --u-font: var(--text-xl); --u-pad: 6px 14px 2px; --u-min: 48px; }
+/* sm boxes are 40 px high, but the 44 px tap area is kept by the row gap and padding below. */
+.sm .unit { position: relative; }
+.sm .unit::before { content: ''; position: absolute; inset: -3px -2px; }
+
+.unit { user-select: none; }
+.unit[aria-disabled='true'] { cursor: default; }
+.paper { background: var(--paper); } /* cream boxes on the white answer cards */
+.ink { background: var(--ink); color: var(--white); box-shadow: 4px 4px 0 0 var(--white), 4px 4px 0 3px var(--ink); }

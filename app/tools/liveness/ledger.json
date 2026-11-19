@@ -1,0 +1,97 @@
+{
+  "act-line livelock phase=before": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the lines before the kid's turn waited on onEnd alone, so a clip that failed to load, stalled, or was cut off by a tapped box never brought the cue. playBefore now goes on once on the end, the error or a timer (the lines' length + 2.5 s) through the shared audio/onceDone.ts, and « Réécouter » shows only during the turn; scenarios audio-never, audio-error."
+  },
+  "act-line livelock phase=turn record=idle speak-note=silent speak=idle": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: SpeakPanel rejected a silent or too-short take without counting a try, so a muted microphone never reached the third try. It now counts as a miss with nothing heard (not sent), and the third try passes (speech/SpeakPanel.tsx onTake); scenario silent-takes. Superseded on 2026-11-14 (the user's decision): a take with no voice spends no try and is not sent; after three in a row the microphone's notice offers skip and retry (useRecorder 'deaf'); scenarios silent-takes, silent-then-voice, pause-silent."
+  },
+  "act-line livelock phase=turn record=recording speak=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: MicRecorder cancelled a take cut off from outside (page hidden, context interrupted) without telling useRecorder, which stayed 'recording' with a dead stop button. An interruption now ends the take as an automatic stop with what was recorded (an empty take is judged silent) and counts as a try (speech/recorder.ts; fake updated to match; recorder.test.ts); scenario cut-takes."
+  },
+  "act-line slow": {
+    "status": "not-a-bug",
+    "date": "2026-11-14",
+    "note": "Not a bug: seen once the 'before' fix let these runs reach the kid's turn (random 1014, blip-then-silent 1), while SpeakPanel had no quiet timeout. The time was what the kid chose to hear or start (the lines before, the line and their own take replayed again and again, takes they started); with SpeakPanel's QUIET_MS neither run is slow (blip-then-silent 1 at 76 s). The signature has no state: read the log of a later act-line slow run before relying on this verdict."
+  },
+  "memory livelock -": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Not a dead end in the puzzle. The explorer hit its tap cap: with all 203 scenes, audio-end seed 2 plays a 6-pair board (level 6) and had found 5 of 6 pairs at tap 400. A tapper with no memory, losing half its taps to the trophies, needs over 400 taps on 6 pairs in 5% of runs (simulated; never over 1000). Fixed in the explorer, MAX_STEPS 400 -> 1000; the run is done at tap 405. Marked fixed, not not-a-bug. Since 2026-11-14 the view's root carries data-step (first, second, mismatch, done), so a later memory livelock has its own signature (memory livelock step=…) and comes up as new, not as this entry."
+  },
+  "say-chain livelock chain-status=back step=back": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed (hidden behind the Resume bug, found with Resume patched): listen-back waited only for the kid's take to end playing, so a play that never ended or was replaced by a tap on the item stayed at 'back'. It now goes on once on its end, its error or a timer (audio/onceDone.ts); scenario no-recognition-audio-never."
+  },
+  "say-chain livelock chain-status=listen step=listen": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed (hidden behind the Resume bug): after one 503 the logic stayed in listen-back mode and ignored every later verdict, timeout and quiet try, so the view played the item again forever. They now count in either mode and a 503 makes only that item listen-back (shared/puzzles/say-chain.ts); scenarios speech-blip, blip-then-silent."
+  },
+  "say-chain livelock chain-status=miss step=miss": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed (hidden behind the Resume bug): a verdict after one 503 was ignored in listen-back mode, the cause of 'step=listen'; scenario speech-blip."
+  },
+  "say-chain livelock chain-status=paused step=paused": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: Resume called run(), which returned at once because stepRef still read 'paused' (it followed setStep only on the next render). Steps now set stepRef at once, Pause drops what was under way (an epoch, the view's timers cleared) and Resume starts the item again; « Réessayer » after a microphone error now restarts the item too. Fixed scenarios all-fail, speech-slow and mic-intro tap Pause then Resume; mic-error-once covers Réessayer."
+  },
+  "say-chain livelock chain-status=think step=think": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed (hidden behind the Resume bug): after a 503, the timeout of a hanging or slow answer was ignored in listen-back mode, the cause of 'step=listen'; scenario blip-then-hang."
+  },
+  "say-chain slow": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: with every take silent each item got three quiet tries of about 6 s (90 s and more). After three quiet tries in a row (a microphone that hears nothing, a kid who does not speak) each further quiet try moves on, while the first item keeps its three tries and a voice brings them back (say-chain.ts 'quiet'); silent-takes now takes about 45 s. Chains with many voiced misses run close to 80 s (random 1018 at 78 s): that is the kid's own tries, inherent to the hands-free design. Superseded on 2026-11-14: a take with no voice is no try; the chain pauses (the microphone off) until the kid taps Continue, and three in a row bring the microphone's notice with skip, so a silent chain no longer runs by itself."
+  },
+  "say-choice livelock record=idle": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: a silent or too-short take only wobbled and counted no try, so a muted microphone never ended the round. It now counts as an unrecognised try ('said', index null): the balloons become tappable and the third try picks one (puzzles/say-choice/SayChoiceView.tsx); scenario silent-takes. Superseded on 2026-11-14: a take with no voice is no try (the balloons do not become tappable from it); three in a row bring the microphone's notice with skip (useRecorder 'deaf')."
+  },
+  "say-choice livelock record=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the act-line 'record=recording' cause (MicRecorder dropped a take cut off from outside, useRecorder stayed 'recording'). An interruption now ends as an automatic stop and the take counts as a try (speech/recorder.ts, SayChoiceView.tsx); scenario cut-takes."
+  },
+  "say-hidden livelock record=idle speak-note=silent speak=idle": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the act-line 'speak-note=silent' cause (shared SpeakPanel counted no try for a silent take). Now a miss with nothing heard; the third try passes; scenario silent-takes. Superseded on 2026-11-14: a take with no voice spends no try; three in a row bring the microphone's notice with skip (useRecorder 'deaf')."
+  },
+  "say-hidden livelock record=recording speak-note=failed speak=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the same cause as 'record=recording speak=recording' (a take cut off after a miss: MicRecorder dropped it without telling useRecorder). Interruptions now end as an automatic stop and the take counts as a try (speech/recorder.ts, SpeakPanel.tsx); regression scenario cut-after-miss."
+  },
+  "say-hidden livelock record=recording speak=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the act-line 'record=recording' cause (MicRecorder dropped a take cut off from outside). An interruption now ends as an automatic stop and the take counts as a try (speech/recorder.ts); scenario cut-takes."
+  },
+  "say-line livelock record=idle speak-note=silent speak=idle": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the act-line 'speak-note=silent' cause (shared SpeakPanel counted no try for a silent take). Now a miss with nothing heard; the third try passes; scenario silent-takes. Superseded on 2026-11-14: a take with no voice spends no try; three in a row bring the microphone's notice with skip (useRecorder 'deaf')."
+  },
+  "say-line livelock record=recording speak-note=failed speak=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the same cause as 'record=recording speak=recording' (a take cut off after a miss: MicRecorder dropped it without telling useRecorder). Interruptions now end as an automatic stop and the take counts as a try (speech/recorder.ts, SpeakPanel.tsx); regression scenario cut-after-miss."
+  },
+  "say-line livelock record=recording speak=recording": {
+    "status": "fixed",
+    "date": "2026-11-14",
+    "note": "Fixed: the act-line 'record=recording' cause (MicRecorder dropped a take cut off from outside). An interruption now ends as an automatic stop and the take counts as a try (speech/recorder.ts); scenario cut-takes."
+  }
+}

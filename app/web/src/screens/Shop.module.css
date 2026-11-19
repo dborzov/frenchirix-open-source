@@ -1,0 +1,75 @@
+.page { padding-bottom: var(--sp-6); }
+
+.potion {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-5);
+  padding: var(--sp-4);
+  background: var(--purple);
+  background-image: radial-gradient(rgb(17 17 17 / 0.18) 1.5px, transparent 2px);
+  background-size: 9px 9px;
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  transform: rotate(-0.8deg);
+}
+.potionArt { display: grid; place-items: center; width: 84px; height: 84px; background: var(--white); border: 3px solid var(--ink); transform: rotate(-6deg); animation: wobble 2s ease-in-out infinite; }
+.potionText { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: var(--sp-2); color: var(--white); }
+.potionText p { font-family: var(--font-text, var(--font-body)); font-weight: 800; text-shadow: 1px 1px 0 var(--ink); }
+.potionHeld { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); text-shadow: 1px 1px 0 var(--ink); }
+.potionSlot { display: grid; place-items: center; width: 34px; height: 34px; border: 2px dashed var(--white); opacity: 0.6; }
+.potionFull { background: var(--white); border: 2px solid var(--ink); opacity: 1; }
+.potionBuy { flex: none; }
+.full { padding: 6px 10px 3px; background: var(--white); border: 3px solid var(--ink); font-family: var(--font-display); text-transform: uppercase; transform: rotate(4deg); }
+
+.chips { display: flex; gap: var(--sp-2); overflow-x: auto; padding: 4px 4px 10px; margin: 0 -4px var(--sp-3); scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
+.tablet .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-2);
+  background: var(--paper, #fff3d0);
+  border: var(--outline-thick, 4px solid var(--ink));
+  box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink));
+  color: var(--ink);
+  animation: slamIn 320ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 50ms);
+  transition: transform var(--t-fast);
+}
+.tile:nth-child(odd) { transform: rotate(-1deg); }
+.tile:nth-child(even) { transform: rotate(1deg); }
+.tile:active { transform: translate(5px, 5px); box-shadow: 1px 1px 0 var(--ink); }
+.tileArt { line-height: 0; background: var(--rar); border: 3px solid var(--ink); }
+.tileName { font-family: var(--font-display); font-size: var(--text-md); line-height: 1.1; text-transform: uppercase; text-align: center; padding-top: 0.1em; }
+.price, .owned {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px 1px;
+  border: 3px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  transform: rotate(-3deg);
+}
+.price { background: var(--yellow); }
+.priceShort { background: var(--locked); }
+.owned { background: var(--green, var(--lime)); color: var(--white); text-shadow: 1px 1px 0 var(--ink); font-size: var(--text-md); }
+.featured { position: absolute; top: -22px; right: -18px; z-index: 1; }
+.refresh { margin-top: var(--sp-5); font-family: var(--font-text, var(--font-body)); font-weight: 800; font-size: var(--text-sm); }
+
+.sheet { display: flex; flex-direction: column; align-items: center; gap: var(--sp-4); padding-bottom: var(--sp-4); }
+.preview { position: relative; line-height: 0; border: var(--outline-thick, 4px solid var(--ink)); box-shadow: var(--shadow-hard-lg, 6px 6px 0 var(--ink)); background: var(--cyan); }
+.rarity { position: absolute; top: -14px; left: -14px; }
+.joke { max-width: 360px; padding: 8px 12px; background: var(--white); border: 3px solid var(--ink); font-family: var(--font-text, var(--font-body)); font-weight: 800; text-align: center; }
+.short { font-family: var(--font-text, var(--font-body)); font-weight: 800; }
+
+@keyframes slamIn { from { opacity: 0; transform: scale(1.5) rotate(-8deg); } }
+@keyframes wobble { 50% { transform: rotate(6deg) scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { .tile, .potionArt { animation: none; } }

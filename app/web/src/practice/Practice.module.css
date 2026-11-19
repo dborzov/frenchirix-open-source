@@ -1,0 +1,459 @@
+/* The practice shell: a comic page on the practice section's colour. It covers the whole screen
+   (fixed): the bare shell's padded `main` would make the page taller than the screen, cut the continue
+   bar at the bottom and take 32 px from a phone's width. */
+.practice {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--safe-top) + 10px) calc(var(--safe-right) + 14px) 0 calc(var(--safe-left) + 14px);
+  background-color: var(--section-practice, #2b4fd8);
+  background-image: radial-gradient(circle, rgb(255 255 255 / 0.13) 1.6px, transparent 2px);
+  background-size: 14px 14px;
+  color: var(--ink);
+  /* A puzzle type, not a document: a long press on French or a picture must not select text, raise the
+     magnifier or the "save image" callout (iOS). */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  overflow: hidden;
+}
+
+/* ---- the header: where am I ------------------------------------------------------------------ */
+/* Row 1 (`header`): close, what the practice is (the level tag over the scene's title), the microphone
+   switch, mute, the report flag. Row 2 (the track): the progress bar and how many puzzles are left. */
+.top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
+}
+.where { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; }
+.whereText { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.thumb {
+  flex: none;
+  width: 72px;
+  height: 40px;
+  object-fit: cover;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  background: var(--ink);
+  transform: rotate(-2deg);
+}
+.sceneTitle {
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow: 2px 2px 0 var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The level the practice is for, in the level's colour (bronze ... plutonium), or "Replay". */
+.levelTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 1px 9px 0 3px;
+  border: 3px solid var(--ink);
+  background: var(--lv, var(--white));
+  box-shadow: 2px 2px 0 0 var(--ink);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1.15;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(-2deg);
+}
+.levelTag svg { flex: none; margin: -3px 0 -2px; }
+.levelReplay { padding-left: 6px; background: var(--white); }
+
+.track {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 10px auto 0;
+}
+.bar {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  overflow: hidden;
+}
+/* A tick every five puzzles, over the fill. */
+.bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to right, transparent calc(100% - 2px), rgb(17 17 17 / 0.3) 0);
+  background-size: calc(500% / var(--total, 1)) 100%;
+}
+.barFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background-color: var(--yellow);
+  background-image: radial-gradient(circle, rgb(17 17 17 / 0.22) 1.2px, transparent 1.6px);
+  background-size: 6px 6px;
+  transition: width var(--t-slow) var(--ease-bounce);
+}
+.barFillEdge { border-right: 3px solid var(--ink); }
+.fillEnd { position: absolute; right: -4px; top: 50%; width: 8px; height: 8px; }
+/* The puzzle on screen: its slot blinks. */
+.barNow { position: absolute; top: 0; bottom: 0; background: var(--yellow); animation: nowBlink 0.9s steps(2, jump-none) infinite; }
+.barLabel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 2px 10px 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+  -webkit-text-stroke: 3px var(--white);
+  paint-order: stroke fill;
+}
+/* How many are left: a price-tag stamp beside the bar. */
+.left {
+  flex: none;
+  padding: 3px 9px 1px;
+  border: 3px solid var(--ink);
+  background: var(--orange);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(3deg);
+}
+.leftLast { background: var(--lime); }
+
+/* ---- body ------------------------------------------------------------------------------------- */
+/* The body never scrolls itself: the puzzle column (and the scene pane on a tablet) scroll. The puzzle
+   pane fills the column's height, so a short puzzle is a full panel, not a box over empty page. */
+.body {
+  flex: 1;
+  min-height: 0;
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.puzzleCol {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Room above for the puzzle's title on the pane's edge, below for the pane's shadow. */
+  padding: 22px 8px 24px 2px;
+}
+.twoPanes {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--sp-5);
+}
+.twoPanes .scenePane { overflow-y: auto; overscroll-behavior: contain; padding: 22px 8px 24px 2px; }
+
+.scenePane { display: flex; flex-direction: column; gap: var(--sp-4); min-height: 0; }
+
+.puzzlePane {
+  --pane-pad: var(--sp-4);
+  flex: 1 0 auto;
+  min-width: 0;
+  padding: var(--pane-pad);
+  border: 4px solid var(--ink);
+  background: var(--paper, #fff3d0);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  animation: pageIn 320ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.twoPanes .puzzlePane { --pane-pad: var(--sp-5); }
+/* On a tablet the pane's height does not change during a puzzle (the help strip is beside or above it),
+   so a short puzzle sits in the middle of its panel. Auto margins: a tall one starts at the top and
+   scrolls. On a phone the help drawer resizes the pane: the puzzle stays at the top there. */
+.tabletLayout .puzzlePane { display: flex; flex-direction: column; }
+.tabletLayout .paneBody { margin-block: auto; }
+.tabletLayout .levelTag { font-size: var(--text-lg); }
+.tabletLayout .levelTag svg { width: 24px; height: 28px; }
+
+/* The puzzle's name: a caption box on the pane's top edge, like a comic panel's narration box. */
+.puzzleTitle {
+  position: relative;
+  display: table;
+  max-width: 100%;
+  margin: calc(-1 * var(--pane-pad) - 18px) 0 10px -6px;
+  padding: 3px 10px 1px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: 1.15;
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+  align-self: flex-start;
+}
+
+/* An iPad held upright (a tablet taller than wide): the picture and the help strip side by side on top,
+   the picture larger, and the puzzle under them across the whole width. */
+@media (min-width: 768px) and (orientation: portrait) {
+  .twoPanes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0;
+  }
+  .twoPanes .scenePane {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--sp-4);
+    overflow: visible;
+    padding: 14px 8px 4px 2px;
+  }
+  /* The help strip takes the picture's height: closed, its button in the middle; open, it scrolls inside. */
+  .twoPanes .helpPane { display: flex; flex-direction: column; justify-content: center; }
+  .twoPanes .helpPane[data-help='open'] { display: block; contain: size; overflow-y: auto; overscroll-behavior: contain; }
+}
+
+/* ---- help ------------------------------------------------------------------------------------- */
+.helpPane {
+  padding: var(--sp-3);
+  border: 4px solid var(--ink);
+  background: var(--white);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.helpBig {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 96px;
+  border: 3px dashed var(--ink);
+  background: var(--yellow);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.drawer {
+  flex: none;
+  margin: 0 calc(-14px - var(--safe-right)) 0 calc(-14px - var(--safe-left));
+  padding: 8px calc(14px + var(--safe-right)) calc(8px + var(--safe-bottom)) calc(14px + var(--safe-left));
+  border-top: 4px solid var(--ink);
+  background: var(--white);
+  z-index: 5;
+}
+.drawerOpen { max-height: 48vh; display: flex; flex-direction: column; }
+.drawerBar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.drawerTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.drawerBody { overflow-y: auto; padding: 10px 2px 6px; min-height: 0; }
+
+/* ---- reward beat ------------------------------------------------------------------------------ */
+.continue {
+  /* In the flow, under the body: the puzzle pane shrinks above it instead of hiding under it. */
+  position: relative;
+  flex: none;
+  margin: 0 calc(-14px - var(--safe-right)) 0 calc(-14px - var(--safe-left));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px calc(18px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(18px + var(--safe-left));
+  border-top: 4px solid var(--ink);
+  animation: barSlam 260ms cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.continuePerfect { background: var(--lime); }
+.continueOk { background: var(--cyan); }
+.cheer {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--white);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 var(--ink);
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  padding-top: 4px;
+}
+
+.exit { display: flex; flex-direction: column; gap: var(--sp-3); }
+.exit p { margin: 0 0 var(--sp-2); font-size: var(--text-lg); font-weight: 700; }
+
+/* ---- results: a comic cover ------------------------------------------------------------------- */
+.resultsPage { overflow-y: auto; }
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: calc(var(--sp-6) + var(--safe-bottom));
+}
+.cover {
+  position: relative;
+  padding: var(--sp-4) var(--sp-4) var(--sp-5);
+  border: 5px solid var(--ink);
+  background-color: var(--tomato);
+  background-image: repeating-conic-gradient(from 0deg at 50% 60%, rgb(255 255 255 / 0.18) 0deg 7deg, transparent 7deg 20deg);
+  box-shadow: 8px 8px 0 0 var(--ink);
+  text-align: center;
+  overflow: hidden;
+}
+.coverTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.coverTag { font-size: var(--text-lg); }
+.price {
+  padding: 3px 8px 1px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+.price { background: var(--yellow); transform: rotate(4deg); }
+.coverTitle {
+  margin: var(--sp-3) 0 var(--sp-2);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 13vw, 4.4rem);
+  line-height: 0.95;
+  color: var(--yellow);
+  -webkit-text-stroke: 3px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 5px 5px 0 var(--ink);
+  text-transform: uppercase;
+  transform: rotate(-4deg) skewX(-6deg);
+}
+.stars { display: flex; justify-content: center; gap: 10px; }
+.star { width: 76px; height: 76px; opacity: 0; transform: scale(0.2) rotate(-40deg); }
+.star polygon { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
+.starOn polygon { fill: var(--yellow); }
+.starOff polygon { fill: var(--white); opacity: 0.7; }
+.starIn { animation: starSlam 380ms cubic-bezier(0.2, 1.8, 0.4, 1) forwards; }
+.star:nth-child(2) { margin-top: -14px; }
+
+/* The practice's continue bar when its save failed: the error panel takes the bar's place. */
+.saveFailed { display: block; background: var(--tomato); padding-top: 10px; }
+/* "Already saved" on the results: a full-width panel. */
+.saved { grid-column: 1 / -1; font-weight: 700; }
+.sending { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; border: 3px solid var(--ink); background: var(--white); font-weight: 800; }
+
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: var(--sp-3) var(--sp-4);
+  border: 4px solid var(--ink);
+  background: var(--paper, #fff3d0);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  transform: rotate(var(--tilt)) scale(0.6);
+  opacity: 0;
+}
+.panelIn { animation: panelSlam 320ms cubic-bezier(0.2, 1.6, 0.4, 1) forwards; }
+.panelXp { background: var(--yellow); }
+.panelStreak { background: var(--orange, #ff7a1a); }
+.panelQuest { grid-column: 1 / -1; background: var(--lime); }
+.questRow { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: var(--text-xl); text-transform: uppercase; }
+.panelLevels, .panelAch { grid-column: 1 / -1; }
+.panelLabel {
+  padding: 2px 8px 0;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+.bigNum { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: var(--text-3xl); line-height: 1; padding-top: 6px; }
+.midNum { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: var(--text-xl); }
+.stamp {
+  padding: 3px 8px 1px;
+  border: 3px solid var(--ink);
+  background: var(--tomato);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+.stampFull { background: var(--purple); }
+.small { font-size: var(--text-sm); font-weight: 700; }
+.levelRow { display: flex; align-items: center; gap: 10px; width: 100%; flex-wrap: wrap; }
+.levelSwap { display: flex; align-items: center; gap: 8px; flex: none; margin-left: auto; }
+.levelThumb { width: 72px; height: 40px; object-fit: cover; border: 3px solid var(--ink); }
+.levelScene { flex: 1 1 120px; min-width: 0; font-weight: 800; }
+.levelNew { animation: levelSpin 700ms cubic-bezier(0.2, 1.6, 0.4, 1) 200ms both; }
+.later {
+  padding: 3px 8px 1px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+.achRow { display: flex; align-items: center; gap: 10px; font-size: var(--text-md); }
+/* The results' one button stays on screen while the panels below the fold are scrolled (on a phone the
+   quest, the levels and the achievements push it under the fold). */
+.onward { position: sticky; bottom: calc(var(--sp-3) + var(--safe-bottom)); z-index: 3; margin-top: var(--sp-2); }
+
+/* ---- motion ----------------------------------------------------------------------------------- */
+@keyframes nowBlink { 0% { opacity: 0; } 100% { opacity: 0.55; } }
+@keyframes pageIn { from { opacity: 0; transform: translateX(70px) rotate(3deg); } to { opacity: 1; transform: none; } }
+@keyframes barSlam { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes starSlam { to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes panelSlam { to { opacity: 1; transform: rotate(var(--tilt)) scale(1); } }
+@keyframes levelSpin { from { transform: scale(0.2) rotate(-200deg); } to { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .barNow, .puzzlePane, .continue, .levelNew { animation: none; }
+  .barNow { opacity: 0.4; }
+  .star, .panel { opacity: 1; transform: rotate(var(--tilt, 0)); animation: none; }
+}
+@media (max-width: 420px) {
+  .panels { grid-template-columns: 1fr; }
+}
+/* A phone: the header's row holds four buttons around the level and the scene's title; tighter gaps
+   and smaller lettering leave them room. */
+@media (max-width: 480px) {
+  .top { gap: 7px; }
+  .where { gap: 8px; }
+  .levelTag { font-size: var(--text-sm); }
+  .sceneTitle { font-size: var(--text-sm); }
+  .track { margin-top: 8px; gap: 8px; }
+  .barLabel, .left { font-size: var(--text-sm); }
+  .bar { height: 28px; }
+  .puzzleTitle { font-size: var(--text-sm); margin-top: calc(-1 * var(--pane-pad) - 15px); }
+  .puzzleCol { padding-top: 18px; padding-bottom: 14px; }
+}

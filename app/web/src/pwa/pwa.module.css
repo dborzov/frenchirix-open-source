@@ -1,0 +1,239 @@
+/* Installing the app and the update moments. Comic furniture: ink outlines, hard shadows, square panels. */
+
+.sheetBody { display: grid; gap: var(--sp-4); }
+.iconRow { display: flex; align-items: center; gap: var(--sp-4); }
+.homeIcon {
+  flex: none;
+  border: var(--outline-thick);
+  border-radius: 18px; /* the shape the home screen gives it */
+  box-shadow: var(--shadow-hard);
+  transform: rotate(-4deg);
+}
+.lead { margin: 0; font: 700 var(--text-lg, 19px)/1.3 var(--font-text); }
+.more { display: block; margin-top: 4px; font: 700 15px/1.25 var(--font-text); color: var(--ink-soft); }
+
+/* What to remember before installing on iOS (the installed app may start with its own cookies). */
+.remember {
+  position: relative;
+  border: var(--outline);
+  background: var(--yellow);
+  box-shadow: var(--shadow-hard);
+  padding: var(--sp-3) var(--sp-4);
+  transform: rotate(-0.6deg);
+}
+.remember p { margin: 0 0 var(--sp-2); font: 700 16px/1.25 var(--font-text); }
+.creds { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.cred {
+  display: grid;
+  border: var(--outline);
+  background: var(--white);
+  padding: 4px 10px 2px;
+  min-width: 96px;
+}
+.cred small { font: 700 12px/1 var(--font-text); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
+.cred b { font: 400 24px/1.1 var(--font-display); letter-spacing: 0.05em; overflow-wrap: anywhere; }
+.credPin b { font-family: var(--font-pin); font-weight: var(--font-pin-weight); letter-spacing: 0.2em; }
+
+/* The illustrated steps: a strip of small comic panels. */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-4); }
+@media (min-width: 700px) { .steps { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } }
+.step {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-2);
+  border: var(--outline-thick);
+  background: var(--paper);
+  box-shadow: var(--shadow-hard);
+  padding: var(--sp-3);
+  padding-top: var(--sp-4);
+  transform: rotate(var(--tilt, 0deg));
+}
+.stepN {
+  position: absolute;
+  left: -10px;
+  top: -14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: var(--outline);
+  background: var(--red);
+  color: var(--white);
+  font: 400 24px/1 var(--font-display);
+  -webkit-text-stroke: 1px var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-8deg);
+  z-index: 2;
+}
+.stepArt {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  border: var(--outline);
+  background: #dfe6ec;
+  background-image: radial-gradient(circle, rgb(0 0 0 / 0.08) 1.2px, transparent 1.6px);
+  background-size: 7px 7px;
+  padding: 10px;
+  overflow: hidden;
+}
+.stepText { margin: 0; font: 700 17px/1.25 var(--font-text); }
+
+.hot { outline: 4px solid var(--red); outline-offset: 2px; animation: hot 1.4s ease-in-out infinite; }
+@keyframes hot { 0%, 100% { outline-color: var(--red); } 50% { outline-color: var(--yellow); } }
+@media (prefers-reduced-motion: reduce) { .hot { animation: none; } }
+
+/* A drawn Safari toolbar. */
+.toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+  padding: 8px;
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  background: var(--white);
+}
+.toolbarIpad { flex-direction: row; }
+.urlPill {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: #eef1f4;
+  font: 700 12px/1 var(--font-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toolBtn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: var(--white);
+  color: #1a73e8;
+  font: 700 16px/1 var(--font-text);
+  letter-spacing: -1px;
+}
+.toolBurst { position: absolute; right: -14px; top: -30px; }
+
+/* A drawn share-sheet menu. */
+.menu { display: grid; gap: 6px; width: 100%; max-width: 280px; }
+.menuRow, .menuRowDim {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  background: var(--white);
+}
+.menuRowDim { min-height: 18px; padding: 0; opacity: 0.45; }
+.menuLabel { display: grid; font: 700 15px/1.15 var(--font-text); text-align: left; }
+.menuLabel small { font-size: 11px; color: var(--ink-soft); }
+
+/* A drawn "Add to Home Screen" dialog. */
+.addDialog { width: 100%; max-width: 280px; border: 3px solid var(--ink); border-radius: 6px; background: var(--white); overflow: hidden; }
+.addBar { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-bottom: 2px solid var(--ink); font: 700 14px/1 var(--font-text); color: #1a73e8; }
+.addBtn { padding: 4px 8px; border-radius: 4px; font-weight: 700; }
+.addBody { display: flex; align-items: center; gap: 10px; padding: 10px; }
+.addIcon { border: 2px solid var(--ink); border-radius: 10px; }
+.addName { font: 700 16px/1 var(--font-text); }
+
+.android { display: grid; gap: var(--sp-3); justify-items: start; }
+
+/* The offer on Home: a small panel, never a dialog. */
+.offer {
+  position: relative;
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  border: var(--outline-thick);
+  background: var(--teal);
+  color: var(--white);
+  box-shadow: var(--shadow-hard-lg);
+  padding: var(--sp-3) var(--sp-4);
+  transform: rotate(0.6deg);
+  background-image: radial-gradient(circle, rgb(0 0 0 / 0.14) 1.4px, transparent 1.9px);
+  background-size: 9px 9px;
+}
+.offerTablet { padding: var(--sp-4); }
+.offerIcon { flex: none; border: var(--outline); border-radius: 14px; box-shadow: 3px 3px 0 var(--ink); transform: rotate(-5deg); }
+.offerText { display: grid; gap: 6px; min-width: 0; }
+.offerText strong { font: 400 22px/1.05 var(--font-display); letter-spacing: 0.04em; -webkit-text-stroke: 1px var(--ink); paint-order: stroke fill; text-shadow: 2px 2px 0 var(--ink); }
+.offerText span { font: 700 15px/1.25 var(--font-text); }
+.offerButtons { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: 4px; }
+
+/* ---- update moments (rendered in their own root by boot.ts) ---------------------------------- */
+.updateLayer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-fx, 500);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.updateBurst { animation: slamIn 420ms cubic-bezier(0.2, 1.7, 0.4, 1) both; }
+.updateText {
+  margin-top: 8px;
+  border: var(--outline);
+  background: var(--yellow);
+  box-shadow: var(--shadow-hard);
+  padding: 4px 12px;
+  font: 700 18px/1.2 var(--font-text);
+  transform: rotate(-2deg);
+}
+.updateStack { display: grid; justify-items: center; }
+@keyframes slamIn {
+  0% { transform: rotate(-30deg) scale(0.1); }
+  100% { transform: rotate(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .updateBurst { animation: none; } }
+
+.stuckLayer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal, 300);
+  display: grid;
+  place-items: center;
+  padding: calc(16px + var(--safe-top)) calc(16px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(16px + var(--safe-left));
+  background-color: rgb(17 17 17 / 0.55);
+  background-image: radial-gradient(circle, rgb(0 0 0 / 0.35) 1.5px, transparent 2px);
+  background-size: 8px 8px;
+}
+.stuckPanel {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-4);
+  width: min(440px, 100%);
+  border: var(--outline-thick);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--ink);
+  padding: var(--sp-5);
+  text-align: center;
+  transform: rotate(-1deg);
+}
+.stuckPanel p { margin: 0; font: 700 19px/1.3 var(--font-text); }
+.welcomeButtons { display: grid; gap: var(--sp-3); width: 100%; }
+.hint { font: 700 15px/1.25 var(--font-text) !important; color: var(--ink-soft); }
+
+/* The build id on /version. */
+.build { display: inline-block; margin-top: var(--sp-3); border: var(--outline); background: var(--white); padding: 3px 8px; font: 700 13px/1.2 var(--font-text); transform: rotate(-1deg); }
+
+/* "Who's playing?": the welcome on a device that remembers other accounts. Scrolls when they are many. */
+.pickLayer { display: flex; flex-direction: column; overflow-y: auto; }
+.pickLayer > .pickPanel { margin: auto; }
+.pickPanel { width: min(620px, 100%); }
+.pickTiles { width: 100%; text-align: left; }

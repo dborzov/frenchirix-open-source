@@ -1,0 +1,106 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.frame { max-width: min(56%, 240px); align-self: center; }
+.prev { padding: 4px; border: 3px solid var(--ink); background: var(--white); box-shadow: 3px 3px 0 0 var(--ink); }
+
+.prompt {
+  margin: 0;
+  align-self: center;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  text-align: center;
+  transform: rotate(-1.5deg);
+}
+.tablet .prompt { font-size: var(--text-lg); }
+
+/* Three speech balloons, tails alternating, slamming in. */
+.balloons { display: flex; flex-direction: column; gap: 16px; }
+.balloon {
+  position: relative;
+  align-self: flex-start;
+  max-width: 94%;
+  padding: 10px 14px 8px;
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  animation: floatIn 460ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  animation-delay: calc(var(--i) * 120ms + 300ms);
+}
+.balloon:nth-child(even) { align-self: flex-end; }
+.balloon::before,
+.balloon::after { content: ''; position: absolute; bottom: -14px; left: 26px; border-style: solid; }
+.balloon::before { border-width: 15px 3px 0 12px; border-color: var(--ink) transparent transparent transparent; }
+.balloon::after { left: 29px; bottom: -8px; border-width: 9px 2px 0 7px; border-color: var(--white) transparent transparent transparent; }
+.balloon:nth-child(even)::before { left: auto; right: 26px; border-width: 15px 12px 0 3px; }
+.balloon:nth-child(even)::after { left: auto; right: 29px; border-width: 9px 7px 0 2px; }
+.playing { box-shadow: 4px 4px 0 0 var(--ink), 0 0 0 5px var(--yellow); }
+.tools { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+/* While the microphone listens the balloons' buttons step aside: a play would go into the take, and on a
+   phone the three balloons then fit above the dock. */
+.listening .tools { display: none; }
+.listening .balloons { gap: 12px; }
+.play {
+  display: grid; place-items: center; width: 44px; height: 44px;
+  border: 3px solid var(--ink); background: var(--yellow); box-shadow: 2px 2px 0 0 var(--ink); cursor: pointer;
+}
+.pick {
+  min-height: 44px; padding: 4px 14px 2px;
+  border: 3px solid var(--ink); background: var(--orange); box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display); font-size: var(--text-md); cursor: pointer;
+}
+.en { display: block; margin-top: 4px; font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); }
+.won { background: var(--lime); animation: win 520ms cubic-bezier(0.2, 1.8, 0.4, 1) both; z-index: 1; }
+.won::after { border-top-color: var(--lime); }
+.popped { animation: popAway 420ms cubic-bezier(0.5, 0, 0.8, 0.5) both; }
+
+.reaction {
+  margin: 0; align-self: center; padding: 4px 14px 2px;
+  border: 3px solid var(--ink); background: var(--yellow); box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display); font-size: var(--text-xl); transform: rotate(-3deg);
+}
+
+.mic { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+/* The microphone stays in reach while the kid reads the balloons (the help drawer is outside the
+   scrolling pane: a higher offset only hid more of the balloons). */
+.micDock {
+  position: sticky;
+  bottom: 8px;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 12px;
+  padding: 6px;
+  border: 3px solid var(--ink);
+  /* Not yellow: the microphone's label is yellow while it waits (contrast rule, docs/app-style.md). */
+  background: var(--cyan);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+.note { max-width: min(100%, 420px); font-family: var(--font-text); font-weight: 800; font-size: var(--text-sm); text-align: center; padding: 6px 10px !important; }
+.orTap { display: block; margin-top: 4px; font-size: var(--text-sm); }
+.orTapAlone { margin: 0; align-self: center; font-family: var(--font-display); font-size: var(--text-lg); }
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(30px) rotate(4deg) scale(0.7); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes win {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12) rotate(-2deg); }
+  100% { transform: scale(1.03); }
+}
+@keyframes popAway {
+  0% { transform: none; opacity: 1; }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(0.85); opacity: 0.25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .balloon, .won, .popped { animation: none; }
+}

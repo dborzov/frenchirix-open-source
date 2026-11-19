@@ -1,0 +1,42 @@
+/* A comic panel: cream paper (or a flat colour), a thick ink frame, a hard black shadow. */
+.panel {
+  --sh: 6px;
+  position: relative;
+  border: var(--outline-thick);
+  border-radius: var(--r-sm);
+  background-color: var(--c, var(--paper));
+  color: var(--c-text, var(--ink));
+  box-shadow: var(--sh) var(--sh) 0 0 var(--ink);
+  padding: var(--sp-5);
+  margin: 0 var(--sh) var(--sh) 0;
+  transform: rotate(var(--tilt, 0deg));
+}
+.thin {
+  --sh: 4px;
+  border: var(--outline);
+}
+.dots {
+  background-image: radial-gradient(circle, rgb(17 17 17 / 0.12) 1.3px, transparent 1.8px);
+  background-size: 8px 8px;
+}
+.flat { padding: 0; overflow: hidden; }
+.tight { padding: var(--sp-3); }
+.interactive {
+  display: block;
+  width: calc(100% - var(--sh));
+  text-align: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+}
+.interactive:active:not(:disabled) {
+  transform: rotate(var(--tilt, 0deg)) translate(var(--sh), var(--sh));
+  box-shadow: 0 0 0 0 var(--ink);
+}
+.interactive:disabled {
+  cursor: not-allowed;
+  background-color: var(--locked);
+  background-image: radial-gradient(circle, rgb(17 17 17 / 0.18) 1.2px, transparent 1.6px);
+  background-size: 6px 6px;
+  color: rgb(17 17 17 / 0.65);
+}

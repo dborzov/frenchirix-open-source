@@ -1,0 +1,4 @@
+{
+  "//": "For editors. `npm run typecheck` checks web, worker and node code with their own configs.",
+  "extends": "./tsconfig.web.json"
+}

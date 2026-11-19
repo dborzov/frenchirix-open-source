@@ -1,0 +1,155 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-8);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.headerTags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* The cover title: heavy slanted capitals, white with an ink outline and a hard shadow. */
+.title {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8.5vw, 3.2rem);
+  line-height: 0.95;
+  color: var(--white);
+  -webkit-text-stroke: 2.5px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 var(--ink);
+  text-transform: uppercase;
+  transform: rotate(-2deg) skewX(-5deg);
+  overflow-wrap: anywhere;
+}
+
+.levels { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* Under the player: what to do next. */
+.action { display: flex; flex-direction: column; gap: var(--sp-3); }
+.tablet .action { flex-direction: row; align-items: center; justify-content: space-between; }
+.actionMain { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+.actionButtons { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+.worth {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 2px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+}
+.worthLevel { background: var(--yellow); box-shadow: 3px 3px 0 var(--ink); transform: rotate(-1.5deg); }
+.previewTag {
+  align-self: flex-start;
+  padding: 4px 10px 2px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+.ladder { display: flex; align-items: flex-end; gap: 4px; }
+.rung { opacity: 0.45; filter: grayscale(0.6); transition: transform var(--t-med); }
+.rungOn { opacity: 1; filter: none; }
+.rungNext { opacity: 1; filter: none; animation: nudge 0.9s steps(2, jump-none) infinite; }
+.nextText {
+  padding: 2px 8px 0;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+
+.player { margin-top: var(--sp-2); }
+.tools { display: flex; justify-content: flex-end; }
+
+.notes { display: flex; flex-direction: column; gap: var(--sp-3); }
+.noteKind { font-family: var(--font-display); text-transform: uppercase; font-weight: 400; }
+
+.nav { display: flex; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-2); }
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  max-width: 48%;
+  padding: 6px 10px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+}
+.navBtn:active { transform: translate(4px, 4px); box-shadow: none; }
+.navBtn img { width: 64px; height: 36px; object-fit: cover; border: 2px solid var(--ink); flex: none; }
+.navBtn span { overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.navNext { margin-left: auto; text-align: right; }
+
+.locked { display: flex; flex-direction: column; align-items: center; gap: var(--sp-4); text-align: center; padding: var(--sp-6) var(--sp-4); }
+.lockIcon { display: grid; place-items: center; width: 110px; height: 110px; border: 4px solid var(--ink); background: var(--yellow); box-shadow: 6px 6px 0 0 var(--ink); transform: rotate(-4deg); }
+.lockedText { margin: 0; font-size: var(--text-lg); font-weight: 800; max-width: 34ch; }
+
+@keyframes nudge { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .rungNext { animation: none; } }
+
+/* Tablet: the action stays in reach as a bar at the bottom of the screen (the rail is at the side, so
+   nothing is under it). Upright, the strip runs under the pictures and the action would sit below every
+   line; in landscape, under the title and the player, it would start at the fold. */
+.tablet .action {
+  position: sticky;
+  bottom: calc(var(--safe-bottom) + 8px);
+  z-index: var(--z-raised);
+  padding: var(--sp-3) var(--sp-5);
+}
+.tablet .actionMain { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: var(--sp-4); }
+/* Two rows at most, upright too: the button, then the progress and "to win" side by side. */
+.actionInfo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); }
+.tablet .actionInfo { flex: 1 1 auto; }
+.tablet .actionInfo .actionBar { flex: 1 1 140px; width: auto; }
+/* When the page follows the playing line, the line comes into view above that bar (and the phone's tab
+   bar), not under it; in landscape the strip scrolls in its own column instead. */
+.page :global([data-line]) { scroll-margin-bottom: 190px; }
+.page:not(.tablet) :global([data-line]) { scroll-margin-bottom: calc(var(--tabbar-h) + 90px); }
+
+/* Phone: only the button stays in reach while the strip scrolls, a one-row bar above the tab bar
+   (a taller bar left room for one row of the strip on a 375x667 phone). The progress and the ladder
+   are in the page under it (.details). */
+.page:not(.tablet) .action {
+  position: sticky;
+  bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 8px);
+  z-index: var(--z-raised);
+  padding: var(--sp-2) var(--sp-3);
+  gap: var(--sp-2);
+}
+.page:not(.tablet) .previewTag { display: none; }
+.page:not(.tablet) .actionMain { flex-direction: row; flex-wrap: wrap; align-items: center; }
+.page:not(.tablet) .actionButtons { flex-wrap: nowrap; gap: var(--sp-2); }
+.page:not(.tablet) .actionButtons > * { flex: 1 1 0; margin-bottom: 4px; }
+.page:not(.tablet) .worth { font-size: var(--text-sm); padding: 2px 6px 0; }
+/* While the media gate is up, the action stays in the page under it, so it never covers the gate's
+   error panel (its detail line and copy button). */
+.page.gated .action { position: static; }
+.details { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-3); }
+.worthSlot { display: inline-flex; flex: none; }
+.details .levels { align-items: flex-start; }
+
+/* The practice under way, inside the rung it works towards. */
+.rung { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.rungWorking { opacity: 1; filter: none; }
+.rungBar { display: block; width: 34px; height: 7px; border: 2px solid var(--ink); background: var(--white); }
+.rungBar > span { display: block; height: 100%; background: var(--yellow); }
+.actionBar { width: 100%; max-width: 320px; }
+.page:not(.tablet) .ladder { display: flex; }

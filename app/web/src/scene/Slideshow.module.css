@@ -1,0 +1,54 @@
+.show {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 4px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  isolation: isolate;
+}
+/* A light halftone at the edges only, like a printed panel; the middle of the picture stays clean. */
+.show::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgb(17 17 17 / 0.55) 1.2px, transparent 1.6px);
+  background-size: 7px 7px;
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 62%, #000 100%);
+  mask-image: radial-gradient(ellipse at center, transparent 62%, #000 100%);
+  opacity: 0.55;
+}
+.fill { aspect-ratio: auto; height: 100%; }
+
+.drift { position: absolute; inset: 0; }
+.drifting { animation: drift 22s ease-in-out infinite alternate; }
+
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.fadeIn { animation: fade 450ms var(--ease-out) both; }
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes drift {
+  0% { transform: scale(1.04) translate(0, 0); }
+  50% { transform: scale(1.1) translate(-1.5%, 1%); }
+  100% { transform: scale(1.06) translate(1.5%, -1%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drifting { animation: none; }
+  .fadeIn { animation-duration: 1ms; }
+}

@@ -1,0 +1,224 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+.top { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.prompt {
+  margin: 0;
+  padding: 3px 10px 1px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  transform: rotate(1.5deg);
+}
+/* "Now an English shield!": the prompt names the language to turn next. */
+.promptNow { background: var(--white); animation: promptSlam 300ms cubic-bezier(0.2, 1.8, 0.4, 1) both; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 12px;
+  perspective: 900px;
+}
+/* A tablet: big shields, up to about a seventh of the screen's height each, in even rows (MemoryView's columns). */
+@media (orientation: landscape) {
+  .tablet .grid { grid-template-columns: repeat(var(--cols-landscape, 3), minmax(0, 1fr)); }
+}
+
+.card {
+  position: relative;
+  min-height: 78px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  animation: dealIn 380ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 45ms + 80ms);
+  -webkit-tap-highlight-color: transparent;
+}
+.tablet .card { width: 100%; min-height: 96px; aspect-ratio: 1; max-height: max(96px, 15vh); }
+.flipper {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.up .flipper { transform: rotateY(180deg); }
+.card:active:not(.up) .flipper { transform: translate(3px, 3px); }
+
+.back,
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+/* The backs say the language at a glance: French blue with halftone dots and a speech balloon
+   (French shields speak), English orange with stripes and a sign. Colour, texture and shape all differ. */
+.sideFr .back {
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.32) 1.7px, transparent 1.9px) 0 0 / 9px 9px,
+    var(--blue);
+}
+.sideEn .back {
+  background:
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.3) 0 5px, transparent 5px 12px),
+    var(--orange);
+}
+.code {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  padding-top: 3px;
+}
+.emblemFr {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px 2px;
+  border: 3px solid var(--ink);
+  border-radius: 999px 999px 999px 999px / 70% 70% 70% 70%;
+  background: var(--white);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  transform: rotate(-5deg);
+}
+.emblemFr::after {
+  /* the balloon's tail */
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: -11px;
+  width: 12px;
+  height: 12px;
+  background: var(--white);
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  transform: skewX(30deg) rotate(30deg);
+}
+.emblemSpk { color: var(--ink); }
+.emblemEn {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  transform: rotate(4deg);
+}
+/* While a shield is up, the face-down ones of its language cannot make a pair: dimmed, not hidden. */
+.locked { cursor: not-allowed; }
+.locked .back { filter: saturate(0.5); opacity: 0.6; box-shadow: 2px 2px 0 0 var(--ink); }
+.locked .flipper { transform: scale(0.94); }
+.face { transform: rotateY(180deg); padding: 6px 8px 4px; text-align: center; }
+.fr { background: var(--c); color: var(--c-text); }
+.en { background: var(--white); color: var(--ink); }
+.frText,
+.enText {
+  font-family: var(--font-text);
+  font-weight: 800;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.frText { font-size: var(--text-lg); }
+.enText { font-size: var(--text-md); }
+.tablet .frText { font-size: var(--text-lg); }
+.tablet .enText { font-size: var(--text-md); }
+.spk { position: absolute; top: 3px; right: 4px; opacity: 0.55; }
+.earOnly { display: grid; place-items: center; width: 58px; height: 58px; border: 3px solid var(--ink); background: var(--white); }
+.spkOn { opacity: 1; animation: thump 0.8s steps(2, jump-none) infinite; }
+/* A found pair: a tick badge on the shield's corner, and no speaker on its face (the found pairs below
+   play too), so a long French text keeps the whole face. */
+.tick {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--ink);
+  background: var(--green);
+  color: var(--ink);
+  animation: pop 260ms var(--ease-slam) 200ms backwards;
+}
+.matched .spk { display: none; }
+
+.matched .face { border-color: var(--ink); box-shadow: 0 0 0 3px var(--green), 4px 4px 0 3px var(--ink); }
+.matched .flipper { animation: matchedSlam 420ms var(--ease-slam); }
+.peek .flipper { transform: rotateY(180deg); }
+.peek .face { animation: glow 0.7s steps(2, jump-none) infinite; }
+
+/* Found pairs, as French = English. */
+.trophies { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.trophy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  animation: dealIn 380ms var(--ease-slam) backwards;
+  animation-delay: 300ms;
+}
+.allDone .trophy { background: var(--white); }
+.trophyFr {
+  flex: none;
+  max-width: 55%;
+  min-height: var(--tap);
+  padding: 5px 10px 2px;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--c);
+  color: var(--c-text);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-md);
+  line-height: 1.1;
+  text-align: left;
+  cursor: pointer;
+}
+.eq { font-family: var(--font-display); font-size: var(--text-lg); }
+.trophyEn { font-family: var(--font-text); font-weight: 800; font-size: var(--text-sm); line-height: 1.2; }
+
+@keyframes promptSlam {
+  from { transform: scale(0.7) rotate(-4deg); }
+  to { transform: rotate(1.5deg); }
+}
+@keyframes dealIn {
+  from { opacity: 0; transform: translate(-40px, -60px) rotate(-20deg) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes matchedSlam {
+  0% { transform: rotateY(180deg) scale(1.18) rotate(-4deg); }
+  100% { transform: rotateY(180deg); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } }
+@keyframes thump {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .trophy, .matched .flipper, .peek .face, .spkOn, .promptNow, .tick { animation: none; }
+  .flipper { transition: none; }
+}

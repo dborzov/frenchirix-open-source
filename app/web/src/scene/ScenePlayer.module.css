@@ -1,0 +1,64 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+.media { flex: none; }
+.lines {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  /* The strip always sits on paper: unit colours must never meet a section colour (episodes blue). */
+  padding: var(--sp-2);
+  border: 4px solid var(--ink);
+  /* White, not cream: in a practice it sits on the cream puzzle pane, and a panel never has its surface's fill. */
+  background: var(--white);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+
+@media (min-width: 900px) and (orientation: landscape) {
+  .auto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .auto .media { position: sticky; top: var(--sp-4); }
+  .auto .lines { max-height: calc(var(--app-h) - 140px); overflow-y: auto; padding: 14px 10px 14px 6px; overscroll-behavior: contain; }
+}
+
+.controls {
+  position: absolute;
+  left: 12px;
+  bottom: 18px;
+  z-index: 3;
+}
+.invite { animation: invite 1.4s var(--ease-out) infinite; }
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10px;
+  border-top: 3px solid var(--ink);
+  background: var(--white);
+  z-index: 2;
+}
+.barFill {
+  height: 100%;
+  background: var(--yellow);
+  transition: width 120ms linear;
+}
+
+@keyframes invite {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invite { animation: none; }
+}
+
+.sceneBar { margin-top: 12px; }

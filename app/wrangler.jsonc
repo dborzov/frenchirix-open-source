@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "frenchirix",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // The site's address: your own domain (a custom domain on your Cloudflare zone).
+  "routes": [{ "pattern": "frenchirix.example.com", "custom_domain": true }],
+  // No second address: the Worker is reached only through the domain above.
+  "workers_dev": false,
+  "preview_urls": false,
+  // The client build (vite -> dist/) plus the exported bundle copied from public/.
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "frenchirix",
+      // The production database: `npx wrangler d1 create frenchirix` prints its id. Migrations run
+      // against it only at release; local runs use --local state and never touch it.
+      "database_id": "<your-d1-database-id>",
+      "migrations_dir": "worker/migrations"
+    }
+  ],
+  "ai": { "binding": "AI" },
+  "vars": {
+    "TEST_MODE": ""
+  },
+  // Once a day: activity rows older than 180 days are deleted (worker/activity.ts, purgeActivity).
+  "triggers": { "crons": ["17 4 * * *"] },
+  "observability": { "enabled": true },
+  "send_metrics": false
+  // Secrets (npx wrangler secret put <NAME>; locally .dev.vars, from .dev.vars.example):
+  //   SESSION_SECRET  signs the cookies
+  //   GATE_PASSWORD   the one shared password of the whole site (the gate page)
+  //   ADMIN_PASSWORD  the /dev portal's password (asked once per browser)
+}

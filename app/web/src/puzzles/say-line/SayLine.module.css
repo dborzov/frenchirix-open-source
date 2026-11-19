@@ -1,0 +1,96 @@
+.puzzle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.top { display: flex; flex-direction: column; align-items: center; }
+.frame { max-width: min(48%, 210px); }
+.speaker {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-top: -34px;
+  z-index: 2;
+  border: 4px solid var(--ink);
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  transform: rotate(-3deg);
+  cursor: pointer;
+}
+.speaker:active { transform: rotate(-3deg) translate(4px, 4px); box-shadow: 1px 1px 0 0 var(--ink); }
+.on { background: var(--white); animation: thump 0.8s steps(2, jump-none) infinite; }
+.tablet .top { flex-direction: row; justify-content: center; }
+.tablet .speaker { margin-top: 0; width: 80px; height: 80px; }
+
+.prompt {
+  margin: 0;
+  align-self: center;
+  padding: 4px 12px 2px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  text-align: center;
+  transform: rotate(-1.5deg);
+}
+.tablet .prompt { font-size: var(--text-lg); }
+
+.textBox {
+  padding: 10px 12px;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+.context {
+  margin: 0 0 6px;
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.words {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 10px;
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-xl);
+  line-height: 1.2;
+}
+.big { font-size: var(--text-2xl); }
+.word { display: inline-block; padding: 0 2px; }
+.judged .word { opacity: 0.35; }
+/* Heard words light up one after the other, like a comic sound word stamped on. */
+.judged .lit {
+  opacity: 1;
+  background: var(--yellow);
+  box-shadow: 0 0 0 3px var(--ink);
+  animation: stamp 360ms cubic-bezier(0.2, 1.8, 0.4, 1) both;
+  animation-delay: calc(var(--k) * 140ms);
+}
+.judged .dim { opacity: 0.35; text-decoration: underline wavy 2px var(--red); text-underline-offset: 5px; }
+
+@keyframes stamp {
+  0% { opacity: 0.35; background: transparent; box-shadow: none; transform: scale(1); }
+  40% { transform: scale(1.3) rotate(-4deg); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes thump {
+  0% { transform: rotate(-3deg) scale(1); }
+  100% { transform: rotate(2deg) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .on, .judged .lit { animation: none; }
+}

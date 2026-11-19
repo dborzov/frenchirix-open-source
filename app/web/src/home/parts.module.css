@@ -1,0 +1,199 @@
+/* --- Scene thumbnail: a small square comic panel framed in its level's colour --- */
+.thumb {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+}
+button.thumb { cursor: pointer; transition: transform var(--t-fast) ease-out; }
+button.thumb:active { transform: translate(3px, 3px); }
+.disc {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  border: var(--outline, 3px solid var(--ink));
+  outline: calc(var(--size) * 0.07) solid var(--ring);
+  outline-offset: calc(var(--size) * -0.07 - 3px);
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+}
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.mystery {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  background-image: radial-gradient(rgb(255 255 255 / 0.14) 1.4px, transparent 1.8px);
+  background-size: 7px 7px;
+}
+.qmark {
+  font-family: var(--font-display);
+  font-size: calc(var(--size) * 0.55);
+  line-height: 1;
+  padding-top: 0.1em;
+  color: var(--yellow);
+  transform: rotate(-8deg);
+  text-shadow: 3px 3px 0 var(--tomato);
+}
+.lockOver {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+}
+.locked .disc { outline-color: var(--ink); }
+.level {
+  position: absolute;
+  right: -10%;
+  bottom: -12%;
+  line-height: 0;
+}
+.newDot {
+  position: absolute;
+  top: -10%;
+  left: -8%;
+  padding: 3px 6px 0;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+  transform: rotate(-8deg);
+}
+.due .disc { animation: dueFlash 1.2s steps(2, jump-none) infinite; }
+.due::after {
+  content: '';
+  position: absolute;
+  inset: -16%;
+  background: repeating-conic-gradient(from 0deg, var(--yellow) 0deg 8deg, transparent 8deg 22deg);
+  -webkit-mask: radial-gradient(circle, transparent 52%, #000 53%);
+  mask: radial-gradient(circle, transparent 52%, #000 53%);
+  z-index: -1;
+  animation: spin 8s linear infinite;
+  pointer-events: none;
+}
+.plutonium .disc { box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink)), 0 0 0 4px var(--level-6); }
+.wiggle { animation: wiggle 420ms cubic-bezier(0.3, 1.8, 0.5, 1); }
+@keyframes dueFlash {
+  0% { box-shadow: 4px 4px 0 var(--ink); }
+  100% { box-shadow: 4px 4px 0 var(--ink), 0 0 0 5px var(--yellow); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-12deg) scale(1.05); }
+  45% { transform: rotate(10deg); }
+  70% { transform: rotate(-6deg); }
+}
+
+/* --- Ratings --- */
+.rating { display: inline-flex; gap: 1px; line-height: 0; }
+.ratingItem { display: inline-block; }
+.off { filter: grayscale(1); opacity: 0.25; }
+
+/* --- Streak flame: a cover-style badge --- */
+.flame {
+  --flame-outer: var(--locked);
+  --flame-inner: var(--white-dark);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size);
+  flex: none;
+}
+.alive { --flame-outer: var(--tomato); --flame-inner: var(--yellow); }
+.flameSvg path:first-child { stroke: var(--ink); stroke-width: 4px; stroke-linejoin: round; }
+.alive .flameSvg { animation: flicker 0.5s steps(2, jump-none) infinite alternate; transform-origin: 50% 100%; }
+.cold .flameSvg { opacity: 0.85; }
+.flameCount {
+  position: absolute;
+  bottom: 4%;
+  font-family: var(--font-display);
+  font-size: calc(var(--size) * 0.38);
+  color: var(--white);
+  -webkit-text-stroke: 3px var(--ink);
+  paint-order: stroke fill;
+  line-height: 1;
+}
+@keyframes flicker {
+  0% { transform: scale(1, 1) rotate(-3deg); }
+  100% { transform: scale(0.96, 1.06) rotate(3deg); }
+}
+
+/* --- Titles: a caption box on a coloured field --- */
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-2) 0 var(--sp-5);
+}
+.titleBlob {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex: none;
+  background: var(--c);
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  transform: rotate(-6deg);
+}
+.titleText {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(var(--text-xl), 7.2vw, var(--text-2xl));
+  text-transform: uppercase;
+  color: var(--white);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-2deg) skewX(-6deg);
+  transform-origin: left center;
+}
+.section {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-3);
+}
+.sectionText {
+  display: inline-block;
+  padding: 6px 12px 3px;
+  background: var(--accent);
+  color: var(--section-accent-ink);
+  -webkit-text-stroke: 1.2px var(--section-accent-stroke);
+  paint-order: stroke fill;
+  border: var(--outline, 3px solid var(--ink));
+  box-shadow: var(--shadow-hard, 4px 4px 0 var(--ink));
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+}
+.sectionSpacer { flex: 1; }
+
+.loading { display: grid; place-items: center; min-height: 40vh; }
+
+@media (prefers-reduced-motion: reduce) {
+  .due .disc, .due::after, .flameSvg { animation: none !important; }
+}

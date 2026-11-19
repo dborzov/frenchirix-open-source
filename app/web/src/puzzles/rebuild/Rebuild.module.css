@@ -1,0 +1,136 @@
+.puzzle { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+
+.head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: 'frame frame' 'loop meaning';
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+}
+.frame { grid-area: frame; justify-self: center; max-width: min(70%, 380px); }
+.head > button { grid-area: loop; }
+.tablet .head { grid-template-areas: 'loop meaning'; }
+
+.meaning { grid-area: meaning; display: flex; flex-direction: column; gap: 2px; min-width: 0; transform: rotate(1deg); }
+.meaningLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.meaningEn { font-family: var(--font-text); font-weight: 800; font-size: var(--text-md); line-height: 1.25; }
+.tablet .meaningEn { font-size: var(--text-lg); }
+
+/* The sentence rail: a strip of comic paper where the pieces land. */
+.rail {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 76px;
+  padding: 12px;
+  border: 4px solid var(--ink);
+  background:
+    radial-gradient(circle, rgb(17 17 17 / 0.14) 1.4px, transparent 1.6px) 0 0 / 9px 9px,
+    var(--white);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+.railDone { background: var(--yellow); animation: railSlam 460ms var(--ease-slam); }
+
+.slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  min-width: 48px;
+  padding: 6px 12px 2px;
+  border: 3px solid var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  line-height: 1.1;
+}
+.empty { border-style: dashed; background: transparent; color: var(--ink-faint); min-width: 54px; }
+.num { font-family: var(--font-display); font-size: var(--text-md); }
+.next { background: var(--paper); border-style: solid; animation: nextPulse 0.8s steps(2, jump-none) infinite; }
+.filled {
+  background: var(--c);
+  color: var(--c-text);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  position: relative;
+  z-index: 2;
+}
+.word { padding: 6px 10px 2px; }
+.tablet .slot { font-size: var(--text-xl); min-height: 56px; }
+
+.prompt {
+  margin: 0;
+  align-self: flex-start;
+  padding: 3px 10px 1px;
+  border: 3px solid var(--ink);
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+}
+
+/* The tray: tiles scattered at small angles, like cut-out words on a table. */
+.tray {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 12px;
+  padding: 6px 2px 10px;
+}
+.tile {
+  min-height: 56px;
+  min-width: 56px;
+  padding: 8px 16px 4px;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-family: var(--font-text);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  line-height: 1.1;
+  cursor: pointer;
+  transform: translateY(var(--dy)) rotate(var(--rot));
+  animation: tileIn 420ms var(--ease-slam) backwards;
+  animation-delay: calc(var(--i) * 60ms + 120ms);
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.tablet .tile { font-size: var(--text-xl); min-height: 64px; padding: 10px 20px 6px; }
+.tile:active { transform: translate(3px, calc(var(--dy) + 3px)) rotate(var(--rot)); box-shadow: 1px 1px 0 0 var(--ink); }
+.gone { visibility: hidden; }
+.glow { background: var(--yellow); animation: glow 0.7s steps(2, jump-none) infinite; }
+
+.after { animation: tileIn 380ms var(--ease-slam) both; }
+
+@keyframes tileIn {
+  from { opacity: 0; transform: translateY(40px) rotate(calc(var(--rot, 0deg) * 4)) scale(0.6); }
+  to { opacity: 1; transform: translateY(var(--dy, 0)) rotate(var(--rot, 0deg)); }
+}
+@keyframes nextPulse {
+  0% { box-shadow: 0 0 0 0 var(--ink); }
+  100% { box-shadow: 0 0 0 4px var(--yellow), 0 0 0 7px var(--ink); }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+  100% { box-shadow: 0 0 0 3px var(--ink), 0 0 0 13px var(--white); }
+}
+@keyframes railSlam {
+  0% { transform: scale(1.08) rotate(-1.5deg); }
+  60% { transform: scale(0.97) rotate(0.6deg); }
+  100% { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile, .next, .glow, .railDone, .after { animation: none; }
+  .glow { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--yellow); }
+}
