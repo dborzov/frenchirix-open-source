@@ -4,7 +4,7 @@ Build spaced repetition practice from unadapted target-language video.
 
 Frenchirix is a tool for comprehensible input: it extracts short dialogue scenes from video files of your choice and turns them into listening practice with spaced repetition. Every line of a scene is split into tappable units (a word or an expression), each with its translation and its own looping audio, so real speech at full speed stays understandable.
 
-This is the open-source release of the code behind https://frenchirix.borzov.ca/. The reasoning behind the design is in the blog post: https://www.borzov.ca/posts/frenchirix/
+This is the open-source release of the code behind [frenchirix.borzov.ca](https://frenchirix.borzov.ca/). The reasoning behind the design is in the [blog post here](https://www.borzov.ca/posts/frenchirix/).
 
 <p align="center">
   <img src="assets/screenshots/practice.webp" width="600" alt="A puzzle of a practice: the scene plays above a timeline of its three lines, each line is a row of coloured units with gaps, and the missing words wait in a tray below to be placed where they are heard.">
