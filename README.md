@@ -1,15 +1,40 @@
 # Frenchirix
 
-Frenchirix teaches French listening comprehension to kids of about ten through short scenes from a TV show they already like. A kid hears a scene's real French audio, sees every line split into tappable units (a word or an expression, each with its English and its own looping audio), and plays through a practice: a sequence of small puzzles that goes over every line of the scene from several angles. Passing a practice earns a level; the next level comes due days later, which is the spaced repetition.
+Build spaced repetition practice from unadapted target-language video.
 
-This repository is the open-source release of the code and its documentation. It has two parts:
+Frenchirix is a tool for comprehensible input: it extracts short dialogue scenes from video files of your choice and turns them into listening practice with spaced repetition. Every line of a scene is split into tappable units (a word or an expression), each with its translation and its own looping audio, so real speech at full speed stays understandable.
 
-- **The pipeline** (`frenchirix/`, Python): turns episodes of a show into scenes. It imports an episode's subtitle tracks, cuts scene audio and frames, recognises the speech, aligns every word to the audio, and loads the French, literal English, units and notes into a local SQLite database. A local review UI (`web/`) lets a person listen to each scene and mark lines to fix.
-- **The app** (`app/`): a web app on Cloudflare Workers (Hono, D1, Workers AI for speech recognition) with a React client. More than a dozen puzzle types including speaking ones, daily quests, streaks, levels, karaoke with recording, avatars, loot and leagues, in a 1950s comic-book style, in English and French.
+This is the open-source release of the code behind https://frenchirix.borzov.ca/. The reasoning behind the design is in the blog post: https://www.borzov.ca/posts/frenchirix/
+
+## What it contains
+
+- **The extraction pipeline** (`frenchirix/`, Python)
+  - Point it at your source video files, such as the episodes of a TV show.
+  - It reads the subtitle tracks, lets you choose the scenes worth practising, and cuts their audio and frames.
+  - It recognises the speech and aligns every word to the audio, so any word or expression can be looped on its own.
+  - Each line gets the text as actually spoken, a literal translation, its units and short notes on references and wordplay. These steps need judgement and are done by an LLM or a person, to a specified format.
+  - A local review UI (`web/`) plays each scene so you can check it by ear and mark lines to fix.
+  - Everything lands in one SQLite database, exported as a content bundle for the web app.
+- **The web app** (`app/`, Cloudflare Workers with D1 and Workers AI, React client)
+  - A practice per scene: a sequence of short puzzles that goes over every line from several angles, with repetition. More than a dozen puzzle types: matching units to meanings, rebuilding a line, ordering lines, saying a line into the microphone, and others.
+  - Spaced repetition through levels: passing a scene's practice makes its next level come due days later, at growing intervals.
+  - No puzzle can be failed, and the answers are always one tap away: the point is hearing the dialogue again, not being tested on it.
+  - Daily quests, streaks, karaoke for the songs, avatars, rewards and leagues, to keep a learner coming back.
+  - Works on phones and tablets, installable, with no registration.
+
+## What it assumes today
+
+The approach works for any language pair. The code was built for one, French learned through English, and a few places still say so:
+
+- **The source file**: a Matroska file (`.mkv`) per episode, with one French audio stream in 5.1 (dialogue is taken from the centre channel, which keeps recognition clean under music) and three SubRip subtitle tracks tagged by language: plain French, French for the hearing impaired (title containing "SDH"; it gives speakers, songs and sounds) and English translating the French. A video that lacks these, such as one downloaded without subtitles or with stereo audio, needs them added or the importer and audio filters changed.
+- **The languages**: the stream tags the importer looks for (`frenchirix/importer.py`), the language given to speech recognition (`frenchirix/transcribe.py`, `app/worker/speech.ts`) and the voice of generated question audio are French. The word aligner (`MMS_FA`) covers over a thousand languages. The app's interface is in English and French.
+- **The dressing**: the app's theme, mascot, item names and some texts come from the show it was built on. "Adapting the app" below lists them.
+
+[docs/runbook.md](docs/runbook.md), "Another show or your own video sources", has the details.
 
 ## What is not here
 
-The project was built on one season of a French animated series (203 scenes). None of the show is in this repository: no episodes, clips, frames, subtitle tracks or scene database. Three example questions in `app/data/questions/` show that file format, and a few tests quote a short line. To get scenes you run the pipeline on video files you have the right to use; [NOTICE.md](NOTICE.md) says what the license covers.
+No video, audio, frames, subtitles or scene database: the material of the show the project was built on is not in this repository. Three example questions in `app/data/questions/` show that file format, and a few tests quote a short line. You build content by running the pipeline on video files you have the right to use; [NOTICE.md](NOTICE.md) says what the license covers.
 
 So a fresh clone can run every check and show the app's screens on fixture data, but it has no scene to practise until you build your own content.
 
@@ -45,19 +70,13 @@ git config core.hooksPath .githooks    # optional: the pre-commit checks
 
 [docs/runbook.md](docs/runbook.md) has the fifteen steps in order.
 
-**What a source file must be**, as the code stands:
+What a source file must contain is under "What it assumes today" above.
 
-- A Matroska file (`.mkv`) per episode.
-- One French audio stream in 5.1. Dialogue is taken from the centre channel, which is what keeps speech recognition clean under music.
-- Three SubRip subtitle tracks tagged by language: plain French, French for the hearing impaired (its title containing "SDH"; it gives the speakers, songs and sounds), and English that translates the French.
-
-A source with stereo audio or other subtitle formats needs changes to the importer and the audio filters; [docs/runbook.md](docs/runbook.md), "Another show or your own video sources", lists what the pipeline assumes. The language pair (French taught through English) is assumed throughout.
-
-**Some steps need judgement, not code**: choosing the scenes, writing each line's French as spoken, its literal English, its units and notes, and the app's own questions. The author ran these with LLM agents and reviewed the result by ear. The agents' prompt files are not included; [docs/content-steps.md](docs/content-steps.md) specifies each step instead: what goes in, the exact format of what must come out, and what the validators enforce. Any capable LLM, or a person, can do them.
+**Some steps need judgement, not code**: choosing the scenes, writing each line's text as spoken, its literal translation, its units and notes, and the app's own questions. The author ran these with LLM agents and reviewed the result by ear. The agents' prompt files are not included; [docs/content-steps.md](docs/content-steps.md) specifies each step instead: what goes in, the exact format of what must come out, and what the validators enforce. Any capable LLM, or a person, can do them.
 
 **Models**: Whisper large-v3-turbo through faster-whisper for recognition, torchaudio's `MMS_FA` for word alignment (CC-BY-NC-4.0: non-commercial), and optionally Qwen3-TTS for the spoken audio of questions ([docs/transcription.md](docs/transcription.md), [docs/app-tts.md](docs/app-tts.md)).
 
-## Adapting the app to another show
+## Adapting the app
 
 The app's mechanics do not depend on the show, but its dressing does. Before using it with other content, change:
 
@@ -71,11 +90,11 @@ The app's mechanics do not depend on the show, but its dressing does. Before usi
 
 [docs/app-release.md](docs/app-release.md) has the procedure. In short: put your D1 database id and your host name into `app/wrangler.jsonc`, set the three secrets `SESSION_SECRET`, `GATE_PASSWORD` and `ADMIN_PASSWORD` with `wrangler secret put`, and deploy with `app/tools/deploy.sh`, which refuses when a check fails.
 
-Know the security model before putting real kids on it:
+Know the security model before putting learners on it:
 
 - The whole site sits behind one shared password (the gate). It is the only barrier in front of the accounts and the content.
-- Accounts are made for classrooms: no email, a funny name and a three-digit PIN shown in the profile. That is convenience, not protection. Keep nothing in an account that needs protecting.
-- Kids' speech is sent to Workers AI for recognition; the transcripts are logged for 180 days, and a kid's karaoke recordings are kept on the server. Check what the privacy rules where you live require for children.
+- Accounts are made to be effortless: no email, a funny name and a three-digit PIN shown in the profile. That is convenience, not protection. Keep nothing in an account that needs protecting.
+- A learner's speech is sent to Workers AI for recognition; the transcripts are logged for 180 days, and karaoke recordings are kept on the server. Check what the privacy rules where you live require, above all if your learners are children.
 - Problem reports and log events are accepted from any browser past the gate, so they are untrusted input wherever they are read ([docs/checks.md](docs/checks.md), "The session-start check").
 
 ## Checks
@@ -85,7 +104,7 @@ Know the security model before putting real kids on it:
 cd app && npm run check                # type checks, unit tests, and every practice of the bundle
 ```
 
-On a clone without content, the tests that need real scenes are skipped. [docs/checks.md](docs/checks.md) explains every check, including the one that searches for puzzles a kid could get stuck in.
+On a clone without content, the tests that need real scenes are skipped. [docs/checks.md](docs/checks.md) explains every check, including the one that searches for puzzles a learner could get stuck in.
 
 ## Documentation
 
@@ -99,7 +118,7 @@ The docs were written for working on this project with AI coding agents, and the
 
 ## Status
 
-A working project released as it is, not a product. It was built for one show and one small group of kids, and it is shared so that others can reuse the pipeline, the puzzle designs or the app. Expect to read the docs and change code. Issues and pull requests are welcome; there is no promise of support.
+A working project released as it is, not a product. It was built around one show, and it is shared so that others can reuse the pipeline, the puzzle designs or the app. Expect to read the docs and change code. Issues and pull requests are welcome; there is no promise of support.
 
 ## License
 
