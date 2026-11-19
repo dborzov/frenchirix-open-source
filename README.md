@@ -6,6 +6,12 @@ Frenchirix is a tool for comprehensible input: it extracts short dialogue scenes
 
 This is the open-source release of the code behind https://frenchirix.borzov.ca/. The reasoning behind the design is in the blog post: https://www.borzov.ca/posts/frenchirix/
 
+<p align="center">
+  <img src="assets/screenshots/practice.webp" width="600" alt="A puzzle of a practice: the scene plays above a timeline of its three lines, each line is a row of coloured units with gaps, and the missing words wait in a tray below to be placed where they are heard.">
+</p>
+
+<p align="center"><em>One puzzle of a practice: the scene plays, and the missing words go into the gaps where you hear them.</em></p>
+
 ## What it contains
 
 - **The extraction pipeline** (`frenchirix/`, Python)
@@ -34,7 +40,7 @@ The approach works for any language pair. The code was built for one, French lea
 
 ## What is not here
 
-No video, audio, frames, subtitles or scene database: the material of the show the project was built on is not in this repository. Three example questions in `app/data/questions/` show that file format, and a few tests quote a short line. You build content by running the pipeline on video files you have the right to use; [NOTICE.md](NOTICE.md) says what the license covers.
+No video, audio, frames, subtitles or scene database: the material of the show the project was built on is not in this repository. Three example questions in `app/data/questions/` show that file format, and a few tests quote a short line. The screenshot above shows one frame and three lines of a scene, to show what a puzzle looks like. You build content by running the pipeline on video files you have the right to use; [NOTICE.md](NOTICE.md) says what the license covers.
 
 So a fresh clone can run every check and show the app's screens on fixture data, but it has no scene to practise until you build your own content.
 
